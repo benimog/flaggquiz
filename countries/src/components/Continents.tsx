@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
+import { useParams, useNavigate } from "react-router-dom";
 
 interface Country {
   flags: {
@@ -21,10 +22,21 @@ interface Country {
   };
 }
 
+const continentNames: Record<string, string> = {
+  africa: "Afrika",
+  americas: "Amerika",
+  asia: "Asien",
+  europe: "Europa",
+  oceania: "Oceanien",
+};
+
 function Continents() {
+  const { region } = useParams<{ region: string }>();
+  const navigate = useNavigate();
+  const selectedRegion = region || "europe";
+
   const [data, setData] = useState<any[]>([]);
   const [countries, setCountries] = useState<any[]>([]);
-  const [selectedRegion, setSelectedRegion] = useState<any>("europe");
   const [randomCountry, setRandomCountry] = useState<any | null>(null);
   const [choices, setChoices] = useState<any[]>([]);
   const [correctPicks, setCorrectPicks] = useState<number>(0);
@@ -61,7 +73,7 @@ function Continents() {
       }
     };
     fetchData();
-  }, []);
+  }, [selectedRegion]);
 
   useEffect(() => {
     if (data.length > 0) {
@@ -112,7 +124,14 @@ function Continents() {
 
   return (
     <div>
-      <h1>Flaggquiz</h1>
+      <h2>Flaggquiz - {continentNames[selectedRegion] || selectedRegion}</h2>
+      <Button
+        variant="outlined"
+        onClick={() => navigate("/continents")}
+        sx={{ marginBottom: "1rem" }}
+      >
+        ← Byt världsdel
+      </Button>
 
       {randomCountry && (
         <div>

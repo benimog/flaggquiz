@@ -9,6 +9,7 @@ import Home from "./components/Home";
 import About from "./components/About";
 import Daily from "./components/Daily";
 import DailyResult from "./components/DailyResult";
+import ContinentSelect from "./components/ContinentSelect";
 import Continents from "./components/Continents";
 import States from "./components/States";
 
@@ -28,8 +29,9 @@ function App() {
             <Route path="/about" Component={About} />
             <Route path="/daily" Component={Daily} />
             <Route path="/dailyresult" Component={DailyResult} />
-            <Route path="/continents" Component={Continents} />
-	          <Route path="/states" Component={States} />
+            <Route path="/continents" Component={ContinentSelect} />
+            <Route path="/continents/:region" Component={Continents} />
+            <Route path="/states" Component={States} />
           </Routes>
         </Router>
       </div>
@@ -39,3 +41,4 @@ function App() {
 }
 
 export default App;
+
