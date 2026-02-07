@@ -7,10 +7,43 @@ import {
   Menu,
   MenuItem,
   Typography,
+  Divider,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 
+interface MenuSection {
+  title: string;
+  items: { href: string; label: string; emoji: string }[];
+}
+
+const menuSections: MenuSection[] = [
+  {
+    title: "Flaggquiz",
+    items: [
+      { href: "/", label: "Flaggquiz", emoji: "🏁" },
+      { href: "/daily", label: "Daglig", emoji: "📆" },
+      { href: "/write", label: "Skrivläge", emoji: "✍" },
+      { href: "/continents", label: "Välj världsdel", emoji: "🌐" },
+    ],
+  },
+  {
+    title: "Kartquiz",
+    items: [
+      { href: "/states", label: "Amerikanska stater", emoji: "🇺🇸" },
+      { href: "/worldmap", label: "Världskarta", emoji: "🗺️" },
+    ],
+  },
+  {
+    title: "Övrigt",
+    items: [
+      { href: "/countries", label: "Länder & regioner", emoji: "🌍" },
+      { href: "/about", label: "Om flaggquiz", emoji: "🧾" },
+    ],
+  },
+];
+
 const PopdownMenu = () => {
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -62,36 +95,53 @@ const PopdownMenu = () => {
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
           onClose={handleMenuClose}
+          PaperProps={{
+            sx: {
+              minWidth: 280,
+              py: 1,
+            },
+          }}
+          MenuListProps={{ disablePadding: true }}
         >
-          <MenuItem component={"a"} href={"/"} onClick={handleMenuClose}>
-            <Typography textAlign="center" className="emoji">{"🏁 Flaggquiz"}</Typography>
-          </MenuItem>
-          <MenuItem component={"a"} href={"/daily"} onClick={handleMenuClose}>
-            <Typography textAlign="center" className="emoji">{"📆 Daglig"}</Typography>
-          </MenuItem>
-          <MenuItem component={"a"} href={"/write"} onClick={handleMenuClose}>
-            <Typography textAlign="center" className="emoji">{"✍ Skrivläge"}</Typography>
-          </MenuItem>
-          <MenuItem component={"a"} href={"/states"} onClick={handleMenuClose}>
-            <Typography textAlign="center" className="emoji">{"🇺🇸 Amerikanska stater"}</Typography>
-          </MenuItem>
-          <MenuItem component={"a"} href={"/continents"} onClick={handleMenuClose}>
-            <Typography textAlign="center" className="emoji">{"🌐 Välj världsdel"}</Typography>
-          </MenuItem>
-          <MenuItem component={"a"} href={"/worldmap"} onClick={handleMenuClose}>
-            <Typography textAlign="center" className="emoji">{"🗺️ Världskarta"}</Typography>
-          </MenuItem>
-          <MenuItem
-            component={"a"}
-            href={"/countries"}
-            onClick={handleMenuClose}
-          >
-            <Typography textAlign="center" className="emoji">{"🌍 Länder & regioner"}</Typography>
-          </MenuItem>
-          <MenuItem component={"a"} href={"/about"} onClick={handleMenuClose}>
-            <Typography textAlign="center" className="emoji">{"🧾 Om flaggquiz"}</Typography>
-          </MenuItem>
+          {menuSections.map((section, index) => (
+            <Box key={section.title} sx={{ py: 1 }}>
+              <Typography
+                variant="overline"
+                sx={{
+                  display: "block",
+                  fontWeight: 600,
+                  letterSpacing: "0.08em",
+                  color: "text.secondary",
+                  px: 2,
+                  mb: 0.5,
+                }}
+              >
+                {section.title}
+              </Typography>
+              {section.items.map((item) => (
+                <MenuItem
+                  key={item.href}
+                  component={"a"}
+                  href={item.href}
+                  onClick={handleMenuClose}
+                  sx={{
+                    borderRadius: 1,
+                    px: 2,
+                  }}
+                >
+                  <Typography textAlign="left" className="emoji">
+                    {`${item.emoji} ${item.label}`}
+                  </Typography>
+                </MenuItem>
+              ))}
+              {index !== menuSections.length - 1 && (
+                <Divider sx={{ my: 1, opacity: 0.3 }} />
+              )}
+            </Box>
+          ))}
         </Menu>
+
+
       </Toolbar>
     </AppBar>
   );

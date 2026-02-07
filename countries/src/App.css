@@ -33,6 +33,25 @@
   color: white;
 }
 
+.content--scroll {
+  height: auto;
+  min-height: calc(100vh - 60px);
+  justify-content: flex-start;
+  align-items: stretch;
+  padding-top: 80px;
+  padding-bottom: 48px;
+  background: linear-gradient(180deg, #03060f 0%, #101c2c 100%);
+  background-attachment: fixed;
+}
+
+@media (min-width: 768px) {
+  .content--scroll {
+    padding-top: 100px;
+    padding-bottom: 64px;
+  }
+}
+
+
 .App-link {
   color: #61dafb;
 }
