@@ -1,8 +1,9 @@
-import React, { useState, useCallback, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { Feature } from "geojson";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
+import { useMapZoomPan } from "../hooks/useMapZoomPan";
 
 interface CustomFeature extends Feature {
     rsmKey: string;
@@ -106,13 +107,19 @@ const WorldMap: React.FC = () => {
     const [tempCountryName, setTempCountryName] = useState<string | null>(null);
     const [isLoaded, setIsLoaded] = useState(false);
 
-    // Zoom and pan state
-    const [zoom, setZoom] = useState(1);
-    const [pan, setPan] = useState({ x: 0, y: 0 });
-    const [isDragging, setIsDragging] = useState(false);
-    const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
-    const [hasMoved, setHasMoved] = useState(false);
-    const mapContainerRef = useRef<HTMLDivElement>(null);
+    const {
+        zoom,
+        isDragging,
+        hasMoved,
+        mapContainerRef,
+        handleZoomIn,
+        handleZoomOut,
+        handleResetZoom,
+        containerStyle,
+        transformStyle,
+        containerHandlers,
+        zoomTip,
+    } = useMapZoomPan();
 
     // Function to get Swedish name for display
     const getSwedishName = (englishName: string): string => {
@@ -164,101 +171,13 @@ const WorldMap: React.FC = () => {
     const getFillColor = (countryName: string) => {
         const attemptCount = attempts[countryName] || 0;
         if (guessedCountries.has(countryName)) {
-            if (attemptCount === 1) return "#00FF00"; // Green
-            if (attemptCount === 2) return "#8ec961"; // Light green
-            if (attemptCount === 3) return "#fff200"; // Yellow
-            return "#FF0000"; // Red for 4 or more attempts
+            if (attemptCount === 1) return "#00FF00";
+            if (attemptCount === 2) return "#8ec961";
+            if (attemptCount === 3) return "#fff200";
+            return "#FF0000";
         }
-        return "#D6D6DA"; // Default color
+        return "#D6D6DA";
     };
-
-    // Zoom controls - scale pan position to maintain view center
-    const handleZoomIn = useCallback(() => {
-        const newZoom = Math.min(zoom * 1.5, 20);
-        const zoomRatio = newZoom / zoom;
-        setPan(p => ({ x: p.x * zoomRatio, y: p.y * zoomRatio }));
-        setZoom(newZoom);
-    }, [zoom]);
-
-    const handleZoomOut = useCallback(() => {
-        const newZoom = Math.max(zoom / 1.5, 1);
-        const zoomRatio = newZoom / zoom;
-        setPan(p => ({ x: p.x * zoomRatio, y: p.y * zoomRatio }));
-        setZoom(newZoom);
-    }, [zoom]);
-
-    const handleResetZoom = useCallback(() => {
-        setZoom(1);
-        setPan({ x: 0, y: 0 });
-    }, []);
-
-    // Mouse wheel zoom - using native event to properly prevent page scroll
-    useEffect(() => {
-        const container = mapContainerRef.current;
-        if (!container) return;
-
-        const handleWheel = (e: WheelEvent) => {
-            e.preventDefault();
-            e.stopPropagation();
-            const delta = e.deltaY > 0 ? 0.9 : 1.1;
-
-            setZoom((currentZoom) => {
-                const newZoom = Math.min(Math.max(currentZoom * delta, 1), 20);
-                const zoomRatio = newZoom / currentZoom;
-                setPan(p => ({ x: p.x * zoomRatio, y: p.y * zoomRatio }));
-                return newZoom;
-            });
-        };
-
-        container.addEventListener('wheel', handleWheel, { passive: false });
-        return () => container.removeEventListener('wheel', handleWheel);
-    }, []);
-
-    // Mouse drag for panning
-    const handleMouseDown = useCallback((e: React.MouseEvent) => {
-        if (zoom > 1) {
-            setIsDragging(true);
-            setHasMoved(false);
-            setDragStart({ x: e.clientX - pan.x, y: e.clientY - pan.y });
-        }
-    }, [zoom, pan]);
-
-    const handleMouseMove = useCallback((e: React.MouseEvent) => {
-        if (isDragging && zoom > 1) {
-            setHasMoved(true);
-            setPan({ x: e.clientX - dragStart.x, y: e.clientY - dragStart.y });
-        }
-    }, [isDragging, dragStart, zoom]);
-
-    const handleMouseUp = useCallback(() => {
-        setIsDragging(false);
-        // Reset hasMoved after a short delay to allow click event to check it
-        setTimeout(() => setHasMoved(false), 50);
-    }, []);
-
-    // Touch events for mobile panning
-    const handleTouchStart = useCallback((e: React.TouchEvent) => {
-        if (zoom > 1 && e.touches.length === 1) {
-            const touch = e.touches[0];
-            setIsDragging(true);
-            setHasMoved(false);
-            setDragStart({ x: touch.clientX - pan.x, y: touch.clientY - pan.y });
-        }
-    }, [zoom, pan]);
-
-    const handleTouchMove = useCallback((e: React.TouchEvent) => {
-        if (isDragging && zoom > 1 && e.touches.length === 1) {
-            const touch = e.touches[0];
-            setHasMoved(true);
-            setPan({ x: touch.clientX - dragStart.x, y: touch.clientY - dragStart.y });
-        }
-    }, [isDragging, dragStart, zoom]);
-
-    const handleTouchEnd = useCallback(() => {
-        setIsDragging(false);
-        // Reset hasMoved after a short delay to allow click event to check it
-        setTimeout(() => setHasMoved(false), 50);
-    }, []);
 
     return (
         <div
@@ -278,7 +197,6 @@ const WorldMap: React.FC = () => {
                 Poäng: {score}/{countries.length}
             </p>
 
-            {/* Zoom controls - clearly visible */}
             <Stack direction="row" spacing={1} justifyContent="center" sx={{ marginBottom: "10px" }}>
                 <Button
                     variant="contained"
@@ -308,7 +226,7 @@ const WorldMap: React.FC = () => {
                 </Button>
             </Stack>
             <p style={{ fontSize: "0.8em", marginTop: "0", opacity: 0.8, marginBottom: "10px" }}>
-                💡 <strong>Tips:</strong> Använd knapparna ovan eller scroll för att zooma. Dra kartan för att panorera.
+                💡 <strong>Tips:</strong> {zoomTip}
             </p>
 
             {tempCountryName && (
@@ -329,7 +247,6 @@ const WorldMap: React.FC = () => {
                 </div>
             )}
 
-            {/* Map container with zoom/pan */}
             <div
                 ref={mapContainerRef}
                 style={{
@@ -337,24 +254,11 @@ const WorldMap: React.FC = () => {
                     overflow: "hidden",
                     border: "2px solid #555",
                     borderRadius: "8px",
-                    cursor: zoom > 1 ? (isDragging ? "grabbing" : "grab") : "default",
-                    touchAction: zoom > 1 ? "none" : "auto",
+                    ...containerStyle,
                 }}
-                onMouseDown={handleMouseDown}
-                onMouseMove={handleMouseMove}
-                onMouseUp={handleMouseUp}
-                onMouseLeave={handleMouseUp}
-                onTouchStart={handleTouchStart}
-                onTouchMove={handleTouchMove}
-                onTouchEnd={handleTouchEnd}
+                {...containerHandlers}
             >
-                <div
-                    style={{
-                        transform: `scale(${zoom}) translate(${pan.x / zoom}px, ${pan.y / zoom}px)`,
-                        transformOrigin: "center center",
-                        transition: isDragging ? "none" : "transform 0.2s ease-out",
-                    }}
-                >
+                <div style={transformStyle}>
                     <ComposableMap
                         projection="geoEqualEarth"
                         projectionConfig={{
@@ -395,7 +299,6 @@ const WorldMap: React.FC = () => {
                 </div>
             </div>
 
-            {/* Zoom level indicator */}
             <p style={{ fontSize: "0.7em", margin: "5px 0 0 0", opacity: 0.6 }}>
                 Zoom: {Math.round(zoom * 100)}%
             </p>
