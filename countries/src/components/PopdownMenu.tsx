@@ -78,6 +78,9 @@ const PopdownMenu = () => {
           <MenuItem component={"a"} href={"/continents"} onClick={handleMenuClose}>
             <Typography textAlign="center" className="emoji">{"🌐 Välj världsdel"}</Typography>
           </MenuItem>
+          <MenuItem component={"a"} href={"/worldmap"} onClick={handleMenuClose}>
+            <Typography textAlign="center" className="emoji">{"🗺️ Världskarta"}</Typography>
+          </MenuItem>
           <MenuItem
             component={"a"}
             href={"/countries"}

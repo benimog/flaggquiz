@@ -12,6 +12,7 @@ import DailyResult from "./components/DailyResult";
 import ContinentSelect from "./components/ContinentSelect";
 import Continents from "./components/Continents";
 import States from "./components/States";
+import WorldMap from "./components/WorldMap";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             <Route path="/continents" Component={ContinentSelect} />
             <Route path="/continents/:region" Component={Continents} />
             <Route path="/states" Component={States} />
+            <Route path="/worldmap" Component={WorldMap} />
           </Routes>
         </Router>
       </div>
