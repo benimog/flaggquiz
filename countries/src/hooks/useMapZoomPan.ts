@@ -25,38 +25,61 @@ export function useMapZoomPan() {
   const [isPinching, setIsPinching] = useState(false);
   const [hasMoved, setHasMoved] = useState(false);
   const [dragStart, setDragStart] = useState<Point>({ x: 0, y: 0 });
+  const [isWheelZooming, setIsWheelZooming] = useState(false);
 
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const pinchStartDist = useRef(0);
   const pinchStartZoom = useRef(1);
   const pinchStartMid = useRef<Point>({ x: 0, y: 0 });
   const pinchStartPan = useRef<Point>({ x: 0, y: 0 });
+  const wheelTimeoutRef = useRef<number>(0);
+
+  // Refs to track current zoom/pan for use in the wheel event handler
+  const zoomRef = useRef(zoom);
+  const panRef = useRef(pan);
+
+  // Keep refs in sync with state
+  useEffect(() => { zoomRef.current = zoom; }, [zoom]);
+  useEffect(() => { panRef.current = pan; }, [pan]);
+
+  // Clamp pan so the map content always covers the container
+  const clampPan = useCallback((p: Point, z: number): Point => {
+    const container = mapContainerRef.current;
+    if (!container || z <= 1) return { x: 0, y: 0 };
+    const rect = container.getBoundingClientRect();
+    const maxPanX = rect.width * (z - 1) / 2;
+    const maxPanY = rect.height * (z - 1) / 2;
+    return {
+      x: Math.max(-maxPanX, Math.min(maxPanX, p.x)),
+      y: Math.max(-maxPanY, Math.min(maxPanY, p.y)),
+    };
+  }, []);
 
   // Button zoom handlers
   const handleZoomIn = useCallback(() => {
     setZoom((cur) => {
       const next = Math.min(cur * 1.5, 20);
       const ratio = next / cur;
-      setPan((p) => ({ x: p.x * ratio, y: p.y * ratio }));
+      setPan((p) => clampPan({ x: p.x * ratio, y: p.y * ratio }, next));
       return next;
     });
-  }, []);
+  }, [clampPan]);
 
   const handleZoomOut = useCallback(() => {
     setZoom((cur) => {
       const next = Math.max(cur / 1.5, 1);
       const ratio = next / cur;
-      setPan((p) => ({ x: p.x * ratio, y: p.y * ratio }));
+      setPan((p) => clampPan({ x: p.x * ratio, y: p.y * ratio }, next));
       return next;
     });
-  }, []);
+  }, [clampPan]);
 
   const handleResetZoom = useCallback(() => {
     setZoom(1);
     setPan({ x: 0, y: 0 });
   }, []);
 
-  // Mouse wheel zoom
+  // Mouse wheel zoom — reads from refs for latest values, disables CSS transition
   useEffect(() => {
     const container = mapContainerRef.current;
     if (!container) return;
@@ -64,18 +87,47 @@ export function useMapZoomPan() {
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
       e.stopPropagation();
+
+      const rect = container.getBoundingClientRect();
+      // Mouse position relative to container center
+      const mouseX = e.clientX - rect.left - rect.width / 2;
+      const mouseY = e.clientY - rect.top - rect.height / 2;
+
+      const curZoom = zoomRef.current;
+      const curPan = panRef.current;
+
       const delta = e.deltaY > 0 ? 0.9 : 1.1;
-      setZoom((cur) => {
-        const next = Math.min(Math.max(cur * delta, 1), 20);
-        const ratio = next / cur;
-        setPan((p) => ({ x: p.x * ratio, y: p.y * ratio }));
-        return next;
-      });
+      const nextZoom = Math.min(Math.max(curZoom * delta, 1), 20);
+
+      let newPan: Point;
+      if (nextZoom <= 1) {
+        newPan = { x: 0, y: 0 };
+      } else {
+        const ratio = nextZoom / curZoom;
+        newPan = clampPan({
+          x: mouseX * (1 - ratio) + curPan.x * ratio,
+          y: mouseY * (1 - ratio) + curPan.y * ratio,
+        }, nextZoom);
+      }
+
+      // Update refs immediately so rapid scroll events chain correctly
+      zoomRef.current = nextZoom;
+      panRef.current = newPan;
+
+      setZoom(nextZoom);
+      setPan(newPan);
+
+      // Disable CSS transition during scroll zoom
+      setIsWheelZooming(true);
+      clearTimeout(wheelTimeoutRef.current);
+      wheelTimeoutRef.current = window.setTimeout(() => {
+        setIsWheelZooming(false);
+      }, 150);
     };
 
     container.addEventListener("wheel", handleWheel, { passive: false });
     return () => container.removeEventListener("wheel", handleWheel);
-  }, []);
+  }, [clampPan]);
 
   // Prevent browser pinch-zoom on the map container
   useEffect(() => {
@@ -108,10 +160,10 @@ export function useMapZoomPan() {
     (e: React.MouseEvent) => {
       if (isDragging && zoom > 1) {
         setHasMoved(true);
-        setPan({ x: e.clientX - dragStart.x, y: e.clientY - dragStart.y });
+        setPan(clampPan({ x: e.clientX - dragStart.x, y: e.clientY - dragStart.y }, zoom));
       }
     },
-    [isDragging, dragStart, zoom]
+    [isDragging, dragStart, zoom, clampPan]
   );
 
   const handleMouseUp = useCallback(() => {
@@ -182,15 +234,15 @@ export function useMapZoomPan() {
         }
 
         setZoom(newZoom);
-        setPan({ x: newPanX, y: newPanY });
+        setPan(clampPan({ x: newPanX, y: newPanY }, newZoom));
         setHasMoved(true);
       } else if (isDragging && zoom > 1 && e.touches.length === 1) {
         const touch = e.touches[0];
         setHasMoved(true);
-        setPan({ x: touch.clientX - dragStart.x, y: touch.clientY - dragStart.y });
+        setPan(clampPan({ x: touch.clientX - dragStart.x, y: touch.clientY - dragStart.y }, zoom));
       }
     },
-    [isPinching, isDragging, dragStart, zoom]
+    [isPinching, isDragging, dragStart, zoom, clampPan]
   );
 
   const handleTouchEnd = useCallback(
@@ -228,7 +280,7 @@ export function useMapZoomPan() {
   const transformStyle = {
     transform: `scale(${zoom}) translate(${pan.x / zoom}px, ${pan.y / zoom}px)`,
     transformOrigin: "center center",
-    transition: isDragging || isPinching ? "none" : "transform 0.2s ease-out",
+    transition: isDragging || isPinching || isWheelZooming ? "none" : "transform 0.2s ease-out",
   };
 
   const containerHandlers = {
