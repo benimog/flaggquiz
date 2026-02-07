@@ -21,16 +21,17 @@ const menuSections: MenuSection[] = [
     title: "Flaggquiz",
     items: [
       { href: "/", label: "Flaggquiz", emoji: "🏁" },
-      { href: "/daily", label: "Daglig", emoji: "📆" },
       { href: "/write", label: "Skrivläge", emoji: "✍" },
-      { href: "/continents", label: "Välj världsdel", emoji: "🌐" },
+      { href: "/daily", label: "Daglig", emoji: "📆" },
+      { href: "/continents", label: "Världsdel", emoji: "🌐" },
     ],
   },
   {
     title: "Kartquiz",
     items: [
-      { href: "/states", label: "Amerikanska stater", emoji: "🇺🇸" },
       { href: "/worldmap", label: "Världskarta", emoji: "🗺️" },
+      { href: "/worldmap/regions", label: "Världsdel", emoji: "🌐" },
+      { href: "/states", label: "Amerikanska stater", emoji: "🇺🇸" },
     ],
   },
   {

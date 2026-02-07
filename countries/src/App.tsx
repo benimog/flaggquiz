@@ -13,6 +13,8 @@ import ContinentSelect from "./components/ContinentSelect";
 import Continents from "./components/Continents";
 import States from "./components/States";
 import WorldMap from "./components/WorldMap";
+import { WorldMapRegion } from "./components/WorldMap";
+import RegionMapSelect from "./components/RegionMapSelect";
 
 function App() {
   return (
@@ -34,6 +36,8 @@ function App() {
             <Route path="/continents/:region" Component={Continents} />
             <Route path="/states" Component={States} />
             <Route path="/worldmap" Component={WorldMap} />
+            <Route path="/worldmap/regions" Component={RegionMapSelect} />
+            <Route path="/worldmap/:region" Component={WorldMapRegion} />
           </Routes>
         </Router>
       </div>

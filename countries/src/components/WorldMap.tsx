@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { Feature } from "geojson";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import { useMapZoomPan } from "../hooks/useMapZoomPan";
+import { countryToRegion, regionConfigs, countryNamesSwedish, RegionSlug } from "../data/countryRegions";
 
 interface CustomFeature extends Feature {
     rsmKey: string;
@@ -15,88 +17,12 @@ interface CustomFeature extends Feature {
 // URL to world countries TopoJSON
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 
-// Swedish names for countries (subset - the API will handle matching)
-const countryNamesSwedish: Record<string, string> = {
-    "Sweden": "Sverige",
-    "Norway": "Norge",
-    "Denmark": "Danmark",
-    "Finland": "Finland",
-    "Germany": "Tyskland",
-    "France": "Frankrike",
-    "Spain": "Spanien",
-    "Italy": "Italien",
-    "United Kingdom": "Storbritannien",
-    "Poland": "Polen",
-    "Netherlands": "Nederländerna",
-    "Belgium": "Belgien",
-    "Austria": "Österrike",
-    "Switzerland": "Schweiz",
-    "Greece": "Grekland",
-    "Portugal": "Portugal",
-    "Ireland": "Irland",
-    "Czechia": "Tjeckien",
-    "Romania": "Rumänien",
-    "Hungary": "Ungern",
-    "Bulgaria": "Bulgarien",
-    "Croatia": "Kroatien",
-    "Slovakia": "Slovakien",
-    "Slovenia": "Slovenien",
-    "Lithuania": "Litauen",
-    "Latvia": "Lettland",
-    "Estonia": "Estland",
-    "Russia": "Ryssland",
-    "Ukraine": "Ukraina",
-    "Belarus": "Vitryssland",
-    "Serbia": "Serbien",
-    "Bosnia and Herz.": "Bosnien och Hercegovina",
-    "Albania": "Albanien",
-    "Macedonia": "Nordmakedonien",
-    "Montenegro": "Montenegro",
-    "Moldova": "Moldavien",
-    "United States of America": "USA",
-    "Canada": "Kanada",
-    "Mexico": "Mexiko",
-    "Brazil": "Brasilien",
-    "Argentina": "Argentina",
-    "Chile": "Chile",
-    "Colombia": "Colombia",
-    "Peru": "Peru",
-    "Venezuela": "Venezuela",
-    "Cuba": "Kuba",
-    "Jamaica": "Jamaica",
-    "China": "Kina",
-    "Japan": "Japan",
-    "South Korea": "Sydkorea",
-    "North Korea": "Nordkorea",
-    "India": "Indien",
-    "Indonesia": "Indonesien",
-    "Thailand": "Thailand",
-    "Vietnam": "Vietnam",
-    "Philippines": "Filippinerna",
-    "Malaysia": "Malaysia",
-    "Singapore": "Singapore",
-    "Australia": "Australien",
-    "New Zealand": "Nya Zeeland",
-    "South Africa": "Sydafrika",
-    "Egypt": "Egypten",
-    "Nigeria": "Nigeria",
-    "Kenya": "Kenya",
-    "Morocco": "Marocko",
-    "Ethiopia": "Etiopien",
-    "Tanzania": "Tanzania",
-    "Algeria": "Algeriet",
-    "Saudi Arabia": "Saudiarabien",
-    "Turkey": "Turkiet",
-    "Iran": "Iran",
-    "Iraq": "Irak",
-    "Israel": "Israel",
-    "Pakistan": "Pakistan",
-    "Afghanistan": "Afghanistan",
-    "Iceland": "Island",
-    "Greenland": "Grönland",
-};
+interface WorldMapProps {
+    region?: RegionSlug;
+}
 
-const WorldMap: React.FC = () => {
+const WorldMapInner: React.FC<WorldMapProps> = ({ region }) => {
+    const navigate = useNavigate();
     const [countries, setCountries] = useState<string[]>([]);
     const [shuffledCountries, setShuffledCountries] = useState<string[]>([]);
     const [currentCountry, setCurrentCountry] = useState<string | null>(null);
@@ -107,6 +33,8 @@ const WorldMap: React.FC = () => {
     const [tempCountryName, setTempCountryName] = useState<string | null>(null);
     const [skippedCountry, setSkippedCountry] = useState<string | null>(null);
     const [isLoaded, setIsLoaded] = useState(false);
+
+    const regionConfig = region ? regionConfigs[region] : null;
 
     const {
         zoom,
@@ -127,12 +55,18 @@ const WorldMap: React.FC = () => {
         return countryNamesSwedish[englishName] || englishName;
     };
 
+    // Check if a country belongs to the active region
+    const isInRegion = (countryName: string): boolean => {
+        if (!region) return true;
+        return countryToRegion[countryName] === region;
+    };
+
     // Handle geography load to get country names
     const handleGeographiesLoad = (geographies: CustomFeature[]) => {
         if (!isLoaded && geographies.length > 0) {
             const countryNames = geographies
                 .map((geo) => geo.properties.name)
-                .filter((name) => name && name !== "Antarctica")
+                .filter((name) => name && name !== "Antarctica" && name !== "Fr. S. Antarctic Lands" && isInRegion(name))
                 .sort(() => Math.random() - 0.5);
 
             setCountries(countryNames);
@@ -200,13 +134,20 @@ const WorldMap: React.FC = () => {
         return "#D6D6DA";
     };
 
+    // Projection config: use region-specific or default world
+    const projection = regionConfig ? "geoMercator" : "geoEqualEarth";
+    const projectionConfig = regionConfig
+        ? { scale: regionConfig.scale, center: regionConfig.center as [number, number], rotate: regionConfig.rotate as [number, number, number] }
+        : { scale: 160, center: [0, 0] as [number, number], rotate: [-10, 0, 0] as [number, number, number] };
+
     return (
         <div
             className="states-container"
             style={{
                 width: "90%",
                 maxWidth: "1400px",
-                paddingTop: "10px",
+                maxHeight: "calc(100vh - 70px)",
+                paddingTop: "5px",
                 overflow: "hidden",
                 display: "flex",
                 flexDirection: "column",
@@ -219,8 +160,25 @@ const WorldMap: React.FC = () => {
                     50% { fill: #D6D6DA; }
                 }
             `}</style>
-            <h1 style={{ margin: "10px 0 5px 0" }}>{currentCountry ? getSwedishName(currentCountry) : "Laddar..."}</h1>
-            <p style={{ fontSize: "0.8em", margin: "0 0 10px 0" }}>
+
+            {regionConfig && (
+                <p style={{ fontSize: "0.85em", margin: "0 0 0 0", opacity: 0.7 }}>
+                    {regionConfig.emoji} {regionConfig.nameSwedish}
+                </p>
+            )}
+            {regionConfig && (
+                <Button
+                    variant="outlined"
+                    size="small"
+                    onClick={() => navigate("/worldmap/regions")}
+                    sx={{ fontWeight: "bold", fontSize: "0.7rem", padding: "2px 8px", marginBottom: "2px" }}
+                >
+                    Byt världsdel
+                </Button>
+            )}
+
+            <h1 style={{ margin: "2px 0 2px 0", fontSize: "1.4em" }}>{currentCountry ? getSwedishName(currentCountry) : "Laddar..."}</h1>
+            <p style={{ fontSize: "0.7em", margin: "0 0 4px 0" }}>
                 Poäng: {score}/{countries.length}
             </p>
 
@@ -228,7 +186,7 @@ const WorldMap: React.FC = () => {
                 variant="outlined"
                 size="small"
                 onClick={handleSkip}
-                sx={{ marginBottom: "10px", fontWeight: "bold" }}
+                sx={{ marginBottom: "4px", fontWeight: "bold", fontSize: "0.7rem", padding: "2px 10px" }}
             >
                 Hoppa över
             </Button>
@@ -255,6 +213,7 @@ const WorldMap: React.FC = () => {
                 ref={mapContainerRef}
                 style={{
                     width: "100%",
+                    maxHeight: "55vh",
                     overflow: "hidden",
                     border: "2px solid #555",
                     borderRadius: "8px",
@@ -264,12 +223,8 @@ const WorldMap: React.FC = () => {
             >
                 <div style={transformStyle}>
                     <ComposableMap
-                        projection="geoEqualEarth"
-                        projectionConfig={{
-                            scale: 160,
-                            center: [0, 0],
-                            rotate: [-10, 0, 0],
-                        }}
+                        projection={projection}
+                        projectionConfig={projectionConfig}
                         style={{ width: "100%", height: "auto" }}
                     >
                         <Geographies geography={geoUrl}>
@@ -281,7 +236,22 @@ const WorldMap: React.FC = () => {
 
                                 return geographies.map((geo) => {
                                     const countryName = geo.properties?.name || "Unknown";
-                                    if (countryName === "Antarctica") return null;
+                                    if (countryName === "Antarctica" || countryName === "Fr. S. Antarctic Lands") return null;
+
+                                    // Background country (not in this region)
+                                    if (region && !isInRegion(countryName)) {
+                                        return (
+                                            <Geography
+                                                key={geo.rsmKey}
+                                                geography={geo}
+                                                style={{
+                                                    default: { fill: "#F5F5F5", stroke: "#E0E0E0", strokeWidth: 0.3, outline: "none" },
+                                                    hover: { fill: "#F5F5F5", stroke: "#E0E0E0", strokeWidth: 0.3, outline: "none", cursor: "default" },
+                                                    pressed: { fill: "#F5F5F5", outline: "none" },
+                                                }}
+                                            />
+                                        );
+                                    }
 
                                     const fillColor = getFillColor(countryName);
                                     const isSkipped = countryName === skippedCountry;
@@ -315,13 +285,13 @@ const WorldMap: React.FC = () => {
                 </div>
             </div>
 
-            <Stack direction="row" spacing={1} justifyContent="center" sx={{ marginTop: "10px", marginBottom: "5px" }}>
+            <Stack direction="row" spacing={1} justifyContent="center" sx={{ marginTop: "4px", marginBottom: "2px" }}>
                 <Button
                     variant="contained"
                     size="small"
                     onClick={handleZoomIn}
                     disabled={zoom >= 20}
-                    sx={{ fontWeight: "bold", fontSize: "1rem" }}
+                    sx={{ fontWeight: "bold", fontSize: "0.8rem" }}
                 >
                     🔍+ Zooma in
                 </Button>
@@ -330,7 +300,7 @@ const WorldMap: React.FC = () => {
                     size="small"
                     onClick={handleZoomOut}
                     disabled={zoom <= 1}
-                    sx={{ fontWeight: "bold", fontSize: "1rem" }}
+                    sx={{ fontWeight: "bold", fontSize: "0.8rem" }}
                 >
                     🔍- Zooma ut
                 </Button>
@@ -338,19 +308,27 @@ const WorldMap: React.FC = () => {
                     variant="outlined"
                     size="small"
                     onClick={handleResetZoom}
-                    sx={{ fontWeight: "bold" }}
+                    sx={{ fontWeight: "bold", fontSize: "0.8rem" }}
                 >
                     ↺ Återställ
                 </Button>
             </Stack>
-            <p style={{ fontSize: "0.8em", marginTop: "0", opacity: 0.8, marginBottom: "5px" }}>
+            <p style={{ fontSize: "0.65em", marginTop: "0", opacity: 0.8, marginBottom: "2px" }}>
                 💡 <strong>Tips:</strong> {zoomTip}
-            </p>
-            <p style={{ fontSize: "0.7em", margin: "0", opacity: 0.6 }}>
-                Zoom: {Math.round(zoom * 100)}%
             </p>
         </div>
     );
+};
+
+// Default world map (no region)
+const WorldMap: React.FC = () => <WorldMapInner />;
+
+// Region map wrapper that reads URL param
+export const WorldMapRegion: React.FC = () => {
+    const { region } = useParams<{ region: string }>();
+    const validRegions: RegionSlug[] = ["europe", "africa", "north-america", "south-america", "asia", "oceania"];
+    const regionSlug = validRegions.includes(region as RegionSlug) ? (region as RegionSlug) : undefined;
+    return <WorldMapInner region={regionSlug} />;
 };
 
 export default WorldMap;
