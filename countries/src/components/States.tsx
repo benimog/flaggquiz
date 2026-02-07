@@ -24,6 +24,7 @@ const States: React.FC = () => {
   const [attempts, setAttempts] = useState<{ [key: string]: number }>({});
   const [currentAttempts, setCurrentAttempts] = useState<number>(0);
   const [tempStateName, setTempStateName] = useState<string | null>(null);
+  const [skippedState, setSkippedState] = useState<string | null>(null);
 
   const {
     zoom,
@@ -46,7 +47,7 @@ const States: React.FC = () => {
   }, []);
 
   const handleStateClick = (stateName: string) => {
-    if (!currentState || isDragging || hasMoved) return;
+    if (!currentState || isDragging || hasMoved || skippedState) return;
 
     if (stateName === currentState) {
       setScore((prev) => prev + 1);
@@ -65,8 +66,28 @@ const States: React.FC = () => {
     } else {
       setCurrentAttempts((prev) => prev + 1);
       setTempStateName(stateName);
-      setTimeout(() => setTempStateName(null), 3000);
+      setTimeout(() => setTempStateName(null), 2000);
     }
+  };
+
+  const handleSkip = () => {
+    if (!currentState || skippedState) return;
+    const skipped = currentState;
+    setSkippedState(skipped);
+    setAttempts((prevAttempts) => ({
+      ...prevAttempts,
+      [skipped]: currentAttempts,
+    }));
+    setTimeout(() => {
+      setSkippedState(null);
+      const nextIndex = shuffledStates.indexOf(skipped) + 1;
+      if (nextIndex < shuffledStates.length) {
+        setCurrentState(shuffledStates[nextIndex]);
+        setCurrentAttempts(0);
+      } else {
+        alert(`Väl spelat! Du klarade ${score}/${statesList.length} stater!`);
+      }
+    }, 2000);
   };
 
   const getFillColor = (stateName: string) => {
@@ -95,37 +116,25 @@ const States: React.FC = () => {
         textAlign: "center",
       }}
     >
+      <style>{`
+        @keyframes pulseRed {
+          0%, 100% { fill: #FF0000; }
+          50% { fill: #D6D6DA; }
+        }
+      `}</style>
       <h1 style={{ margin: "0 0 5px 0" }}>{currentState ?? "Laddar..."}</h1>
       <p style={{ fontSize: "0.8em", margin: "0 0 10px 0" }}>
         Poäng: {score}/{statesList.length}
       </p>
 
-      <Stack direction="row" spacing={1} justifyContent="center" sx={{ marginBottom: "10px" }}>
-        <Button
-          variant="contained"
-          size="small"
-          onClick={handleZoomIn}
-          disabled={zoom >= 20}
-          sx={{ fontWeight: "bold", fontSize: "1rem" }}
-        >
-          🔍+ Zooma in
-        </Button>
-        <Button
-          variant="contained"
-          size="small"
-          onClick={handleZoomOut}
-          disabled={zoom <= 1}
-          sx={{ fontWeight: "bold", fontSize: "1rem" }}
-        >
-          🔍- Zooma ut
-        </Button>
-        <Button variant="outlined" size="small" onClick={handleResetZoom} sx={{ fontWeight: "bold" }}>
-          ↺ Återställ
-        </Button>
-      </Stack>
-      <p style={{ fontSize: "0.8em", marginTop: 0, opacity: 0.8, marginBottom: "10px" }}>
-        💡 <strong>Tips:</strong> {zoomTip}
-      </p>
+      <Button
+        variant="outlined"
+        size="small"
+        onClick={handleSkip}
+        sx={{ marginBottom: "10px", fontWeight: "bold" }}
+      >
+        Hoppa över
+      </Button>
 
       {tempStateName && (
         <div
@@ -163,14 +172,25 @@ const States: React.FC = () => {
                 geographies.map((geo) => {
                   const stateName = geo.properties?.NAME || "Unknown";
                   const fillColor = getFillColor(stateName);
+                  const isSkipped = stateName === skippedState;
                   return (
                     <Geography
                       key={geo.rsmKey}
                       geography={geo}
                       onClick={() => handleStateClick(stateName)}
                       style={{
-                        default: { fill: fillColor, stroke: "#FFF", outline: "none" },
-                        hover: { fill: "#F53", cursor: "pointer", outline: "none" },
+                        default: {
+                          fill: fillColor,
+                          stroke: "#FFF",
+                          outline: "none",
+                          ...(isSkipped ? { animation: "pulseRed 0.5s ease-in-out infinite" } : {}),
+                        },
+                        hover: {
+                          fill: isSkipped ? fillColor : "#F53",
+                          cursor: "pointer",
+                          outline: "none",
+                          ...(isSkipped ? { animation: "pulseRed 0.5s ease-in-out infinite" } : {}),
+                        },
                         pressed: { fill: "#E42", outline: "none" },
                       }}
                     />
@@ -182,7 +202,33 @@ const States: React.FC = () => {
         </div>
       </div>
 
-      <p style={{ fontSize: "0.7em", margin: "5px 0 0 0", opacity: 0.6 }}>Zoom: {Math.round(zoom * 100)}%</p>
+      <Stack direction="row" spacing={1} justifyContent="center" sx={{ marginTop: "10px", marginBottom: "5px" }}>
+        <Button
+          variant="contained"
+          size="small"
+          onClick={handleZoomIn}
+          disabled={zoom >= 20}
+          sx={{ fontWeight: "bold", fontSize: "1rem" }}
+        >
+          🔍+ Zooma in
+        </Button>
+        <Button
+          variant="contained"
+          size="small"
+          onClick={handleZoomOut}
+          disabled={zoom <= 1}
+          sx={{ fontWeight: "bold", fontSize: "1rem" }}
+        >
+          🔍- Zooma ut
+        </Button>
+        <Button variant="outlined" size="small" onClick={handleResetZoom} sx={{ fontWeight: "bold" }}>
+          ↺ Återställ
+        </Button>
+      </Stack>
+      <p style={{ fontSize: "0.8em", marginTop: 0, opacity: 0.8, marginBottom: "5px" }}>
+        💡 <strong>Tips:</strong> {zoomTip}
+      </p>
+      <p style={{ fontSize: "0.7em", margin: "0", opacity: 0.6 }}>Zoom: {Math.round(zoom * 100)}%</p>
     </div>
   );
 };

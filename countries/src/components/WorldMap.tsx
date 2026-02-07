@@ -105,6 +105,7 @@ const WorldMap: React.FC = () => {
     const [attempts, setAttempts] = useState<{ [key: string]: number }>({});
     const [currentAttempts, setCurrentAttempts] = useState<number>(0);
     const [tempCountryName, setTempCountryName] = useState<string | null>(null);
+    const [skippedCountry, setSkippedCountry] = useState<string | null>(null);
     const [isLoaded, setIsLoaded] = useState(false);
 
     const {
@@ -142,8 +143,8 @@ const WorldMap: React.FC = () => {
     };
 
     const handleCountryClick = (countryName: string) => {
-        // Don't register click if user was panning/dragging
-        if (!currentCountry || isDragging || hasMoved) return;
+        // Don't register click if user was panning/dragging or skip animation is playing
+        if (!currentCountry || isDragging || hasMoved || skippedCountry) return;
 
         if (countryName === currentCountry) {
             setScore(score + 1);
@@ -164,8 +165,28 @@ const WorldMap: React.FC = () => {
             setTempCountryName(getSwedishName(countryName));
             setTimeout(() => {
                 setTempCountryName(null);
-            }, 3000);
+            }, 2000);
         }
+    };
+
+    const handleSkip = () => {
+        if (!currentCountry || skippedCountry) return;
+        const skipped = currentCountry;
+        setSkippedCountry(skipped);
+        setAttempts((prevAttempts) => ({
+            ...prevAttempts,
+            [skipped]: currentAttempts,
+        }));
+        setTimeout(() => {
+            setSkippedCountry(null);
+            const nextIndex = shuffledCountries.indexOf(skipped) + 1;
+            if (nextIndex < shuffledCountries.length) {
+                setCurrentCountry(shuffledCountries[nextIndex]);
+                setCurrentAttempts(0);
+            } else {
+                alert(`Väl spelat! Du klarade ${score}/${countries.length} länder!`);
+            }
+        }, 2000);
     };
 
     const getFillColor = (countryName: string) => {
@@ -192,42 +213,25 @@ const WorldMap: React.FC = () => {
                 alignItems: "center",
             }}
         >
-            <h1 style={{ margin: "0 0 5px 0" }}>{currentCountry ? getSwedishName(currentCountry) : "Laddar..."}</h1>
+            <style>{`
+                @keyframes pulseRed {
+                    0%, 100% { fill: #FF0000; }
+                    50% { fill: #D6D6DA; }
+                }
+            `}</style>
+            <h1 style={{ margin: "10px 0 5px 0" }}>{currentCountry ? getSwedishName(currentCountry) : "Laddar..."}</h1>
             <p style={{ fontSize: "0.8em", margin: "0 0 10px 0" }}>
                 Poäng: {score}/{countries.length}
             </p>
 
-            <Stack direction="row" spacing={1} justifyContent="center" sx={{ marginBottom: "10px" }}>
-                <Button
-                    variant="contained"
-                    size="small"
-                    onClick={handleZoomIn}
-                    disabled={zoom >= 20}
-                    sx={{ fontWeight: "bold", fontSize: "1rem" }}
-                >
-                    🔍+ Zooma in
-                </Button>
-                <Button
-                    variant="contained"
-                    size="small"
-                    onClick={handleZoomOut}
-                    disabled={zoom <= 1}
-                    sx={{ fontWeight: "bold", fontSize: "1rem" }}
-                >
-                    🔍- Zooma ut
-                </Button>
-                <Button
-                    variant="outlined"
-                    size="small"
-                    onClick={handleResetZoom}
-                    sx={{ fontWeight: "bold" }}
-                >
-                    ↺ Återställ
-                </Button>
-            </Stack>
-            <p style={{ fontSize: "0.8em", marginTop: "0", opacity: 0.8, marginBottom: "10px" }}>
-                💡 <strong>Tips:</strong> {zoomTip}
-            </p>
+            <Button
+                variant="outlined"
+                size="small"
+                onClick={handleSkip}
+                sx={{ marginBottom: "10px", fontWeight: "bold" }}
+            >
+                Hoppa över
+            </Button>
 
             {tempCountryName && (
                 <div
@@ -280,14 +284,26 @@ const WorldMap: React.FC = () => {
                                     if (countryName === "Antarctica") return null;
 
                                     const fillColor = getFillColor(countryName);
+                                    const isSkipped = countryName === skippedCountry;
                                     return (
                                         <Geography
                                             key={geo.rsmKey}
                                             geography={geo}
                                             onClick={() => handleCountryClick(countryName)}
                                             style={{
-                                                default: { fill: fillColor, stroke: "#FFF", strokeWidth: 0.5, outline: "none" },
-                                                hover: { fill: "#F53", cursor: "pointer", outline: "none" },
+                                                default: {
+                                                    fill: fillColor,
+                                                    stroke: "#FFF",
+                                                    strokeWidth: 0.5,
+                                                    outline: "none",
+                                                    ...(isSkipped ? { animation: "pulseRed 0.5s ease-in-out infinite" } : {}),
+                                                },
+                                                hover: {
+                                                    fill: isSkipped ? fillColor : "#F53",
+                                                    cursor: "pointer",
+                                                    outline: "none",
+                                                    ...(isSkipped ? { animation: "pulseRed 0.5s ease-in-out infinite" } : {}),
+                                                },
                                                 pressed: { fill: "#E42", outline: "none" },
                                             }}
                                         />
@@ -299,7 +315,38 @@ const WorldMap: React.FC = () => {
                 </div>
             </div>
 
-            <p style={{ fontSize: "0.7em", margin: "5px 0 0 0", opacity: 0.6 }}>
+            <Stack direction="row" spacing={1} justifyContent="center" sx={{ marginTop: "10px", marginBottom: "5px" }}>
+                <Button
+                    variant="contained"
+                    size="small"
+                    onClick={handleZoomIn}
+                    disabled={zoom >= 20}
+                    sx={{ fontWeight: "bold", fontSize: "1rem" }}
+                >
+                    🔍+ Zooma in
+                </Button>
+                <Button
+                    variant="contained"
+                    size="small"
+                    onClick={handleZoomOut}
+                    disabled={zoom <= 1}
+                    sx={{ fontWeight: "bold", fontSize: "1rem" }}
+                >
+                    🔍- Zooma ut
+                </Button>
+                <Button
+                    variant="outlined"
+                    size="small"
+                    onClick={handleResetZoom}
+                    sx={{ fontWeight: "bold" }}
+                >
+                    ↺ Återställ
+                </Button>
+            </Stack>
+            <p style={{ fontSize: "0.8em", marginTop: "0", opacity: 0.8, marginBottom: "5px" }}>
+                💡 <strong>Tips:</strong> {zoomTip}
+            </p>
+            <p style={{ fontSize: "0.7em", margin: "0", opacity: 0.6 }}>
                 Zoom: {Math.round(zoom * 100)}%
             </p>
         </div>
