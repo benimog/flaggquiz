@@ -12,13 +12,6 @@ code {
     monospace;
 }
 
-/* Force the font usage for Typography component */
-.MuiTypography-root {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif !important;
-}
-
 /* Emoji class to apply Noto Color Emoji font */
 .emoji {
   font-family: 'Noto Color Emoji', 'Segoe UI Emoji', 'Apple Color Emoji', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

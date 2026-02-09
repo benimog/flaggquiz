@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Typography from "@mui/material/Typography";
-import { useParams, useNavigate } from "react-router-dom";
 import { Country } from "../types/Country";
 import { useFlagQuizGame } from "../hooks/useFlagQuizGame";
 import FeedbackSnackbar from "./feedback/FeedbackSnackbar";
@@ -11,19 +12,12 @@ import LoadingSpinner from "./LoadingSpinner";
 import ErrorMessage from "./ErrorMessage";
 import ScoreDisplay from "./ScoreDisplay";
 
-const continentNames: Record<string, string> = {
-  africa: "Afrika",
-  americas: "Amerika",
-  asia: "Asien",
-  europe: "Europa",
-  oceania: "Oceanien",
-};
+interface FlagQuizProps {
+  mode: "independent" | "all";
+}
 
-function Continents() {
-  const { region } = useParams<{ region: string }>();
-  const navigate = useNavigate();
-  const selectedRegion = region || "europe";
-
+const FlagQuiz: React.FC<FlagQuizProps> = ({ mode: initialMode }) => {
+  const [mode, setMode] = useState<"independent" | "all">(initialMode);
   const [countries, setCountries] = useState<Country[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -33,15 +27,12 @@ function Continents() {
     setLoading(true);
     setError(false);
     try {
-      const response = await axios.get(
-        `https://restcountries.com/v3.1/region/${selectedRegion}?fields=name,flags,translations,independent`
-      );
-
-      const independentCountries = response.data.filter(
-        (e: { independent: boolean }) => e.independent === true
-      );
-
-      independentCountries.sort(
+      const url =
+        mode === "independent"
+          ? "https://restcountries.com/v3.1/independent?status=true&fields=name,flags,translations"
+          : "https://restcountries.com/v3.1/all?fields=name,flags,translations";
+      const response = await axios.get(url);
+      const sorted = response.data.sort(
         (
           a: { translations: { swe: { common: string } } },
           b: { translations: { swe: { common: string } } }
@@ -52,7 +43,7 @@ function Continents() {
             { sensitivity: "case" }
           )
       );
-      setCountries(independentCountries);
+      setCountries(sorted);
     } catch (err) {
       console.error("Error fetching data:", err);
       setError(true);
@@ -63,7 +54,7 @@ function Continents() {
 
   useEffect(() => {
     fetchData();
-  }, [selectedRegion]);
+  }, [mode]);
 
   const {
     randomCountry,
@@ -84,21 +75,46 @@ function Continents() {
     }
   };
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      let keyIndex = parseInt(event.key);
+      if (keyIndex === 7) keyIndex = 0;
+      else if (keyIndex === 4) keyIndex = 1;
+      else if (keyIndex === 8) keyIndex = 2;
+      else if (keyIndex === 5) keyIndex = 3;
+      if (keyIndex >= 0 && keyIndex < choices.length) {
+        onChoice(choices[keyIndex]);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [choices, randomCountry]);
+
   if (loading) return <LoadingSpinner />;
   if (error) return <ErrorMessage onRetry={fetchData} />;
 
   return (
     <div>
-      <Typography variant="h5" component="h2">
-        Flaggquiz - {continentNames[selectedRegion] || selectedRegion}
-      </Typography>
-      <Button
-        variant="outlined"
-        onClick={() => navigate("/continents")}
+      <ToggleButtonGroup
+        value={mode}
+        exclusive
+        onChange={(_, newMode) => {
+          if (newMode) {
+            setMode(newMode);
+            resetPicks();
+          }
+        }}
+        size="small"
         sx={{ mb: 2 }}
       >
-        &larr; Byt världsdel
-      </Button>
+        <ToggleButton value="independent">Självständiga länder</ToggleButton>
+        <ToggleButton value="all">Alla länder & regioner</ToggleButton>
+      </ToggleButtonGroup>
+
+      <Typography variant="body1" sx={{ mb: 1 }}>
+        Välj rätt land för flaggan
+      </Typography>
 
       {randomCountry && (
         <div>
@@ -156,6 +172,6 @@ function Continents() {
       />
     </div>
   );
-}
+};
 
-export default Continents;
+export default FlagQuiz;

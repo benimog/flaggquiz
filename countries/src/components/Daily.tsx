@@ -1,39 +1,30 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import Button from "@mui/material/Button";
-import { TextField } from "@mui/material";
-import { Autocomplete, createFilterOptions } from "@mui/material";
-import { Paper } from "@mui/material";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
+import { createFilterOptions } from "@mui/material";
+import Typography from "@mui/material/Typography";
 import seedrandom from "seedrandom";
-
-interface Country {
-  flags: {
-    alt: string;
-    png: string;
-    svg: string;
-  };
-  name: {
-    common: string;
-    official: string;
-  };
-  translations: {
-    swe: {
-      official: string;
-      common: string;
-    };
-  };
-}
+import { Country } from "../types/Country";
+import FeedbackSnackbar from "./feedback/FeedbackSnackbar";
+import GameOverDialog from "./feedback/GameOverDialog";
+import LoadingSpinner from "./LoadingSpinner";
+import ErrorMessage from "./ErrorMessage";
 
 function Daily() {
-  const [data, setData] = useState<Country[]>([]);
   const [countries, setCountries] = useState<Country[]>([]);
   const [randomCountry, setRandomCountry] = useState<Country | null>(null);
   const [selectedCountry, setSelectedCountry] = useState<Country | string>("");
   const [correctPicks, setCorrectPicks] = useState<number>(0);
   const [incorrectPicks, setIncorrectPicks] = useState<number>(0);
-  const autocompleteRef = useRef<typeof Autocomplete | null>(null);
-  const [dailyCountries, setDailyCountries] = useState<any[]>([]);
+  const [dailyCountries, setDailyCountries] = useState<Country[]>([]);
   const [countryIndex, setCountryIndex] = useState<number>(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [snackbar, setSnackbar] = useState({ open: false, message: "" });
+  const [gameOver, setGameOver] = useState({ open: false, message: "" });
+  const autocompleteRef = useRef<HTMLDivElement | null>(null);
   const numberOfCountries = 10;
 
   const filterOptions = createFilterOptions({
@@ -41,31 +32,35 @@ function Daily() {
     stringify: (option: Country) => option.translations.swe.common,
   });
 
+  const fetchData = async () => {
+    setLoading(true);
+    setError(false);
+    try {
+      const response = await axios.get(
+        "https://restcountries.com/v3.1/independent?status=true&fields=name,flags,translations"
+      );
+      const sorted = response.data.sort(
+        (
+          a: { translations: { swe: { common: string } } },
+          b: { translations: { swe: { common: string } } }
+        ) =>
+          a.translations.swe.common.localeCompare(
+            b.translations.swe.common,
+            "sv",
+            { sensitivity: "case" }
+          )
+      );
+      setCountryIndex(0);
+      setCountries(sorted);
+    } catch (err) {
+      console.error("Error fetching data:", err);
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "https://restcountries.com/v3.1/independent?status=true&fields=name,flags,translations"
-        );
-        const countries = response.data;
-        countries.sort(
-          (
-            a: { translations: { swe: { common: string } } },
-            b: { translations: { swe: { common: string } } }
-          ) =>
-            a.translations.swe.common.localeCompare(
-              b.translations.swe.common,
-              "sv",
-              { sensitivity: "case" }
-            )
-        );
-        setCountryIndex(0);
-        setCountries(countries);
-        setData(countries);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
     fetchData();
   }, []);
 
@@ -83,48 +78,40 @@ function Daily() {
 
   const getRandomCountry = () => {
     if (dailyCountries.length > 0) {
-      const randomCountry = dailyCountries[countryIndex];
-      setRandomCountry(randomCountry);
+      setRandomCountry(dailyCountries[countryIndex]);
     }
   };
 
-  const callAlert = useCallback(() => {
-    const correctPicksAddition =
-      typeof selectedCountry !== "string" &&
-      selectedCountry?.name.common === randomCountry?.name.common
-        ? 1
-        : 0;
-    const incorrectPicksAddition =
-      typeof selectedCountry !== "string" &&
-      selectedCountry?.name.common !== randomCountry?.name.common
-        ? 1
-        : 0;
-
-    alert(
-      `Väl spelat! \n\n Du fick ${
-        correctPicks + correctPicksAddition
-      } rätt och ${incorrectPicks + incorrectPicksAddition} fel.`
-    );
-  }, [correctPicks, incorrectPicks, selectedCountry, randomCountry]);
-
   const handleChoice = () => {
-    if (
+    const isCorrect =
       typeof selectedCountry !== "string" &&
-      selectedCountry.name.common === randomCountry?.name.common
-    ) {
+      selectedCountry.name.common === randomCountry?.name.common;
+
+    if (isCorrect) {
       setCorrectPicks((prev) => prev + 1);
     } else {
       setIncorrectPicks((prev) => prev + 1);
-      alert(`Fel! Rätt svar är ${randomCountry?.translations.swe.common}`);
+      setSnackbar({
+        open: true,
+        message: `Fel! Rätt svar är ${randomCountry?.translations.swe.common}`,
+      });
     }
 
     setSelectedCountry("");
-    setCountryIndex((prevIndex) => prevIndex + 1);
+
     if (countryIndex === numberOfCountries - 1) {
+      const finalCorrect = correctPicks + (isCorrect ? 1 : 0);
+      const finalIncorrect = incorrectPicks + (isCorrect ? 0 : 1);
+      setGameOver({
+        open: true,
+        message: `Du fick ${finalCorrect} rätt och ${finalIncorrect} fel.`,
+      });
       setCountryIndex(0);
-      resetPicks();
+      setCorrectPicks(0);
+      setIncorrectPicks(0);
       getDailyCountries();
-      callAlert();
+    } else {
+      setCountryIndex((prevIndex) => prevIndex + 1);
     }
   };
 
@@ -134,14 +121,10 @@ function Daily() {
 
   useEffect(() => {
     if (autocompleteRef.current) {
-      (autocompleteRef.current as any).getElementsByTagName("input")[0].focus();
+      const input = autocompleteRef.current.querySelector("input");
+      input?.focus();
     }
   }, [randomCountry]);
-
-  const resetPicks = () => {
-    setCorrectPicks(0);
-    setIncorrectPicks(0);
-  };
 
   const getDailyCountries = () => {
     const date = new Date(
@@ -154,7 +137,7 @@ function Daily() {
     const rng = seedrandom(seed);
 
     const getRandomObjects = (
-      seed: string,
+      _seed: string,
       array: Country[],
       count: number
     ) => {
@@ -170,13 +153,13 @@ function Daily() {
 
       return shuffledArray.slice(0, count);
     };
-    const selectedCounitrues = getRandomObjects(
+    const selectedCountries = getRandomObjects(
       seed,
       countries,
       numberOfCountries
     );
 
-    setDailyCountries(selectedCounitrues);
+    setDailyCountries(selectedCountries);
   };
 
   const getCurrentDate = () => {
@@ -192,22 +175,37 @@ function Daily() {
       .charAt(0)
       .toUpperCase();
     dayString += date.toLocaleDateString("sv-SE", options).slice(1);
-    return `${dayString}`;
+    return dayString;
   };
+
+  if (loading) return <LoadingSpinner />;
+  if (error) return <ErrorMessage onRetry={fetchData} />;
 
   return (
     <div>
-      <h2>{getCurrentDate()}</h2>
-      <p>Välj rätt land för flaggan</p>
-      <p>
+      <Typography variant="h5" component="h2">
+        {getCurrentDate()}
+      </Typography>
+      <Typography variant="body1" sx={{ mt: 1 }}>
+        Välj rätt land för flaggan
+      </Typography>
+      <Typography variant="body2" sx={{ mt: 1 }}>
         Flagga {countryIndex + 1} av {numberOfCountries}
-      </p>
+      </Typography>
       <div>
-        <img src={randomCountry?.flags.png} alt={randomCountry?.flags.alt} />
+        <img
+          src={randomCountry?.flags.png}
+          alt={randomCountry?.flags.alt}
+          style={{
+            maxWidth: "320px",
+            width: "100%",
+            height: "auto",
+            borderRadius: "4px",
+          }}
+        />
         <Autocomplete
-          style={{ marginTop: "1rem", marginBottom: "1rem" }}
+          sx={{ mt: 2, mb: 2 }}
           ref={autocompleteRef}
-          disablePortal={true}
           id="country-combo-box"
           options={countries}
           filterOptions={filterOptions}
@@ -219,9 +217,6 @@ function Daily() {
             <TextField
               {...params}
               label="Land"
-              InputLabelProps={{
-                style: { color: "#fff" },
-              }}
               onKeyDown={(event) => {
                 if (event.key === "Enter" && selectedCountry) {
                   handleChoice();
@@ -229,19 +224,8 @@ function Daily() {
               }}
             />
           )}
-          PaperComponent={({ children }) => (
-            <Paper
-              style={{
-                maxHeight: 200,
-                overflow: "hidden",
-                backgroundColor: "#282c34",
-                color: "white",
-              }}
-            >
-              {children}
-            </Paper>
-          )}
-          onChange={(event, value) =>
+          ListboxProps={{ style: { maxHeight: 200 } }}
+          onChange={(_event, value) =>
             value ? setSelectedCountry(value) : setSelectedCountry("")
           }
         />
@@ -249,10 +233,29 @@ function Daily() {
           <Button variant="contained" onClick={() => handleChoice()}>
             Svara
           </Button>
-          <p>Rätta svar: {correctPicks}</p>
-          <p>Felaktga svar: {incorrectPicks}</p>
+          <Typography variant="body1" sx={{ mt: 1 }}>
+            Rätta svar: {correctPicks}
+          </Typography>
+          <Typography variant="body1">Felaktiga svar: {incorrectPicks}</Typography>
         </div>
       </div>
+
+      <FeedbackSnackbar
+        open={snackbar.open}
+        message={snackbar.message}
+        severity="error"
+        onClose={() => setSnackbar({ open: false, message: "" })}
+      />
+
+      <GameOverDialog
+        open={gameOver.open}
+        title="Väl spelat!"
+        message={gameOver.message}
+        onClose={() => setGameOver({ open: false, message: "" })}
+        onPlayAgain={() => {
+          setGameOver({ open: false, message: "" });
+        }}
+      />
     </div>
   );
 }

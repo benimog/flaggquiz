@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   AppBar,
   Box,
@@ -13,38 +14,38 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 interface MenuSection {
   title: string;
-  items: { href: string; label: string; emoji: string }[];
+  items: { path: string; label: string; emoji: string }[];
 }
 
 const menuSections: MenuSection[] = [
   {
     title: "Flaggquiz",
     items: [
-      { href: "/", label: "Flaggquiz", emoji: "🏁" },
-      { href: "/write", label: "Skrivläge", emoji: "✍" },
-      { href: "/daily", label: "Daglig", emoji: "📆" },
-      { href: "/continents", label: "Världsdel", emoji: "🌐" },
+      { path: "/", label: "Flaggquiz", emoji: "\u{1F3C1}" },
+      { path: "/write", label: "Skrivl\u00E4ge", emoji: "\u270D" },
+      { path: "/daily", label: "Daglig", emoji: "\u{1F4C6}" },
+      { path: "/continents", label: "V\u00E4rldsdel", emoji: "\u{1F310}" },
     ],
   },
   {
     title: "Kartquiz",
     items: [
-      { href: "/worldmap", label: "Världskarta", emoji: "🗺️" },
-      { href: "/worldmap/regions", label: "Världsdel", emoji: "🌐" },
-      { href: "/states", label: "Amerikanska stater", emoji: "🇺🇸" },
+      { path: "/worldmap", label: "V\u00E4rldskarta", emoji: "\u{1F5FA}\uFE0F" },
+      { path: "/worldmap/regions", label: "V\u00E4rldsdel", emoji: "\u{1F310}" },
+      { path: "/states", label: "Amerikanska stater", emoji: "\u{1F1FA}\u{1F1F8}" },
     ],
   },
   {
-    title: "Övrigt",
+    title: "\u00D6vrigt",
     items: [
-      { href: "/countries", label: "Länder & regioner", emoji: "🌍" },
-      { href: "/about", label: "Om flaggquiz", emoji: "🧾" },
+      { path: "/countries", label: "L\u00E4nder & regioner", emoji: "\u{1F30D}" },
+      { path: "/about", label: "Om flaggquiz", emoji: "\u{1F9FE}" },
     ],
   },
 ];
 
 const PopdownMenu = () => {
-
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -121,10 +122,11 @@ const PopdownMenu = () => {
               </Typography>
               {section.items.map((item) => (
                 <MenuItem
-                  key={item.href}
-                  component={"a"}
-                  href={item.href}
-                  onClick={handleMenuClose}
+                  key={item.path}
+                  onClick={() => {
+                    navigate(item.path);
+                    handleMenuClose();
+                  }}
                   sx={{
                     borderRadius: 1,
                     px: 2,
@@ -141,8 +143,6 @@ const PopdownMenu = () => {
             </Box>
           ))}
         </Menu>
-
-
       </Toolbar>
     </AppBar>
   );

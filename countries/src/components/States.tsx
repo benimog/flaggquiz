@@ -3,9 +3,11 @@ import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { Feature } from "geojson";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
 import usMap from "../us-states.json";
 import states from "../states.json";
 import { useMapZoomPan } from "../hooks/useMapZoomPan";
+import GameOverDialog from "./feedback/GameOverDialog";
 
 interface CustomFeature extends Feature {
   rsmKey: string;
@@ -25,6 +27,7 @@ const States: React.FC = () => {
   const [currentAttempts, setCurrentAttempts] = useState<number>(0);
   const [tempStateName, setTempStateName] = useState<string | null>(null);
   const [skippedState, setSkippedState] = useState<string | null>(null);
+  const [gameOver, setGameOver] = useState({ open: false, message: "" });
 
   const {
     zoom,
@@ -61,7 +64,10 @@ const States: React.FC = () => {
         setCurrentState(shuffledStates[nextIndex]);
         setCurrentAttempts(0);
       } else {
-        alert(`Väl spelat! Du klarade ${score + 1}/${statesList.length} stater!`);
+        setGameOver({
+          open: true,
+          message: `Du klarade ${score + 1}/${statesList.length} stater!`,
+        });
       }
     } else {
       setCurrentAttempts((prev) => prev + 1);
@@ -85,7 +91,10 @@ const States: React.FC = () => {
         setCurrentState(shuffledStates[nextIndex]);
         setCurrentAttempts(0);
       } else {
-        alert(`Väl spelat! Du klarade ${score}/${statesList.length} stater!`);
+        setGameOver({
+          open: true,
+          message: `Du klarade ${score}/${statesList.length} stater!`,
+        });
       }
     }, 2000);
   };
@@ -99,6 +108,17 @@ const States: React.FC = () => {
       return "#FF0000";
     }
     return "#D6D6DA";
+  };
+
+  const handlePlayAgain = () => {
+    setGameOver({ open: false, message: "" });
+    const shuffled = [...statesList].sort(() => Math.random() - 0.5);
+    setShuffledStates(shuffled);
+    setCurrentState(shuffled[0] ?? null);
+    setScore(0);
+    setGuessedStates(new Set());
+    setAttempts({});
+    setCurrentAttempts(0);
   };
 
   return (
@@ -116,22 +136,18 @@ const States: React.FC = () => {
         textAlign: "center",
       }}
     >
-      <style>{`
-        @keyframes pulseRed {
-          0%, 100% { fill: #FF0000; }
-          50% { fill: #D6D6DA; }
-        }
-      `}</style>
-      <h1 style={{ margin: "0 0 5px 0" }}>{currentState ?? "Laddar..."}</h1>
-      <p style={{ fontSize: "0.8em", margin: "0 0 10px 0" }}>
+      <Typography variant="h5" component="h1" sx={{ m: 0, mb: "5px" }}>
+        {currentState ?? "Laddar..."}
+      </Typography>
+      <Typography variant="body2" sx={{ m: 0, mb: "10px", opacity: 0.8 }}>
         Poäng: {score}/{statesList.length}
-      </p>
+      </Typography>
 
       <Button
         variant="outlined"
         size="small"
         onClick={handleSkip}
-        sx={{ marginBottom: "10px", fontWeight: "bold" }}
+        sx={{ mb: "10px", fontWeight: "bold" }}
       >
         Hoppa över
       </Button>
@@ -202,33 +218,48 @@ const States: React.FC = () => {
         </div>
       </div>
 
-      <Stack direction="row" spacing={1} justifyContent="center" sx={{ marginTop: "10px", marginBottom: "5px" }}>
+      <Stack direction="row" spacing={1} justifyContent="center" sx={{ mt: "10px", mb: "5px" }}>
         <Button
           variant="contained"
           size="small"
           onClick={handleZoomIn}
           disabled={zoom >= 20}
-          sx={{ fontWeight: "bold", fontSize: "1rem" }}
+          sx={{ fontWeight: "bold", fontSize: "0.85rem" }}
         >
-          🔍+ Zooma in
+          Zooma in
         </Button>
         <Button
           variant="contained"
           size="small"
           onClick={handleZoomOut}
           disabled={zoom <= 1}
-          sx={{ fontWeight: "bold", fontSize: "1rem" }}
+          sx={{ fontWeight: "bold", fontSize: "0.85rem" }}
         >
-          🔍- Zooma ut
+          Zooma ut
         </Button>
-        <Button variant="outlined" size="small" onClick={handleResetZoom} sx={{ fontWeight: "bold" }}>
-          ↺ Återställ
+        <Button
+          variant="outlined"
+          size="small"
+          onClick={handleResetZoom}
+          sx={{ fontWeight: "bold", fontSize: "0.85rem" }}
+        >
+          Återställ
         </Button>
       </Stack>
-      <p style={{ fontSize: "0.8em", marginTop: 0, opacity: 0.8, marginBottom: "5px" }}>
-        💡 <strong>Tips:</strong> {zoomTip}
-      </p>
-      <p style={{ fontSize: "0.7em", margin: "0", opacity: 0.6 }}>Zoom: {Math.round(zoom * 100)}%</p>
+      <Typography variant="body2" sx={{ mt: 0, opacity: 0.8, mb: "5px" }}>
+        Tips: {zoomTip}
+      </Typography>
+      <Typography variant="caption" sx={{ m: 0, opacity: 0.6 }}>
+        Zoom: {Math.round(zoom * 100)}%
+      </Typography>
+
+      <GameOverDialog
+        open={gameOver.open}
+        title="Väl spelat!"
+        message={gameOver.message}
+        onClose={() => setGameOver({ open: false, message: "" })}
+        onPlayAgain={handlePlayAgain}
+      />
     </div>
   );
 };
