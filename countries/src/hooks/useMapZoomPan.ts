@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 
 interface Point {
   x: number;
@@ -271,19 +271,19 @@ export function useMapZoomPan() {
     [isPinching, zoom, pan]
   );
 
-  // Container style properties
-  const containerStyle = {
+  // Container style properties (memoized for stable references)
+  const containerStyle = useMemo(() => ({
     cursor: zoom > 1 ? (isDragging ? "grabbing" : "grab") : "default",
     touchAction: "none" as const,
-  };
+  }), [zoom, isDragging]);
 
-  const transformStyle = {
+  const transformStyle = useMemo(() => ({
     transform: `scale(${zoom}) translate(${pan.x / zoom}px, ${pan.y / zoom}px)`,
     transformOrigin: "center center",
     transition: isDragging || isPinching || isWheelZooming ? "none" : "transform 0.2s ease-out",
-  };
+  }), [zoom, pan.x, pan.y, isDragging, isPinching, isWheelZooming]);
 
-  const containerHandlers = {
+  const containerHandlers = useMemo(() => ({
     onMouseDown: handleMouseDown,
     onMouseMove: handleMouseMove,
     onMouseUp: handleMouseUp,
@@ -291,7 +291,7 @@ export function useMapZoomPan() {
     onTouchStart: handleTouchStart,
     onTouchMove: handleTouchMove,
     onTouchEnd: handleTouchEnd,
-  };
+  }), [handleMouseDown, handleMouseMove, handleMouseUp, handleTouchStart, handleTouchMove, handleTouchEnd]);
 
   const zoomTip = isTouchDevice
     ? "Nyp för att zooma. Dra kartan för att panorera."

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { Feature } from "geojson";
@@ -16,6 +16,141 @@ interface CustomFeature extends Feature {
 
 // URL to world countries TopoJSON
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
+
+// --- Step 1: Static style objects at module scope ---
+
+const BACKGROUND_GEO_STYLE = {
+    default: { fill: "#F5F5F5", stroke: "#E0E0E0", strokeWidth: 0.3, outline: "none" },
+    hover: { fill: "#F5F5F5", stroke: "#E0E0E0", strokeWidth: 0.3, outline: "none", cursor: "default" },
+    pressed: { fill: "#F5F5F5", outline: "none" },
+};
+
+const COMPOSABLE_MAP_STYLE = { width: "100%", height: "auto" };
+
+// Style cache for active countries, keyed on "fillColor|isSkipped"
+const activeStyleCache = new Map<string, {
+    default: Record<string, string | number>;
+    hover: Record<string, string | number>;
+    pressed: Record<string, string | number>;
+}>();
+
+function getActiveGeoStyle(fillColor: string, isSkipped: boolean) {
+    const key = `${fillColor}|${isSkipped}`;
+    let cached = activeStyleCache.get(key);
+    if (!cached) {
+        cached = {
+            default: {
+                fill: fillColor,
+                stroke: "#FFF",
+                strokeWidth: 0.5,
+                outline: "none",
+                ...(isSkipped ? { animation: "pulseRed 0.5s ease-in-out infinite" } : {}),
+            },
+            hover: {
+                fill: isSkipped ? fillColor : "#F53",
+                cursor: "pointer",
+                outline: "none",
+                ...(isSkipped ? { animation: "pulseRed 0.5s ease-in-out infinite" } : {}),
+            },
+            pressed: { fill: "#E42", outline: "none" },
+        };
+        activeStyleCache.set(key, cached);
+    }
+    return cached;
+}
+
+// --- Module-scope pure helpers ---
+
+function getSwedishName(englishName: string): string {
+    return countryNamesSwedish[englishName] || englishName;
+}
+
+function isInRegion(countryName: string, region: RegionSlug | undefined): boolean {
+    if (!region) return true;
+    return countryToRegion[countryName] === region;
+}
+
+// --- Step 3: Extracted memoized geography layer ---
+
+interface MapGeographyLayerProps {
+    region: RegionSlug | undefined;
+    projection: string;
+    projectionConfig: { scale: number; center: [number, number]; rotate: [number, number, number] };
+    guessedCountries: Set<string>;
+    attempts: { [key: string]: number };
+    skippedCountry: string | null;
+    currentCountry: string | null;
+    onCountryClick: (countryName: string) => void;
+    onGeographiesLoad: (geographies: CustomFeature[]) => void;
+    isLoaded: boolean;
+}
+
+const MapGeographyLayer = React.memo<MapGeographyLayerProps>(({
+    region,
+    projection,
+    projectionConfig,
+    guessedCountries,
+    attempts,
+    skippedCountry,
+    onCountryClick,
+    onGeographiesLoad,
+    isLoaded,
+}) => {
+    const getFillColor = (countryName: string) => {
+        const attemptCount = attempts[countryName] || 0;
+        if (guessedCountries.has(countryName)) {
+            if (attemptCount === 1) return "#00FF00";
+            if (attemptCount === 2) return "#8ec961";
+            if (attemptCount === 3) return "#fff200";
+            return "#FF0000";
+        }
+        return "#D6D6DA";
+    };
+
+    return (
+        <ComposableMap
+            projection={projection}
+            projectionConfig={projectionConfig}
+            style={COMPOSABLE_MAP_STYLE}
+        >
+            <Geographies geography={geoUrl}>
+                {({ geographies }: { geographies: CustomFeature[] }) => {
+                    if (!isLoaded && geographies.length > 0) {
+                        setTimeout(() => onGeographiesLoad(geographies), 0);
+                    }
+
+                    return geographies.map((geo) => {
+                        const countryName = geo.properties?.name || "Unknown";
+                        if (countryName === "Antarctica" || countryName === "Fr. S. Antarctic Lands") return null;
+
+                        if (region && !isInRegion(countryName, region)) {
+                            return (
+                                <Geography
+                                    key={geo.rsmKey}
+                                    geography={geo}
+                                    style={BACKGROUND_GEO_STYLE}
+                                />
+                            );
+                        }
+
+                        const fillColor = getFillColor(countryName);
+                        const isSkipped = countryName === skippedCountry;
+                        return (
+                            <Geography
+                                key={geo.rsmKey}
+                                geography={geo}
+                                onClick={() => onCountryClick(countryName)}
+                                style={getActiveGeoStyle(fillColor, isSkipped)}
+                            />
+                        );
+                    });
+                }}
+            </Geographies>
+        </ComposableMap>
+    );
+});
+
+// --- Main component ---
 
 interface WorldMapProps {
     region?: RegionSlug;
@@ -50,23 +185,17 @@ const WorldMapInner: React.FC<WorldMapProps> = ({ region }) => {
         zoomTip,
     } = useMapZoomPan();
 
-    // Function to get Swedish name for display
-    const getSwedishName = (englishName: string): string => {
-        return countryNamesSwedish[englishName] || englishName;
-    };
+    // --- Step 2: Refs for isDragging/hasMoved to stabilize handleCountryClick ---
+    const isDraggingRef = useRef(false);
+    const hasMovedRef = useRef(false);
+    useEffect(() => { isDraggingRef.current = isDragging; }, [isDragging]);
+    useEffect(() => { hasMovedRef.current = hasMoved; }, [hasMoved]);
 
-    // Check if a country belongs to the active region
-    const isInRegion = (countryName: string): boolean => {
-        if (!region) return true;
-        return countryToRegion[countryName] === region;
-    };
-
-    // Handle geography load to get country names
-    const handleGeographiesLoad = (geographies: CustomFeature[]) => {
+    const handleGeographiesLoad = useCallback((geographies: CustomFeature[]) => {
         if (!isLoaded && geographies.length > 0) {
             const countryNames = geographies
                 .map((geo) => geo.properties.name)
-                .filter((name) => name && name !== "Antarctica" && name !== "Fr. S. Antarctic Lands" && isInRegion(name))
+                .filter((name) => name && name !== "Antarctica" && name !== "Fr. S. Antarctic Lands" && isInRegion(name, region))
                 .sort(() => Math.random() - 0.5);
 
             setCountries(countryNames);
@@ -74,36 +203,43 @@ const WorldMapInner: React.FC<WorldMapProps> = ({ region }) => {
             setCurrentCountry(countryNames[0]);
             setIsLoaded(true);
         }
-    };
+    }, [isLoaded, region]);
 
-    const handleCountryClick = (countryName: string) => {
-        // Don't register click if user was panning/dragging or skip animation is playing
-        if (!currentCountry || isDragging || hasMoved || skippedCountry) return;
+    const handleCountryClick = useCallback((countryName: string) => {
+        if (!currentCountry || isDraggingRef.current || hasMovedRef.current || skippedCountry) return;
 
         if (countryName === currentCountry) {
-            setScore(score + 1);
-            setGuessedCountries(new Set(guessedCountries).add(countryName));
+            setScore((prev) => prev + 1);
+            setGuessedCountries((prev) => new Set(prev).add(countryName));
             setAttempts((prevAttempts) => ({
                 ...prevAttempts,
                 [countryName]: currentAttempts + 1,
             }));
-            const nextIndex = shuffledCountries.indexOf(currentCountry) + 1;
-            if (nextIndex < shuffledCountries.length) {
-                setCurrentCountry(shuffledCountries[nextIndex]);
-                setCurrentAttempts(0);
-            } else {
-                alert(`Väl spelat! Du klarade ${score + 1}/${countries.length} länder!`);
-            }
+            setShuffledCountries((prevShuffled) => {
+                const nextIndex = prevShuffled.indexOf(currentCountry) + 1;
+                if (nextIndex < prevShuffled.length) {
+                    setCurrentCountry(prevShuffled[nextIndex]);
+                    setCurrentAttempts(0);
+                } else {
+                    setCountries((prevCountries) => {
+                        setTimeout(() => {
+                            alert(`Väl spelat! Du klarade ${score + 1}/${prevCountries.length} länder!`);
+                        }, 0);
+                        return prevCountries;
+                    });
+                }
+                return prevShuffled;
+            });
         } else {
-            setCurrentAttempts(currentAttempts + 1);
+            setCurrentAttempts((prev) => prev + 1);
             setTempCountryName(getSwedishName(countryName));
             setTimeout(() => {
                 setTempCountryName(null);
             }, 2000);
         }
-    };
+    }, [currentCountry, skippedCountry, currentAttempts, score]);
 
-    const handleSkip = () => {
+    const handleSkip = useCallback(() => {
         if (!currentCountry || skippedCountry) return;
         const skipped = currentCountry;
         setSkippedCountry(skipped);
@@ -113,32 +249,30 @@ const WorldMapInner: React.FC<WorldMapProps> = ({ region }) => {
         }));
         setTimeout(() => {
             setSkippedCountry(null);
-            const nextIndex = shuffledCountries.indexOf(skipped) + 1;
-            if (nextIndex < shuffledCountries.length) {
-                setCurrentCountry(shuffledCountries[nextIndex]);
-                setCurrentAttempts(0);
-            } else {
-                alert(`Väl spelat! Du klarade ${score}/${countries.length} länder!`);
-            }
+            setShuffledCountries((prevShuffled) => {
+                const nextIndex = prevShuffled.indexOf(skipped) + 1;
+                if (nextIndex < prevShuffled.length) {
+                    setCurrentCountry(prevShuffled[nextIndex]);
+                    setCurrentAttempts(0);
+                } else {
+                    setCountries((prevCountries) => {
+                        setTimeout(() => {
+                            alert(`Väl spelat! Du klarade ${score}/${prevCountries.length} länder!`);
+                        }, 0);
+                        return prevCountries;
+                    });
+                }
+                return prevShuffled;
+            });
         }, 2000);
-    };
+    }, [currentCountry, skippedCountry, currentAttempts, score]);
 
-    const getFillColor = (countryName: string) => {
-        const attemptCount = attempts[countryName] || 0;
-        if (guessedCountries.has(countryName)) {
-            if (attemptCount === 1) return "#00FF00";
-            if (attemptCount === 2) return "#8ec961";
-            if (attemptCount === 3) return "#fff200";
-            return "#FF0000";
-        }
-        return "#D6D6DA";
-    };
-
-    // Projection config: use region-specific or default world
     const projection = regionConfig ? "geoMercator" : "geoEqualEarth";
-    const projectionConfig = regionConfig
+    const projectionConfig = useMemo(() => regionConfig
         ? { scale: regionConfig.scale, center: regionConfig.center as [number, number], rotate: regionConfig.rotate as [number, number, number] }
-        : { scale: 160, center: [0, 0] as [number, number], rotate: [-10, 0, 0] as [number, number, number] };
+        : { scale: 160, center: [0, 0] as [number, number], rotate: [-10, 0, 0] as [number, number, number] },
+        [regionConfig]
+    );
 
     return (
         <div
@@ -222,66 +356,18 @@ const WorldMapInner: React.FC<WorldMapProps> = ({ region }) => {
                 {...containerHandlers}
             >
                 <div style={transformStyle}>
-                    <ComposableMap
+                    <MapGeographyLayer
+                        region={region}
                         projection={projection}
                         projectionConfig={projectionConfig}
-                        style={{ width: "100%", height: "auto" }}
-                    >
-                        <Geographies geography={geoUrl}>
-                            {({ geographies }: { geographies: CustomFeature[] }) => {
-                                // Load country names on first render
-                                if (!isLoaded && geographies.length > 0) {
-                                    setTimeout(() => handleGeographiesLoad(geographies), 0);
-                                }
-
-                                return geographies.map((geo) => {
-                                    const countryName = geo.properties?.name || "Unknown";
-                                    if (countryName === "Antarctica" || countryName === "Fr. S. Antarctic Lands") return null;
-
-                                    // Background country (not in this region)
-                                    if (region && !isInRegion(countryName)) {
-                                        return (
-                                            <Geography
-                                                key={geo.rsmKey}
-                                                geography={geo}
-                                                style={{
-                                                    default: { fill: "#F5F5F5", stroke: "#E0E0E0", strokeWidth: 0.3, outline: "none" },
-                                                    hover: { fill: "#F5F5F5", stroke: "#E0E0E0", strokeWidth: 0.3, outline: "none", cursor: "default" },
-                                                    pressed: { fill: "#F5F5F5", outline: "none" },
-                                                }}
-                                            />
-                                        );
-                                    }
-
-                                    const fillColor = getFillColor(countryName);
-                                    const isSkipped = countryName === skippedCountry;
-                                    return (
-                                        <Geography
-                                            key={geo.rsmKey}
-                                            geography={geo}
-                                            onClick={() => handleCountryClick(countryName)}
-                                            style={{
-                                                default: {
-                                                    fill: fillColor,
-                                                    stroke: "#FFF",
-                                                    strokeWidth: 0.5,
-                                                    outline: "none",
-                                                    ...(isSkipped ? { animation: "pulseRed 0.5s ease-in-out infinite" } : {}),
-                                                },
-                                                hover: {
-                                                    fill: isSkipped ? fillColor : "#F53",
-                                                    cursor: "pointer",
-                                                    outline: "none",
-                                                    ...(isSkipped ? { animation: "pulseRed 0.5s ease-in-out infinite" } : {}),
-                                                },
-                                                pressed: { fill: "#E42", outline: "none" },
-                                            }}
-                                        />
-                                    );
-                                });
-                            }}
-                        </Geographies>
-                    </ComposableMap>
+                        guessedCountries={guessedCountries}
+                        attempts={attempts}
+                        skippedCountry={skippedCountry}
+                        currentCountry={currentCountry}
+                        onCountryClick={handleCountryClick}
+                        onGeographiesLoad={handleGeographiesLoad}
+                        isLoaded={isLoaded}
+                    />
                 </div>
             </div>
 
