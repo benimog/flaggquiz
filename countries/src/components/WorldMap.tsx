@@ -16,7 +16,7 @@ interface CustomFeature extends Feature {
     };
 }
 
-const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
+const geoUrl = "/world-countries.json";
 
 const BACKGROUND_GEO_STYLE = {
     default: { fill: "#F5F5F5", stroke: "#E0E0E0", strokeWidth: 0.3, outline: "none" },
