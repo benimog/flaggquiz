@@ -88,6 +88,15 @@ function About() {
           >
             Martin
           </Link>
+          {" "}med data från{" "}
+          <Link
+            href="https://restcountries.com/"
+            target="_blank"
+            rel="noreferrer"
+            color="primary"
+          >
+            restcountries
+          </Link>
         </Typography>
       </Box>
     </Box>
