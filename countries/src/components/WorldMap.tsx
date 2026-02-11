@@ -16,7 +16,24 @@ interface CustomFeature extends Feature {
     };
 }
 
-const geoUrl = "/world-countries.json";
+// Module-level geography data cache — prefetch once, reuse across mounts
+let geoDataCache: Record<string, any> | null = null;
+let geoDataPromise: Promise<Record<string, any>> | null = null;
+
+export function prefetchGeoData(): Promise<Record<string, any>> {
+    if (!geoDataPromise) {
+        geoDataPromise = fetch("/world-countries.json")
+            .then(res => res.json())
+            .then(data => {
+                geoDataCache = data;
+                return data;
+            });
+    }
+    return geoDataPromise;
+}
+
+// Start prefetch immediately when module loads
+prefetchGeoData();
 
 const BACKGROUND_GEO_STYLE = {
     default: { fill: "#F5F5F5", stroke: "#E0E0E0", strokeWidth: 0.3, outline: "none" },
@@ -67,6 +84,7 @@ function isInRegion(countryName: string, region: RegionSlug | undefined): boolea
 }
 
 interface MapGeographyLayerProps {
+    geoData: Record<string, any>;
     region: RegionSlug | undefined;
     projection: string;
     projectionConfig: { scale: number; center: [number, number]; rotate: [number, number, number] };
@@ -80,6 +98,7 @@ interface MapGeographyLayerProps {
 }
 
 const MapGeographyLayer = React.memo<MapGeographyLayerProps>(({
+    geoData,
     region,
     projection,
     projectionConfig,
@@ -107,7 +126,7 @@ const MapGeographyLayer = React.memo<MapGeographyLayerProps>(({
             projectionConfig={projectionConfig}
             style={COMPOSABLE_MAP_STYLE}
         >
-            <Geographies geography={geoUrl}>
+            <Geographies geography={geoData}>
                 {({ geographies }: { geographies: CustomFeature[] }) => {
                     if (!isLoaded && geographies.length > 0) {
                         setTimeout(() => onGeographiesLoad(geographies), 0);
@@ -150,6 +169,7 @@ interface WorldMapProps {
 
 const WorldMapInner: React.FC<WorldMapProps> = ({ region }) => {
     const navigate = useNavigate();
+    const [geoData, setGeoData] = useState<Record<string, any> | null>(geoDataCache);
     const [countries, setCountries] = useState<string[]>([]);
     const [shuffledCountries, setShuffledCountries] = useState<string[]>([]);
     const [currentCountry, setCurrentCountry] = useState<string | null>(null);
@@ -161,6 +181,12 @@ const WorldMapInner: React.FC<WorldMapProps> = ({ region }) => {
     const [skippedCountry, setSkippedCountry] = useState<string | null>(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [gameOver, setGameOver] = useState({ open: false, message: "" });
+
+    useEffect(() => {
+        if (!geoData) {
+            prefetchGeoData().then(setGeoData);
+        }
+    }, [geoData]);
 
     const regionConfig = region ? regionConfigs[region] : null;
 
@@ -360,7 +386,8 @@ const WorldMapInner: React.FC<WorldMapProps> = ({ region }) => {
                 {...containerHandlers}
             >
                 <div style={transformStyle}>
-                    <MapGeographyLayer
+                    {geoData && <MapGeographyLayer
+                        geoData={geoData}
                         region={region}
                         projection={projection}
                         projectionConfig={projectionConfig}
@@ -371,7 +398,7 @@ const WorldMapInner: React.FC<WorldMapProps> = ({ region }) => {
                         onCountryClick={handleCountryClick}
                         onGeographiesLoad={handleGeographiesLoad}
                         isLoaded={isLoaded}
-                    />
+                    />}
                 </div>
             </div>
 

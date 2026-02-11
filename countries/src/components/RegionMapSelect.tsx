@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { regionConfigs, RegionSlug } from "../data/countryRegions";
 import SelectGrid from "./SelectGrid";
+import { prefetchGeoData } from "./WorldMap";
 
 const regionOrder: RegionSlug[] = [
   "europe",
@@ -14,6 +15,11 @@ const regionOrder: RegionSlug[] = [
 
 function RegionMapSelect() {
   const navigate = useNavigate();
+
+  // Warm the geo data cache while the user picks a region
+  useEffect(() => {
+    prefetchGeoData();
+  }, []);
 
   const items = regionOrder.map((slug) => {
     const config = regionConfigs[slug];
