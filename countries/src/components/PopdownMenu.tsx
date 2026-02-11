@@ -22,24 +22,25 @@ const menuSections: MenuSection[] = [
     title: "Flaggquiz",
     items: [
       { path: "/", label: "Flaggquiz", emoji: "\u{1F3C1}" },
-      { path: "/write", label: "Skrivl\u00E4ge", emoji: "\u270D" },
-      { path: "/daily", label: "Daglig", emoji: "\u{1F4C6}" },
-      { path: "/continents", label: "V\u00E4rldsdel", emoji: "\u{1F310}" },
+      { path: "/skriv", label: "Skrivl\u00E4ge", emoji: "\u270D" },
+      { path: "/daglig", label: "Daglig", emoji: "\u{1F4C6}" },
+      { path: "/varldsdelar", label: "V\u00E4rldsdel", emoji: "\u{1F310}" },
     ],
   },
   {
     title: "Kartquiz",
     items: [
-      { path: "/worldmap", label: "V\u00E4rldskarta", emoji: "\u{1F5FA}\uFE0F" },
-      { path: "/worldmap/regions", label: "V\u00E4rldsdel", emoji: "\u{1F310}" },
-      { path: "/states", label: "Amerikanska stater", emoji: "\u{1F1FA}\u{1F1F8}" },
+      { path: "/varldskarta", label: "V\u00E4rldskarta", emoji: "\u{1F5FA}\uFE0F" },
+      { path: "/varldskarta/regioner", label: "V\u00E4rldsdel", emoji: "\u{1F310}" },
+      { path: "/landskap", label: "Svenska landskap", emoji: "\u{1F1F8}\u{1F1EA}" },
+      { path: "/stater", label: "Amerikanska stater", emoji: "\u{1F1FA}\u{1F1F8}" },
     ],
   },
   {
     title: "\u00D6vrigt",
     items: [
-      { path: "/countries", label: "L\u00E4nder & regioner", emoji: "\u{1F30D}" },
-      { path: "/about", label: "Om flaggquiz", emoji: "\u{1F9FE}" },
+      { path: "/lander", label: "L\u00E4nder & regioner", emoji: "\u{1F30D}" },
+      { path: "/om", label: "Om flaggquiz", emoji: "\u{1F9FE}" },
     ],
   },
 ];

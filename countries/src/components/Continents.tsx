@@ -94,7 +94,7 @@ function Continents() {
       </Typography>
       <Button
         variant="outlined"
-        onClick={() => navigate("/continents")}
+        onClick={() => navigate("/varldsdelar")}
         sx={{ mb: 2 }}
       >
         &larr; Byt världsdel

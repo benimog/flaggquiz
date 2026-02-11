@@ -332,7 +332,7 @@ const WorldMapInner: React.FC<WorldMapProps> = ({ region }) => {
                 <Button
                     variant="outlined"
                     size="small"
-                    onClick={() => navigate("/worldmap/regions")}
+                    onClick={() => navigate("/varldskarta/regioner")}
                     sx={{ fontWeight: "bold", fontSize: "0.7rem", padding: "2px 8px", mb: "2px" }}
                 >
                     Byt världsdel

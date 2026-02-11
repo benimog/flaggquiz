@@ -31,7 +31,7 @@ function RegionMapSelect() {
       title="Välj en världsdel"
       subtitle="Spela kartquiz med länder från en specifik världsdel"
       items={items}
-      onSelect={(key) => navigate(`/worldmap/${key}`)}
+      onSelect={(key) => navigate(`/varldskarta/${key}`)}
     />
   );
 }

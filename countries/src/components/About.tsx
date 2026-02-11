@@ -25,34 +25,40 @@ function About() {
               — Gissa rätt land utifrån flaggan
             </li>
             <li>
-              <Link component={RouterLink} to="/write" color="primary">
+              <Link component={RouterLink} to="/skriv" color="primary">
                 Skrivläge
               </Link>{" "}
               — Skriv landets namn själv
             </li>
             <li>
-              <Link component={RouterLink} to="/daily" color="primary">
+              <Link component={RouterLink} to="/daglig" color="primary">
                 Daglig
               </Link>{" "}
               — 10 nya flaggor varje dag
             </li>
             <li>
-              <Link component={RouterLink} to="/continents" color="primary">
+              <Link component={RouterLink} to="/varldsdelar" color="primary">
                 Världsdel
               </Link>{" "}
               — Flaggquiz per världsdel
             </li>
             <li>
-              <Link component={RouterLink} to="/worldmap" color="primary">
+              <Link component={RouterLink} to="/varldskarta" color="primary">
                 Världskarta
               </Link>{" "}
               — Klicka på rätt land på kartan
             </li>
             <li>
-              <Link component={RouterLink} to="/states" color="primary">
+              <Link component={RouterLink} to="/stater" color="primary">
                 Amerikanska stater
               </Link>{" "}
               — Klicka på rätt stat
+            </li>
+            <li>
+              <Link component={RouterLink} to="/landskap" color="primary">
+                Svenska landskap
+              </Link>{" "}
+              — Klicka på rätt landskap
             </li>
           </ul>
         </Typography>

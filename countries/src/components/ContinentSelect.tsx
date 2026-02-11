@@ -18,7 +18,7 @@ function ContinentSelect() {
       title="Välj en världsdel"
       subtitle="Spela flaggquiz med länder från en specifik världsdel"
       items={continents}
-      onSelect={(key) => navigate(`/continents/${key}`)}
+      onSelect={(key) => navigate(`/varldsdelar/${key}`)}
     />
   );
 }

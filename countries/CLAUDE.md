@@ -43,6 +43,7 @@ src/
 │   ├── Daily.tsx              # 10-question daily quiz (seeded by date)
 │   ├── WorldMap.tsx           # Interactive world map quiz (+ WorldMapRegion export)
 │   ├── States.tsx             # US states map quiz
+│   ├── Landskap.tsx           # Swedish provinces (landskap) map quiz
 │   ├── Countries.tsx          # Searchable table of all countries/flags
 │   ├── ContinentSelect.tsx    # Continent picker → /continents/:region
 │   ├── RegionMapSelect.tsx    # Region picker → /worldmap/:region
@@ -57,6 +58,8 @@ src/
 │       └── GameOverDialog.tsx    # MUI Dialog for game completion
 ├── states.json                # US state names list
 ├── us-states.json             # US states TopoJSON geometry (local)
+├── landskap.json              # Swedish province names list
+├── svenska-landskap.json      # Swedish provinces GeoJSON geometry (local)
 ```
 
 ```
@@ -75,17 +78,20 @@ src/
 | Path | Component | Description |
 |------|-----------|-------------|
 | `/` | `FlagQuiz mode="independent"` | Flag quiz — independent countries only |
-| `/flags` | `FlagQuiz mode="all"` | Flag quiz — all countries & regions |
-| `/write` | `FlagWrite` | Type-the-answer quiz |
-| `/daily` | `Daily` | Seeded daily 10-question quiz |
-| `/continents` | `ContinentSelect` | Continent picker |
-| `/continents/:region` | `Continents` | Flag quiz for a continent |
-| `/worldmap` | `WorldMap` | Full world map quiz |
-| `/worldmap/regions` | `RegionMapSelect` | Region picker for map quiz |
-| `/worldmap/:region` | `WorldMapRegion` | Regional map quiz |
-| `/states` | `States` | US states map quiz |
-| `/countries` | `Countries` | Searchable country/flag table |
-| `/about` | `About` | About page |
+| `/flaggor` | `FlagQuiz mode="all"` | Flag quiz — all countries & regions |
+| `/skriv` | `FlagWrite` | Type-the-answer quiz |
+| `/daglig` | `Daily` | Seeded daily 10-question quiz |
+| `/varldsdelar` | `ContinentSelect` | Continent picker |
+| `/varldsdelar/:region` | `Continents` | Flag quiz for a continent |
+| `/varldskarta` | `WorldMap` | Full world map quiz |
+| `/varldskarta/regioner` | `RegionMapSelect` | Region picker for map quiz |
+| `/varldskarta/:region` | `WorldMapRegion` | Regional map quiz |
+| `/landskap` | `Landskap` | Swedish provinces map quiz |
+| `/stater` | `States` | US states map quiz |
+| `/lander` | `Countries` | Searchable country/flag table |
+| `/om` | `About` | About page |
+
+Old English routes (`/flags`, `/write`, `/daily`, `/continents`, `/worldmap`, `/states`, `/countries`, `/about`) redirect to their Swedish equivalents via `<Navigate replace />`.
 
 ### External API
 
