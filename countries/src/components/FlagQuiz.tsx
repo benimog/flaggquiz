@@ -118,16 +118,26 @@ const FlagQuiz: React.FC<FlagQuizProps> = ({ mode: initialMode }) => {
 
       {randomCountry && (
         <div>
-          <img
-            src={randomCountry.flags.png}
-            alt={randomCountry.flags.alt}
-            style={{
-              maxWidth: "320px",
-              width: "100%",
-              height: "auto",
-              borderRadius: "4px",
-            }}
-          />
+          <div style={{
+            width: "100%",
+            maxWidth: "320px",
+            height: "200px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}>
+            <img
+              src={randomCountry.flags.png}
+              alt={randomCountry.flags.alt}
+              style={{
+                maxWidth: "100%",
+                maxHeight: "100%",
+                width: "auto",
+                height: "auto",
+                borderRadius: "4px",
+              }}
+            />
+          </div>
           <div>
             <Stack spacing={2} sx={{ mt: 2 }}>
               <Stack spacing={2} direction="row" justifyContent="center">
