@@ -122,6 +122,7 @@ const FlagQuiz: React.FC<FlagQuizProps> = ({ mode: initialMode }) => {
             width: "100%",
             maxWidth: "320px",
             height: "200px",
+            margin: "0 auto",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
