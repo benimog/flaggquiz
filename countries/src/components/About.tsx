@@ -103,6 +103,15 @@ function About() {
           >
             restcountries
           </Link>
+          {" "}| {" "}
+          <Link
+            href="https://github.com/benimog/flaggquiz"
+            target="_blank"
+            rel="noreferrer"
+            color="primary"
+          >
+            GitHub
+          </Link>
         </Typography>
       </Box>
     </Box>
