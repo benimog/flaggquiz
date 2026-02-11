@@ -19,7 +19,7 @@ function FlagWrite() {
   const [incorrectPicks, setIncorrectPicks] = useState<number>(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [snackbar, setSnackbar] = useState({ open: false, message: "" });
+  const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "error" as "error" | "info" });
   const autocompleteRef = useRef<HTMLDivElement | null>(null);
 
   const filterOptions = createFilterOptions({
@@ -72,6 +72,10 @@ function FlagWrite() {
   };
 
   const handleChoice = () => {
+    if (!selectedCountry || typeof selectedCountry === "string") {
+      setSnackbar({ open: true, message: "Välj ett land först!", severity: "info" });
+      return;
+    }
     if (selectedCountry === randomCountry) {
       setCorrectPicks((prev) => prev + 1);
     } else {
@@ -79,6 +83,7 @@ function FlagWrite() {
       setSnackbar({
         open: true,
         message: `Fel! Rätt svar är ${randomCountry?.translations.swe.common}`,
+        severity: "error",
       });
     }
 
@@ -157,8 +162,8 @@ function FlagWrite() {
       <FeedbackSnackbar
         open={snackbar.open}
         message={snackbar.message}
-        severity="error"
-        onClose={() => setSnackbar({ open: false, message: "" })}
+        severity={snackbar.severity}
+        onClose={() => setSnackbar({ open: false, message: "", severity: "error" })}
       />
     </div>
   );

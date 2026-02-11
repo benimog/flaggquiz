@@ -22,7 +22,7 @@ function Daily() {
   const [countryIndex, setCountryIndex] = useState<number>(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [snackbar, setSnackbar] = useState({ open: false, message: "" });
+  const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "error" as "error" | "info" });
   const [gameOver, setGameOver] = useState({ open: false, message: "" });
   const autocompleteRef = useRef<HTMLDivElement | null>(null);
   const numberOfCountries = 10;
@@ -83,8 +83,11 @@ function Daily() {
   };
 
   const handleChoice = () => {
+    if (!selectedCountry || typeof selectedCountry === "string") {
+      setSnackbar({ open: true, message: "Välj ett land först!", severity: "info" });
+      return;
+    }
     const isCorrect =
-      typeof selectedCountry !== "string" &&
       selectedCountry.name.common === randomCountry?.name.common;
 
     if (isCorrect) {
@@ -94,6 +97,7 @@ function Daily() {
       setSnackbar({
         open: true,
         message: `Fel! Rätt svar är ${randomCountry?.translations.swe.common}`,
+        severity: "error",
       });
     }
 
@@ -243,8 +247,8 @@ function Daily() {
       <FeedbackSnackbar
         open={snackbar.open}
         message={snackbar.message}
-        severity="error"
-        onClose={() => setSnackbar({ open: false, message: "" })}
+        severity={snackbar.severity}
+        onClose={() => setSnackbar({ open: false, message: "", severity: "error" })}
       />
 
       <GameOverDialog
