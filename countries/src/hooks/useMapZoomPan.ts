@@ -303,6 +303,7 @@ export function useMapZoomPan() {
     isDragging,
     isPinching,
     hasMoved,
+    isTouchDevice,
     mapContainerRef,
     handleZoomIn,
     handleZoomOut,

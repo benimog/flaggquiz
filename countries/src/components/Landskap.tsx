@@ -33,6 +33,7 @@ const Landskap: React.FC = () => {
     zoom,
     isDragging,
     hasMoved,
+    isTouchDevice,
     mapContainerRef,
     handleZoomIn,
     handleZoomOut,
@@ -206,12 +207,12 @@ const Landskap: React.FC = () => {
                           ...(isSkipped ? { animation: "pulseRed 0.5s ease-in-out infinite" } : {}),
                         },
                         hover: {
-                          fill: isSkipped ? fillColor : "#F53",
+                          fill: isTouchDevice ? fillColor : (isSkipped ? fillColor : "#F53"),
                           cursor: "pointer",
                           outline: "none",
                           ...(isSkipped ? { animation: "pulseRed 0.5s ease-in-out infinite" } : {}),
                         },
-                        pressed: { fill: "#E42", outline: "none" },
+                        pressed: { fill: isTouchDevice ? fillColor : "#E42", outline: "none" },
                       }}
                     />
                   );

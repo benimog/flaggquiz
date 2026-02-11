@@ -49,10 +49,11 @@ const activeStyleCache = new Map<string, {
     pressed: Record<string, string | number>;
 }>();
 
-function getActiveGeoStyle(fillColor: string, isSkipped: boolean) {
-    const key = `${fillColor}|${isSkipped}`;
+function getActiveGeoStyle(fillColor: string, isSkipped: boolean, isTouchDevice: boolean) {
+    const key = `${fillColor}|${isSkipped}|${isTouchDevice}`;
     let cached = activeStyleCache.get(key);
     if (!cached) {
+        const hoverFill = isTouchDevice ? fillColor : (isSkipped ? fillColor : "#F53");
         cached = {
             default: {
                 fill: fillColor,
@@ -62,12 +63,12 @@ function getActiveGeoStyle(fillColor: string, isSkipped: boolean) {
                 ...(isSkipped ? { animation: "pulseRed 0.5s ease-in-out infinite" } : {}),
             },
             hover: {
-                fill: isSkipped ? fillColor : "#F53",
+                fill: hoverFill,
                 cursor: "pointer",
                 outline: "none",
                 ...(isSkipped ? { animation: "pulseRed 0.5s ease-in-out infinite" } : {}),
             },
-            pressed: { fill: "#E42", outline: "none" },
+            pressed: { fill: isTouchDevice ? fillColor : "#E42", outline: "none" },
         };
         activeStyleCache.set(key, cached);
     }
@@ -95,6 +96,7 @@ interface MapGeographyLayerProps {
     onCountryClick: (countryName: string) => void;
     onGeographiesLoad: (geographies: CustomFeature[]) => void;
     isLoaded: boolean;
+    isTouchDevice: boolean;
 }
 
 const MapGeographyLayer = React.memo<MapGeographyLayerProps>(({
@@ -108,6 +110,7 @@ const MapGeographyLayer = React.memo<MapGeographyLayerProps>(({
     onCountryClick,
     onGeographiesLoad,
     isLoaded,
+    isTouchDevice,
 }) => {
     const getFillColor = (countryName: string) => {
         const attemptCount = attempts[countryName] || 0;
@@ -153,7 +156,7 @@ const MapGeographyLayer = React.memo<MapGeographyLayerProps>(({
                                 key={geo.rsmKey}
                                 geography={geo}
                                 onClick={() => onCountryClick(countryName)}
-                                style={getActiveGeoStyle(fillColor, isSkipped)}
+                                style={getActiveGeoStyle(fillColor, isSkipped, isTouchDevice)}
                             />
                         );
                     });
@@ -194,6 +197,7 @@ const WorldMapInner: React.FC<WorldMapProps> = ({ region }) => {
         zoom,
         isDragging,
         hasMoved,
+        isTouchDevice,
         mapContainerRef,
         handleZoomIn,
         handleZoomOut,
@@ -398,6 +402,7 @@ const WorldMapInner: React.FC<WorldMapProps> = ({ region }) => {
                         onCountryClick={handleCountryClick}
                         onGeographiesLoad={handleGeographiesLoad}
                         isLoaded={isLoaded}
+                        isTouchDevice={isTouchDevice}
                     />}
                 </div>
             </div>
