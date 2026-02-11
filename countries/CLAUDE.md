@@ -5,7 +5,7 @@ Swedish geography quiz app hosted at flaggquiz.se. Built with Create React App +
 ## Commands
 
 - `npm start` — dev server (port 3000)
-- `npm run build` — production build (copies .htaccess + sitemap.txt to build/)
+- `npm run build` — production build (postbuild copies .htaccess + sitemap.txt to build/ via Node.js for cross-platform support)
 - `npm test` — run tests (Jest + React Testing Library)
 - `npx tsc --noEmit` — type-check without emitting
 
@@ -23,7 +23,7 @@ Swedish geography quiz app hosted at flaggquiz.se. Built with Create React App +
 
 ### Global Setup
 
-`src/index.tsx` wraps the app in `ThemeProvider` (global dark theme from `src/theme.ts`) and `CssBaseline`. The `<Router>` lives in `src/App.tsx` and wraps everything including `PopdownMenu` so navigation uses React Router (no full-page reloads).
+`src/index.tsx` wraps the app in `ThemeProvider` (global dark theme from `src/theme.ts`) and `CssBaseline`. The `<Router>` lives in `src/App.tsx` and wraps everything including `PopdownMenu` so navigation uses React Router (no full-page reloads). All route components are lazy-loaded with `React.lazy()` + `<Suspense>` for code splitting (initial bundle ~99KB gzipped; heavy map chunks load on demand).
 
 ### File Structure
 
@@ -62,8 +62,12 @@ src/
 ```
 public/
 ├── world-countries.json       # World TopoJSON (modified: Crimea → Ukraine)
+```
+
+```
+src/
 ├── App.css                    # Global styles (content layout, pulseRed keyframes)
-└── index.css                  # Body font, emoji font class, states-container responsive
+├── index.css                  # Body font, emoji font class, states-container responsive
 ```
 
 ### Routes
@@ -106,12 +110,12 @@ World map TopoJSON is served locally from `public/world-countries.json`. This is
 
 - **Shared types** live in `src/types/`. The `Country` interface is the main data shape.
 - **Custom hooks** live in `src/hooks/`. `useFlagQuizGame` handles quiz state (random country, choices, score tracking); `useMapZoomPan` handles zoom/pan for map components.
-- **Feedback**: Wrong answers use `FeedbackSnackbar` (auto-dismissing). Game completion uses `GameOverDialog`. Never use browser `alert()`.
+- **Feedback**: Wrong answers use `FeedbackSnackbar` (auto-dismissing, severity `"error"`). Empty submissions in write-mode quizzes (FlagWrite, Daily) use severity `"info"` to prompt the user. Game completion uses `GameOverDialog`. Never use browser `alert()`.
 - **Loading/error**: All API-fetching components use `loading`/`error` state → render `LoadingSpinner` or `ErrorMessage` with retry.
 - **Score display**: Use `ScoreDisplay` component for consistent score presentation.
 - **Selection grids**: Use `SelectGrid` for continent/region picker screens.
 - **Styling**: Use MUI `sx` prop and `Typography` variants. Avoid raw HTML tags (`<p>`, `<h1>`) for text. Theme handles dark mode colors — don't hardcode `color: '#fff'` or `backgroundColor: '#282c34'` in components.
-- **Flag images**: Always constrain with `maxWidth: '320px', width: '100%', height: 'auto', borderRadius: '4px'`.
+- **Flag images**: In quiz answer modes (FlagQuiz), use a fixed-height container (`height: 200px`, `maxWidth: 320px`, `margin: 0 auto`) with the image inside using `maxWidth/maxHeight: 100%` and `width/height: auto` for consistent button positioning. In non-quiz contexts (Countries table, Daily, FlagWrite), constrain with `maxWidth: '320px', width: '100%', height: 'auto', borderRadius: '4px'`.
 - **CSS animations**: `pulseRed` keyframes live in `App.css` (not inline `<style>` blocks).
 - **Emoji font**: Use `className="emoji"` for emoji text to apply Noto Color Emoji font.
 
@@ -122,6 +126,12 @@ World map TopoJSON is served locally from `public/world-countries.json`. This is
 ### Map components
 
 `States.tsx` and `WorldMap.tsx` both use `useMapZoomPan` for zoom/pan. WorldMap has a memoized `MapGeographyLayer` sub-component for performance. The `countryRegions.ts` data file maps TopoJSON country names to regions and provides Swedish translations + projection configs per region.
+
+`WorldMap.tsx` exports a `prefetchGeoData()` function that fetches and caches the world TopoJSON at module level. The data is fetched once on first import and passed as an object to `<Geographies>` (not as a URL), avoiding re-fetches on component remount. `RegionMapSelect` also calls `prefetchGeoData()` on mount to warm the cache while the user picks a region.
+
+### Continent ordering
+
+`ContinentSelect` and `RegionMapSelect` use the same continent order: Europa, Afrika, then the rest. Keep these consistent when modifying either.
 
 ### Daily quiz
 
