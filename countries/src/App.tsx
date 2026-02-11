@@ -1,18 +1,22 @@
-import React from "react";
+import React, { Suspense } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PopdownMenu from "./components/PopdownMenu";
-import Countries from "./components/Countries";
-import FlagQuiz from "./components/FlagQuiz";
-import FlagWrite from "./components/FlagWrite";
-import About from "./components/About";
-import Daily from "./components/Daily";
-import ContinentSelect from "./components/ContinentSelect";
-import Continents from "./components/Continents";
-import States from "./components/States";
-import WorldMap from "./components/WorldMap";
-import { WorldMapRegion } from "./components/WorldMap";
-import RegionMapSelect from "./components/RegionMapSelect";
+import LoadingSpinner from "./components/LoadingSpinner";
+
+const FlagQuiz = React.lazy(() => import("./components/FlagQuiz"));
+const FlagWrite = React.lazy(() => import("./components/FlagWrite"));
+const Daily = React.lazy(() => import("./components/Daily"));
+const ContinentSelect = React.lazy(() => import("./components/ContinentSelect"));
+const Continents = React.lazy(() => import("./components/Continents"));
+const Countries = React.lazy(() => import("./components/Countries"));
+const States = React.lazy(() => import("./components/States"));
+const WorldMap = React.lazy(() => import("./components/WorldMap"));
+const WorldMapRegion = React.lazy(() =>
+  import("./components/WorldMap").then(module => ({ default: module.WorldMapRegion }))
+);
+const RegionMapSelect = React.lazy(() => import("./components/RegionMapSelect"));
+const About = React.lazy(() => import("./components/About"));
 
 function App() {
   return (
@@ -22,20 +26,22 @@ function App() {
           <PopdownMenu />
         </div>
         <div className="content">
-          <Routes>
-            <Route path="/" element={<FlagQuiz mode="independent" />} />
-            <Route path="/flags" element={<FlagQuiz mode="all" />} />
-            <Route path="/countries" Component={Countries} />
-            <Route path="/write" Component={FlagWrite} />
-            <Route path="/about" Component={About} />
-            <Route path="/daily" Component={Daily} />
-            <Route path="/continents" Component={ContinentSelect} />
-            <Route path="/continents/:region" Component={Continents} />
-            <Route path="/states" Component={States} />
-            <Route path="/worldmap" Component={WorldMap} />
-            <Route path="/worldmap/regions" Component={RegionMapSelect} />
-            <Route path="/worldmap/:region" Component={WorldMapRegion} />
-          </Routes>
+          <Suspense fallback={<LoadingSpinner />}>
+            <Routes>
+              <Route path="/" element={<FlagQuiz mode="independent" />} />
+              <Route path="/flags" element={<FlagQuiz mode="all" />} />
+              <Route path="/countries" element={<Countries />} />
+              <Route path="/write" element={<FlagWrite />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/daily" element={<Daily />} />
+              <Route path="/continents" element={<ContinentSelect />} />
+              <Route path="/continents/:region" element={<Continents />} />
+              <Route path="/states" element={<States />} />
+              <Route path="/worldmap" element={<WorldMap />} />
+              <Route path="/worldmap/regions" element={<RegionMapSelect />} />
+              <Route path="/worldmap/:region" element={<WorldMapRegion />} />
+            </Routes>
+          </Suspense>
         </div>
         <div className="bottom-container"></div>
       </div>

@@ -1,6 +1,10 @@
 https://flaggquiz.se/
-https://flaggquiz.se/countries
 https://flaggquiz.se/flags
+https://flaggquiz.se/write
 https://flaggquiz.se/daily
-https://flaggquiz.se/about
+https://flaggquiz.se/continents
+https://flaggquiz.se/worldmap
+https://flaggquiz.se/worldmap/regions
 https://flaggquiz.se/states
+https://flaggquiz.se/countries
+https://flaggquiz.se/about
