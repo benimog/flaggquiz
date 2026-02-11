@@ -89,7 +89,7 @@ const PopdownMenu = () => {
           ref={menuButtonRef}
           sx={{ ml: "auto" }}
         >
-          <MenuIcon />
+          <MenuIcon sx={{ mr: 0.5 }} />
           <p>Meny</p>
         </IconButton>
         <Menu
