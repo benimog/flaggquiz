@@ -77,11 +77,12 @@ const FlagQuiz: React.FC<FlagQuizProps> = ({ mode: initialMode }) => {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      let keyIndex = parseInt(event.key);
-      if (keyIndex === 7) keyIndex = 0;
-      else if (keyIndex === 4) keyIndex = 1;
-      else if (keyIndex === 8) keyIndex = 2;
-      else if (keyIndex === 5) keyIndex = 3;
+      const key = parseInt(event.key);
+      let keyIndex = -1;
+      if (key === 7) keyIndex = 0;
+      else if (key === 4) keyIndex = 1;
+      else if (key === 8) keyIndex = 2;
+      else if (key === 5) keyIndex = 3;
       if (keyIndex >= 0 && keyIndex < choices.length) {
         onChoice(choices[keyIndex]);
       }

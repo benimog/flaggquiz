@@ -106,6 +106,23 @@ function Continents() {
     }
   };
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const key = parseInt(event.key);
+      let keyIndex = -1;
+      if (key === 7) keyIndex = 0;
+      else if (key === 4) keyIndex = 1;
+      else if (key === 8) keyIndex = 2;
+      else if (key === 5) keyIndex = 3;
+      if (keyIndex >= 0 && keyIndex < choices.length) {
+        onChoice(choices[keyIndex]);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [choices, randomCountry]);
+
   if (loading) return <LoadingSpinner />;
   if (error) return <ErrorMessage onRetry={fetchData} />;
 
