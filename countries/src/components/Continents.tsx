@@ -13,11 +13,19 @@ import ScoreDisplay from "./ScoreDisplay";
 
 const continentNames: Record<string, string> = {
   africa: "Afrika",
-  americas: "Amerika",
+  "north-america": "Nordamerika",
+  "south-america": "Sydamerika",
   asia: "Asien",
   europe: "Europa",
   oceania: "Oceanien",
 };
+
+// REST Countries API subregions that belong to North America
+const northAmericaSubregions = new Set([
+  "Northern America",
+  "Central America",
+  "Caribbean",
+]);
 
 function Continents() {
   const { region } = useParams<{ region: string }>();
@@ -33,13 +41,27 @@ function Continents() {
     setLoading(true);
     setError(false);
     try {
+      const isAmericas =
+        selectedRegion === "north-america" ||
+        selectedRegion === "south-america";
+      const apiRegion = isAmericas ? "americas" : selectedRegion;
+
       const response = await axios.get(
-        `https://restcountries.com/v3.1/region/${selectedRegion}?fields=name,flags,translations,independent`
+        `https://restcountries.com/v3.1/region/${apiRegion}?fields=name,flags,translations,independent,subregion`
       );
 
-      const independentCountries = response.data.filter(
+      let independentCountries = response.data.filter(
         (e: { independent: boolean }) => e.independent === true
       );
+
+      if (isAmericas) {
+        independentCountries = independentCountries.filter(
+          (e: { subregion: string }) =>
+            selectedRegion === "north-america"
+              ? northAmericaSubregions.has(e.subregion)
+              : e.subregion === "South America"
+        );
+      }
 
       independentCountries.sort(
         (
