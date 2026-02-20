@@ -18,8 +18,6 @@ interface CustomFeature extends Feature {
 
 const landskapList = landskap as string[];
 
-const isPortrait = window.innerWidth < 600;
-
 const Landskap: React.FC = () => {
   const [shuffledLandskap, setShuffledLandskap] = useState<string[]>([]);
   const [currentLandskap, setCurrentLandskap] = useState<string | null>(null);
@@ -187,9 +185,9 @@ const Landskap: React.FC = () => {
         <div style={transformStyle}>
           <ComposableMap
             projection="geoMercator"
-            projectionConfig={{ center: [18, 63], scale: isPortrait ? 1250 : 1050 }}
-            width={isPortrait ? 500 : 800}
-            height={isPortrait ? 700 : 600}
+            projectionConfig={{ center: [18, 63], scale: 1050 }}
+            width={800}
+            height={600}
             style={{ width: "100%", height: "auto" }}
           >
             <Geographies geography={landskapMap}>
