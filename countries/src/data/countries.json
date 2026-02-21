@@ -1,0 +1,2252 @@
+[
+  {
+    "code": "af",
+    "name": "Afghanistan",
+    "nameSwe": "Afghanistan",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "flagAlt": "The flag of the Islamic Emirate of Afghanistan has a white field with Arabic inscriptions — the Shahada — in black across its center."
+  },
+  {
+    "code": "al",
+    "name": "Albania",
+    "nameSwe": "Albanien",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Southeast Europe",
+    "flagAlt": "The flag of Albania features a silhouetted double-headed black eagle at the center of a red field."
+  },
+  {
+    "code": "dz",
+    "name": "Algeria",
+    "nameSwe": "Algeriet",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Northern Africa",
+    "flagAlt": "The flag of Algeria features two equal vertical bands of green and white. A five-pointed red star within a fly-side facing red crescent is centered over the two-color boundary."
+  },
+  {
+    "code": "vi",
+    "name": "United States Virgin Islands",
+    "nameSwe": "Amerikanska Jungfruöarna",
+    "independent": false,
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flagAlt": "The flag of the United States Virgin Islands is composed of a white field with the national coat of arms in the center between the large blue initials V and I. The coat of arms shows a yellow eagle holding an olive branch in its right talon and three arrows in the left, with a shield of seven red and six white vertical stripes below a blue panel."
+  },
+  {
+    "code": "as",
+    "name": "American Samoa",
+    "nameSwe": "Amerikanska Samoa",
+    "independent": false,
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "flagAlt": "The flag of American Samoa features a large white triangle edged in red that is based on the fly side and extends to the hoist side and is charged with an eagle, all on a blue field."
+  },
+  {
+    "code": "ad",
+    "name": "Andorra",
+    "nameSwe": "Andorra",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "flagAlt": "The flag of Andorra features three equal vertical bands of blue, yellow and red, with the coat of arms of Andorra centered in the yellow band."
+  },
+  {
+    "code": "ao",
+    "name": "Angola",
+    "nameSwe": "Angola",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Middle Africa",
+    "flagAlt": "The flag of Angola features two equal horizontal bands of red and black, with a yellow emblem at its centre. This emblem consists of a five-pointed star within the hoist-side facing half of a cogwheel that is crossed on its lower end by a machete."
+  },
+  {
+    "code": "ai",
+    "name": "Anguilla",
+    "nameSwe": "Anguilla",
+    "independent": false,
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flagAlt": "The flag of Anguilla is blue, with the flag of the UK in the canton and the national coat of arms centered in the fly half. The coat of arms depicts three orange dolphins in an interlocking circular design on a white background with a turquoise-blue field below."
+  },
+  {
+    "code": "aq",
+    "name": "Antarctica",
+    "nameSwe": "Antarktis",
+    "independent": false,
+    "region": "Antarctic",
+    "subregion": "",
+    "flagAlt": "The flag of Antarctica features a plain white map of the country on a blue background."
+  },
+  {
+    "code": "ag",
+    "name": "Antigua and Barbuda",
+    "nameSwe": "Antigua och Barbuda",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flagAlt": "The flag of Antigua and Barbuda has a red field with an inverted isosceles triangle based on the top edge and spanning the height of the field. This triangle has three horizontal bands of black, light blue and white, with the light blue band half the height of the two other bands. The top half of a golden-yellow sun is situated in the lower two-third of the black band to depict a rising sun."
+  },
+  {
+    "code": "ar",
+    "name": "Argentina",
+    "nameSwe": "Argentina",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "South America",
+    "flagAlt": "The flag of Argentina features three equal horizontal bands of light blue, white and light blue. A brown-edged golden sun is centered in the white band."
+  },
+  {
+    "code": "am",
+    "name": "Armenia",
+    "nameSwe": "Armenien",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flagAlt": "The flag of Armenia is composed of three equal horizontal bands of red, blue and orange."
+  },
+  {
+    "code": "aw",
+    "name": "Aruba",
+    "nameSwe": "Aruba",
+    "independent": false,
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flagAlt": "The flag of Aruba is blue, with two narrow, horizontal yellow stripes across the lower portion and a red four-pointed star outlined in white in the canton."
+  },
+  {
+    "code": "au",
+    "name": "Australia",
+    "nameSwe": "Australien",
+    "independent": true,
+    "region": "Oceania",
+    "subregion": "Australia and New Zealand",
+    "flagAlt": "The flag of Australia has a dark blue field. It features the flag of the United Kingdom — the Union Jack — in the canton, beneath which is a large white seven-pointed star. A representation of the Southern Cross constellation, made up of one small five-pointed and four larger seven-pointed white stars, is situated on the fly side of the field."
+  },
+  {
+    "code": "az",
+    "name": "Azerbaijan",
+    "nameSwe": "Azerbajdzjan",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flagAlt": "The flag of Azerbaijan features three equal horizontal bands of blue, red and green, with a white fly-side facing crescent and eight-pointed star centered in the red band."
+  },
+  {
+    "code": "bs",
+    "name": "Bahamas",
+    "nameSwe": "Bahamas",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flagAlt": "The flag of the Bahamas is composed of three equal horizontal bands of aquamarine, yellow and aquamarine, with a black equilateral triangle superimposed on the hoist side of the field. This triangle has its base on the hoist end and spans about one-third the width of the field."
+  },
+  {
+    "code": "bh",
+    "name": "Bahrain",
+    "nameSwe": "Bahrain",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flagAlt": "The flag of Bahrain has a red field. On the hoist side, it features a white vertical band that spans about one-third the width of the field and is separated from the rest of the field by five adjoining fly-side pointing white isosceles triangles that serve as a serrated line."
+  },
+  {
+    "code": "bd",
+    "name": "Bangladesh",
+    "nameSwe": "Bangladesh",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "flagAlt": "The flag of Bangladesh has a dark green field bearing a large red circle that is offset slightly towards the hoist side of center."
+  },
+  {
+    "code": "bb",
+    "name": "Barbados",
+    "nameSwe": "Barbados",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flagAlt": "The flag of Barbados is composed of three equal vertical bands of ultramarine, gold and ultramarine. The head of a black trident is centered in the gold band."
+  },
+  {
+    "code": "by",
+    "name": "Belarus",
+    "nameSwe": "Belarus",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "flagAlt": "The flag of Belarus features a vertical band, with a white and red ornamental pattern, spanning about one-fifth the width of the field on the hoist side. Adjoining the vertical band are two horizontal bands of red and green, with the red band twice the height of the green band."
+  },
+  {
+    "code": "be",
+    "name": "Belgium",
+    "nameSwe": "Belgien",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "flagAlt": "The flag of Belgium is composed of three equal vertical bands of black, yellow and red."
+  },
+  {
+    "code": "bz",
+    "name": "Belize",
+    "nameSwe": "Belize",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "Central America",
+    "flagAlt": "The flag of Belize has a royal blue field with a thin red horizontal band at the top and bottom of the field and the national coat of arms in the center."
+  },
+  {
+    "code": "bj",
+    "name": "Benin",
+    "nameSwe": "Benin",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "flagAlt": "The flag of Benin features a green vertical band on its hoist side that takes up about two-fifth the width of the field and two equal horizontal bands of yellow and red adjoining the vertical band."
+  },
+  {
+    "code": "bm",
+    "name": "Bermuda",
+    "nameSwe": "Bermuda",
+    "independent": false,
+    "region": "Americas",
+    "subregion": "North America",
+    "flagAlt": "The flag of Bermuda is red, with the UK flag in the canton and the national coat of arms centered in the fly half. The coat of arms is a white shield with a red lion on a green field, holding a scrolled shield showing the sinking of a ship."
+  },
+  {
+    "code": "bt",
+    "name": "Bhutan",
+    "nameSwe": "Bhutan",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "flagAlt": "The flag of Bhutan is divided diagonally, from the lower hoist-side corner to the upper fly-side corner, into an upper yellow and a lower orange triangle. A fly-side facing white dragon holding four jewels in its claws is situated along the boundary of the two triangles."
+  },
+  {
+    "code": "bo",
+    "name": "Bolivia",
+    "nameSwe": "Bolivia",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "South America",
+    "flagAlt": "The flag of Bolivia is composed of three equal horizontal bands of red, yellow and green, with the national coat of arms centered in the yellow band."
+  },
+  {
+    "code": "ba",
+    "name": "Bosnia and Herzegovina",
+    "nameSwe": "Bosnien och Hercegovina",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Southeast Europe",
+    "flagAlt": "The flag of Bosnia and Herzegovina has a blue field, at the center of which is a large yellow hoist-side facing right-angled triangle that is based on the top edge and spans the height of the field. Adjacent to the hypotenuse of this triangle are nine adjoining five-pointed white stars with the top and bottom stars cut in half by the edges of the field."
+  },
+  {
+    "code": "bw",
+    "name": "Botswana",
+    "nameSwe": "Botswana",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Southern Africa",
+    "flagAlt": "The flag of Botswana has a light blue field with a white-edged black horizontal band across its center."
+  },
+  {
+    "code": "bv",
+    "name": "Bouvet Island",
+    "nameSwe": "Bouvetön",
+    "independent": false,
+    "region": "Antarctic",
+    "subregion": "",
+    "flagAlt": "The flag of Bouvet Island has a red field with a large white-edged navy blue cross that extends to the edges of the field. The vertical part of this cross is offset towards the hoist side."
+  },
+  {
+    "code": "br",
+    "name": "Brazil",
+    "nameSwe": "Brasilien",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "South America",
+    "flagAlt": "The flag of Brazil has a green field with a large yellow rhombus in the center. Within the rhombus is a dark blue globe with twenty-seven small five-pointed white stars depicting a starry sky and a thin white convex horizontal band inscribed with the national motto 'Ordem e Progresso' across its center."
+  },
+  {
+    "code": "vg",
+    "name": "British Virgin Islands",
+    "nameSwe": "Brittiska Jungfruöarna",
+    "independent": false,
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flagAlt": "The flag of the British Virgin Islands is blue with the UK flag in the canton and the national coat of arms centered in the fly half. The coat of arms depicts a woman flanked by vertical columns of six oil lamps above a scroll bearing the Latin word \"VIGILATE\" (Be Watchful)."
+  },
+  {
+    "code": "io",
+    "name": "British Indian Ocean Territory",
+    "nameSwe": "Brittiska territoriet i Indiska Oceanen",
+    "independent": false,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "flagAlt": "The flag of the British Indian Ocean Territory is white with six blue, wavy, horizontal stripes. The UK flag is in the canton. The striped section has a palm tree and yellow crown centered in the fly half."
+  },
+  {
+    "code": "bn",
+    "name": "Brunei",
+    "nameSwe": "Brunei",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "flagAlt": "The flag of Brunei has a yellow field with two adjoining diagonal bands of white and black that extend from the upper hoist side of the field to the lower fly side. The red emblem of Brunei is centered on the field."
+  },
+  {
+    "code": "bg",
+    "name": "Bulgaria",
+    "nameSwe": "Bulgarien",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Southeast Europe",
+    "flagAlt": "The flag of Bulgaria is composed of three equal horizontal bands of white, green and red."
+  },
+  {
+    "code": "bf",
+    "name": "Burkina Faso",
+    "nameSwe": "Burkina Faso",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "flagAlt": "The flag of Burkina Faso features two equal horizontal bands of red and green, with a yellow five-pointed star in the center."
+  },
+  {
+    "code": "bi",
+    "name": "Burundi",
+    "nameSwe": "Burundi",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "flagAlt": "The flag of Burundi is divided by a white diagonal cross into four alternating triangular areas of red at the top and bottom, and green on the hoist and fly sides. A white circle, with three green-edged red six-pointed stars arranged to form a triangle, is superimposed at the center of the cross."
+  },
+  {
+    "code": "ky",
+    "name": "Cayman Islands",
+    "nameSwe": "Caymanöarna",
+    "independent": false,
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flagAlt": "The flag of the Cayman Islands is composed of a blue field with the UK flag in the canton and the national coat of arms centered on the fly half. The coat of arms includes a crest with a pineapple and a turtle above a shield bearing a golden lion. Below are three green stars over white and blue wavy lines. A scroll below the shield bears the motto \"HE HATH FOUNDED IT UPON THE SEAS.\""
+  },
+  {
+    "code": "cf",
+    "name": "Central African Republic",
+    "nameSwe": "Centralafrikanska republiken",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Middle Africa",
+    "flagAlt": "The flag of Central African Republic is composed of four equal horizontal bands of blue, white, green and yellow intersected at the center by a vertical red band of equal size as the horizontal bands. A yellow five-pointed star is situated on the hoist side of the blue band."
+  },
+  {
+    "code": "cl",
+    "name": "Chile",
+    "nameSwe": "Chile",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "South America",
+    "flagAlt": "The flag of Chile is composed of two equal horizontal bands of white and red, with a blue square of the same height as the white band superimposed in the canton. A white five-pointed star is centered in the blue square."
+  },
+  {
+    "code": "co",
+    "name": "Colombia",
+    "nameSwe": "Colombia",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "South America",
+    "flagAlt": "The flag of Colombia is composed of three horizontal bands of yellow, blue and red, with the yellow band twice the height of the other two bands."
+  },
+  {
+    "code": "ck",
+    "name": "Cook Islands",
+    "nameSwe": "Cooköarna",
+    "independent": false,
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "flagAlt": "The flag of the Cook Islands is blue with the UK flag in the canton and a large circle of 15 white five-pointed stars centered in the fly."
+  },
+  {
+    "code": "cr",
+    "name": "Costa Rica",
+    "nameSwe": "Costa Rica",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "Central America",
+    "flagAlt": "The flag of Costa Rica is composed of five horizontal bands of blue, white, red, white and blue. The central red band is twice the height of the other four bands. The national coat of arms is placed in a white elliptical disk toward the hoist side of the red band."
+  },
+  {
+    "code": "cw",
+    "name": "Curaçao",
+    "nameSwe": "Curaçao",
+    "independent": false,
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flagAlt": "The flag of Curaçao shows a blue field, on which a horizontal yellow band below the center divides the flag. Two five-pointed white stars, the smaller above and to the left of the larger, appear in the canton."
+  },
+  {
+    "code": "cy",
+    "name": "Cyprus",
+    "nameSwe": "Cypern",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "flagAlt": "The flag of Cyprus has a white field, at the center of which is a copper-colored silhouette of the Island of Cyprus above two green olive branches crossed at the stem."
+  },
+  {
+    "code": "dk",
+    "name": "Denmark",
+    "nameSwe": "Danmark",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "flagAlt": "The flag of Denmark has a red field with a large white cross that extend to the edges of the field. The vertical part of this cross is offset towards the hoist side."
+  },
+  {
+    "code": "dj",
+    "name": "Djibouti",
+    "nameSwe": "Djibouti",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "flagAlt": "The flag of Djibouti is composed of two equal horizontal bands of light blue and light green, with a white isosceles triangle superimposed on the hoist side of the field. The triangle has its base on the hoist end, spans about two-fifth the width of the field and bears a red five-pointed star at its center."
+  },
+  {
+    "code": "dm",
+    "name": "Dominica",
+    "nameSwe": "Dominica",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flagAlt": "The flag of Dominica has a green field with a large centered tricolor cross. The vertical and horizontal parts of the cross each comprise three bands of yellow, black and white. A red circle, bearing a hoist-side facing purple Sisserou parrot standing on a twig and encircled by ten five-pointed yellow-edged green stars, is superimposed at the center of the cross."
+  },
+  {
+    "code": "do",
+    "name": "Dominican Republic",
+    "nameSwe": "Dominikanska republiken",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flagAlt": "The flag of the Dominican Republic is divided into four rectangles by a centered white cross that extends to the edges of the field and bears the national coat of arms in its center. The upper hoist-side and lower fly-side rectangles are blue and the lower hoist-side and upper fly-side rectangles are red."
+  },
+  {
+    "code": "ec",
+    "name": "Ecuador",
+    "nameSwe": "Ecuador",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "South America",
+    "flagAlt": "The flag of Ecuador is composed of the horizontal bands of yellow, blue and red, with the yellow band twice the height of the other two bands. The Ecuadorian coat of arms is superimposed in the center of the field."
+  },
+  {
+    "code": "eg",
+    "name": "Egypt",
+    "nameSwe": "Egypten",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Northern Africa",
+    "flagAlt": "The flag of Egypt is composed of three equal horizontal bands of red, white and black, with Egypt's national emblem — a hoist-side facing gold eagle of Saladin — centered in the white band."
+  },
+  {
+    "code": "gq",
+    "name": "Equatorial Guinea",
+    "nameSwe": "Ekvatorialguinea",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Middle Africa",
+    "flagAlt": "The flag of Equatorial Guinea is composed of three equal horizontal bands of green, white and red with the national coat of arms centered in the white band and an isosceles triangle superimposed on the hoist side of the field. The triangle is light blue, has its base on the hoist end and spans about one-fifth the width of the field."
+  },
+  {
+    "code": "sv",
+    "name": "El Salvador",
+    "nameSwe": "El Salvador",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "Central America",
+    "flagAlt": "The flag of El Salvador is composed of three equal horizontal bands of cobalt blue, white and cobalt blue, with the national coat of arms centered in the white band."
+  },
+  {
+    "code": "ci",
+    "name": "Ivory Coast",
+    "nameSwe": "Elfenbenskusten",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "flagAlt": "The flag of Ivory Coast is composed of three equal vertical bands of orange, white and green."
+  },
+  {
+    "code": "er",
+    "name": "Eritrea",
+    "nameSwe": "Eritrea",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "flagAlt": "The flag of Eritrea comprises three triangles — a large red isosceles triangle with its base spanning the hoist end and its apex at the midpoint on the fly end, and a green and blue right-angled triangle above and beneath the red triangle. On the hoist side of the red triangle is a golden vertical olive branch encircled by a golden olive wreath."
+  },
+  {
+    "code": "ee",
+    "name": "Estonia",
+    "nameSwe": "Estland",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "flagAlt": "The flag of Estonia is composed of three equal horizontal bands of blue, black and white."
+  },
+  {
+    "code": "et",
+    "name": "Ethiopia",
+    "nameSwe": "Etiopien",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "flagAlt": "The flag of Ethiopia is composed of three equal horizontal bands of green, yellow and red, with the national emblem superimposed at the center of the field. The national emblem comprises a light blue circle bearing a golden-yellow pentagram with single yellow rays emanating from the angles between the points of the pentagram."
+  },
+  {
+    "code": "fk",
+    "name": "Falkland Islands",
+    "nameSwe": "Falklandsöarna",
+    "independent": false,
+    "region": "Americas",
+    "subregion": "South America",
+    "flagAlt": "The flag of the Falkland Islands is blue with the UK flag in the canton and the national coat of arms centered in the fly half. The coat of arms has a white ram above a ship, with a scroll at the bottom bearing the motto \"DESIRE THE RIGHT.\""
+  },
+  {
+    "code": "fj",
+    "name": "Fiji",
+    "nameSwe": "Fiji",
+    "independent": true,
+    "region": "Oceania",
+    "subregion": "Melanesia",
+    "flagAlt": "The flag of Fiji has a light blue field. It features the flag of the United Kingdom — the Union Jack — in the canton and the shield of the national coat of arms centered in the fly half."
+  },
+  {
+    "code": "ph",
+    "name": "Philippines",
+    "nameSwe": "Filippinerna",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "flagAlt": "The flag of Philippines is composed of two equal horizontal bands of blue and red, with a white equilateral triangle superimposed on the hoist side of the field. This triangle has its base on the hoist end, spans about two-fifth the width of the field and bears a central golden-yellow sun with eight rays and a five-pointed golden-yellow star at each vertex."
+  },
+  {
+    "code": "fi",
+    "name": "Finland",
+    "nameSwe": "Finland",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "flagAlt": "The flag of Finland has a white field with a large blue cross that extend to the edges of the field. The vertical part of this cross is offset towards the hoist side."
+  },
+  {
+    "code": "fr",
+    "name": "France",
+    "nameSwe": "Frankrike",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "flagAlt": "The flag of France is composed of three equal vertical bands of blue, white and red."
+  },
+  {
+    "code": "gf",
+    "name": "French Guiana",
+    "nameSwe": "Franska Guyana",
+    "independent": false,
+    "region": "Americas",
+    "subregion": "South America",
+    "flagAlt": "The flag of French Guiana divides diagonally with green in the upper fly and yellow in the lower hoist and bears a red five-pointed star in the center."
+  },
+  {
+    "code": "pf",
+    "name": "French Polynesia",
+    "nameSwe": "Franska Polynesien",
+    "independent": false,
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "flagAlt": "The flag of French Polynesia has two red horizontal bands flanking a wide white band in a 1:2:1 ratio. Centered on the white band is a disk with a blue-and-white wave pattern depicting the sea on the lower half and a gold-and-white ray pattern depicting the sun on the upper half. A canoe on the disk has a crew of five."
+  },
+  {
+    "code": "tf",
+    "name": "French Southern and Antarctic Lands",
+    "nameSwe": "Franska södra territorierna",
+    "independent": false,
+    "region": "Antarctic",
+    "subregion": "",
+    "flagAlt": "The flag of the French Southern and Antarctic Lands is blue and features the French tricolor in the canton, often displayed with a white border. In the lower fly, the letters T.A.A.F. form a monogram in white, which is stylized to resemble an anchor. The monogram is surrounded by five white stars."
+  },
+  {
+    "code": "fo",
+    "name": "Faroe Islands",
+    "nameSwe": "Färöarna",
+    "independent": false,
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "flagAlt": "The flag of the Faroe Islands is white with a red cross outlined in blue extending to the edges of the flag. The vertical part of the cross is shifted toward the hoist side."
+  },
+  {
+    "code": "ae",
+    "name": "United Arab Emirates",
+    "nameSwe": "Förenade Arabemiraten",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flagAlt": "The flag of United Arab Emirates features a red vertical band on its hoist side that takes up about one-fourth the width of the field and three equal horizontal bands of green, white and black adjoining the vertical band."
+  },
+  {
+    "code": "um",
+    "name": "United States Minor Outlying Islands",
+    "nameSwe": "Förenta staternas mindre öar i Oceanien och Västindien",
+    "independent": false,
+    "region": "Americas",
+    "subregion": "North America",
+    "flagAlt": "The flag of the United States Minor Outlying Islands is composed of thirteen equal horizontal bands of red alternating with white. A blue rectangle, bearing fifty small five-pointed white stars arranged in nine rows where rows of six stars alternate with rows of five stars, is superimposed in the canton."
+  },
+  {
+    "code": "ga",
+    "name": "Gabon",
+    "nameSwe": "Gabon",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Middle Africa",
+    "flagAlt": "The flag of Gabon is composed of three equal horizontal bands of green, yellow and blue."
+  },
+  {
+    "code": "gm",
+    "name": "Gambia",
+    "nameSwe": "Gambia",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "flagAlt": "The flag of Gambia is composed of three equal horizontal bands of red, blue with white top and bottom edges, and green."
+  },
+  {
+    "code": "ge",
+    "name": "Georgia",
+    "nameSwe": "Georgien",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flagAlt": "The flag of Georgia has a white field with a large centered red cross that extends to the edges and divides the field into four quarters. A small red Bolnur-Katskhuri cross is centered in each quarter."
+  },
+  {
+    "code": "gh",
+    "name": "Ghana",
+    "nameSwe": "Ghana",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "flagAlt": "The flag of Ghana is composed of three equal horizontal bands of red, gold and green, with a five-pointed black star centered in the gold band."
+  },
+  {
+    "code": "gi",
+    "name": "Gibraltar",
+    "nameSwe": "Gibraltar",
+    "independent": false,
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "flagAlt": "The flag of Gibraltar has two horizontal bands of white (double-width) and red, with a three-towered red castle in the center of the white band. A gold key hangs from the castle gate and is centered in the red band."
+  },
+  {
+    "code": "gr",
+    "name": "Greece",
+    "nameSwe": "Grekland",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "flagAlt": "The flag of Greece is composed of nine equal horizontal bands of blue alternating with white. A blue square bearing a white cross is superimposed in the canton."
+  },
+  {
+    "code": "gd",
+    "name": "Grenada",
+    "nameSwe": "Grenada",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flagAlt": "The flag of Grenada features a large central rectangular area surrounded by a red border, with three five-pointed yellow stars centered on the top and bottom borders. The central rectangle is divided diagonally into four alternating triangular areas of yellow at the top and bottom and green on the hoist and fly sides, and a five-pointed yellow star on a red circle is superimposed at its center. A symbolic nutmeg pod is situated on the green hoist-side triangle."
+  },
+  {
+    "code": "gl",
+    "name": "Greenland",
+    "nameSwe": "Grönland",
+    "independent": false,
+    "region": "Americas",
+    "subregion": "North America",
+    "flagAlt": "The flag of Greenland has two equal horizontal bands of white and red, with a large disk slightly to the hoist side of center. The top half of the disk is red, and the bottom half is white."
+  },
+  {
+    "code": "gp",
+    "name": "Guadeloupe",
+    "nameSwe": "Guadeloupe",
+    "independent": false,
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flagAlt": "The flag of Guadeloupe has a black field with a 30-rayed yellow sun in front of a green sugarcane, as well as a blue stripe with three yellow fleurs-de-lis on the top."
+  },
+  {
+    "code": "gu",
+    "name": "Guam",
+    "nameSwe": "Guam",
+    "independent": false,
+    "region": "Oceania",
+    "subregion": "Micronesia",
+    "flagAlt": "The flag of Guam is dark blue with a narrow red border on all four sides. Centered is a red-bordered, pointed, vertical ellipse containing a beach scene, a proa (outrigger canoe with sail), and a palm tree. The country's name in red is centered in the ellipse."
+  },
+  {
+    "code": "gt",
+    "name": "Guatemala",
+    "nameSwe": "Guatemala",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "Central America",
+    "flagAlt": "The flag of Guatemala is composed of three equal vertical bands of light blue, white and light blue, with the national coat of arms centered in the white band."
+  },
+  {
+    "code": "gg",
+    "name": "Guernsey",
+    "nameSwe": "Guernsey",
+    "independent": false,
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "flagAlt": "The flag of Guernsey is white with a red cross extending to the edges. Superimposed on it is a gold equal-armed cross capped with serifs."
+  },
+  {
+    "code": "gn",
+    "name": "Guinea",
+    "nameSwe": "Guinea",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "flagAlt": "The flag of Guinea is composed of three equal vertical bands of red, yellow and green."
+  },
+  {
+    "code": "gw",
+    "name": "Guinea-Bissau",
+    "nameSwe": "Guinea-Bissau",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "flagAlt": "The flag of Guinea-Bissau features a red vertical band on its hoist side that takes up about two-fifth the width of the field, and two equal horizontal bands of yellow and green adjoining the vertical band. A five-pointed black star is centered in the vertical band."
+  },
+  {
+    "code": "gy",
+    "name": "Guyana",
+    "nameSwe": "Guyana",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "South America",
+    "flagAlt": "The flag of Guyana has a green field with two isosceles triangles which share a common base on the hoist end. The smaller black-edged red triangle spanning half the width of the field is superimposed on the larger white-edged yellow triangle which spans the full width of the field."
+  },
+  {
+    "code": "ht",
+    "name": "Haiti",
+    "nameSwe": "Haiti",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flagAlt": "The flag of Haiti is composed of two equal horizontal bands of blue and red. A white square bearing the national coat of arms is superimposed at the center of the field."
+  },
+  {
+    "code": "hm",
+    "name": "Heard Island and McDonald Islands",
+    "nameSwe": "Heard- och McDonaldöarna",
+    "independent": false,
+    "region": "Antarctic",
+    "subregion": "",
+    "flagAlt": "The flag of Heard Island and McDonald Islands has a dark blue field. It features the flag of the United Kingdom — the Union Jack — in the canton, beneath which is a large white seven-pointed star. A representation of the Southern Cross constellation, made up of one small five-pointed and four larger seven-pointed white stars, is situated on the fly side of the field."
+  },
+  {
+    "code": "hn",
+    "name": "Honduras",
+    "nameSwe": "Honduras",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "Central America",
+    "flagAlt": "The flag of Honduras is composed of three equal horizontal bands of turquoise, white and turquoise, with five small five-pointed turquoise stars arranged in a quincuncial pattern at the center of the white band."
+  },
+  {
+    "code": "hk",
+    "name": "Hong Kong",
+    "nameSwe": "Hongkong",
+    "independent": false,
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "flagAlt": "The flag of Hong Kong is red with a stylized, five-petal, white Bauhinia flower in the center. Each petal has a small, five-pointed red star."
+  },
+  {
+    "code": "in",
+    "name": "India",
+    "nameSwe": "Indien",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "flagAlt": "The flag of India is composed of three equal horizontal bands of saffron, white and green. A navy blue wheel with twenty-four spokes — the Ashoka Chakra — is centered in the white band."
+  },
+  {
+    "code": "id",
+    "name": "Indonesia",
+    "nameSwe": "Indonesien",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "flagAlt": "The flag of Indonesia is composed of two equal horizontal bands of red and white."
+  },
+  {
+    "code": "iq",
+    "name": "Iraq",
+    "nameSwe": "Irak",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flagAlt": "The flag of Iraq is composed of three equal horizontal bands of red, white and black. In the central white band are Arabic inscriptions in green."
+  },
+  {
+    "code": "ir",
+    "name": "Iran",
+    "nameSwe": "Iran",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "flagAlt": "The flag of Iran is composed of three equal horizontal bands of green, white and red. A red emblem of Iran is centered in the white band and Arabic inscriptions in white span the bottom edge of the green band and the top edge of the red band."
+  },
+  {
+    "code": "ie",
+    "name": "Ireland",
+    "nameSwe": "Irland",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "flagAlt": "The flag of Ireland is composed of three equal vertical bands of green, white and orange."
+  },
+  {
+    "code": "is",
+    "name": "Iceland",
+    "nameSwe": "Island",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "flagAlt": "The flag of Iceland has a blue field with a large white-edged red cross that extends to the edges of the field. The vertical part of this cross is offset towards the hoist side."
+  },
+  {
+    "code": "im",
+    "name": "Isle of Man",
+    "nameSwe": "Isle of Man",
+    "independent": false,
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "flagAlt": "The flag of the Isle of Man is red with an emblem comprising three legs (triskelion) in the center. The three legs are joined at the thigh and bent at the knee."
+  },
+  {
+    "code": "il",
+    "name": "Israel",
+    "nameSwe": "Israel",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flagAlt": "The flag of Israel has a white field with a blue hexagram — the Magen David — centered between two equal horizontal blue bands situated near the top and bottom edges of the field."
+  },
+  {
+    "code": "it",
+    "name": "Italy",
+    "nameSwe": "Italien",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "flagAlt": "The flag of Italy is composed of three equal vertical bands of green, white and red."
+  },
+  {
+    "code": "jm",
+    "name": "Jamaica",
+    "nameSwe": "Jamaica",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flagAlt": "The flag of Jamaica is divided by a gold diagonal cross into four alternating triangular areas of green at the top and bottom, and black on the hoist and fly sides."
+  },
+  {
+    "code": "jp",
+    "name": "Japan",
+    "nameSwe": "Japan",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "flagAlt": "The flag of Japan features a crimson-red circle at the center of a white field."
+  },
+  {
+    "code": "ye",
+    "name": "Yemen",
+    "nameSwe": "Jemen",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flagAlt": "The flag of Yemen is composed of three equal horizontal bands of red, white and black."
+  },
+  {
+    "code": "je",
+    "name": "Jersey",
+    "nameSwe": "Jersey",
+    "independent": false,
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "flagAlt": "The flag of Jersey is white with a diagonal red cross extending to the corners of the flag. A red shield with three lions in yellow is in the upper quadrant, with a yellow crown above."
+  },
+  {
+    "code": "jo",
+    "name": "Jordan",
+    "nameSwe": "Jordanien",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flagAlt": "The flag of Jordan is composed of three equal horizontal bands of black, white and green, with a red isosceles triangle superimposed on the hoist side of the field. This triangle has its base on the hoist end, spans about half the width of the field and bears a small seven-pointed white star at its center."
+  },
+  {
+    "code": "cx",
+    "name": "Christmas Island",
+    "nameSwe": "Julön",
+    "independent": false,
+    "region": "Oceania",
+    "subregion": "Australia and New Zealand",
+    "flagAlt": "The flag of Christmas Island is divided diagonally from upper hoist side to lower fly side. The upper triangle is green with a yellow image of a Golden Bosun Bird. The lower triangle is blue with the Southern Cross constellation. A centered yellow disk displays a green map of the country."
+  },
+  {
+    "code": "kh",
+    "name": "Cambodia",
+    "nameSwe": "Kambodja",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "flagAlt": "The flag of Cambodia features three horizontal bands of blue, red and blue, with a white depiction of the temple complex, Angkor Wat centered in the red band."
+  },
+  {
+    "code": "cm",
+    "name": "Cameroon",
+    "nameSwe": "Kamerun",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Middle Africa",
+    "flagAlt": "The flag of Cameroon is composed of three equal vertical bands of green, red and yellow, with a yellow five-pointed star in the center."
+  },
+  {
+    "code": "ca",
+    "name": "Canada",
+    "nameSwe": "Kanada",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "North America",
+    "flagAlt": "The flag of Canada is composed of a red vertical band on the hoist and fly sides and a central white square that is twice the width of the vertical bands. A large eleven-pointed red maple leaf is centered in the white square."
+  },
+  {
+    "code": "cv",
+    "name": "Cape Verde",
+    "nameSwe": "Kap Verde",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "flagAlt": "The flag of Cape Verde is composed of five horizontal bands of blue, white, red, white and blue in the ratio of 6:1:1:1:3. A ring of ten five-pointed yellow stars is centered at three-eighth of the height from the bottom edge and three-eighth of the width from the hoist end of the field."
+  },
+  {
+    "code": "bq",
+    "name": "Caribbean Netherlands",
+    "nameSwe": "Karibiska Nederländerna",
+    "independent": false,
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flagAlt": "The flag of the Caribbean Netherlands features a large blue triangle at the lower fly-side corner, spanning half the flag, and a smaller yellow triangle at the opposite corner, separated by a white strip containing a black compass surrounding a red six-pointed star."
+  },
+  {
+    "code": "kz",
+    "name": "Kazakhstan",
+    "nameSwe": "Kazakstan",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Central Asia",
+    "flagAlt": "The flag of Kazakhstan has a turquoise field, at the center of which is a gold sun with thirty-two rays above a soaring golden steppe eagle. A thin vertical band displays a national ornamental pattern — koshkar-muiz — in gold near the hoist end."
+  },
+  {
+    "code": "ke",
+    "name": "Kenya",
+    "nameSwe": "Kenya",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "flagAlt": "The flag of Kenya is composed of three equal horizontal bands of black, red with white top and bottom edges, and green. An emblem comprising a red, black and white Maasai shield covering two crossed white spears is superimposed at the center of the field."
+  },
+  {
+    "code": "cn",
+    "name": "China",
+    "nameSwe": "Kina",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "flagAlt": "The flag of China has a red field. In the canton are five yellow five-pointed stars — a large star and four smaller stars arranged in a vertical arc on the fly side of the large star."
+  },
+  {
+    "code": "kg",
+    "name": "Kyrgyzstan",
+    "nameSwe": "Kirgizistan",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Central Asia",
+    "flagAlt": "The flag of Kyrgyzstan features a yellow sun with forty rays at the center of a red field. At the center of the sun is a stylized depiction of a tunduk."
+  },
+  {
+    "code": "ki",
+    "name": "Kiribati",
+    "nameSwe": "Kiribati",
+    "independent": true,
+    "region": "Oceania",
+    "subregion": "Micronesia",
+    "flagAlt": "The flag of Kiribati is divided into two halves. While the upper half has a red field, at the center of which is a yellow frigate bird flying over the top half of a rising yellow sun with seventeen visible rays, the lower half is composed of six horizontal wavy bands of white alternating with blue to depict the ocean."
+  },
+  {
+    "code": "cc",
+    "name": "Cocos (Keeling) Islands",
+    "nameSwe": "Kokosöarna",
+    "independent": false,
+    "region": "Oceania",
+    "subregion": "Australia and New Zealand",
+    "flagAlt": "The flag of the Cocos (Keeling) Islands consists of a green field with a palm tree on a gold disc in the canton, a gold crescent moon in the center of the flag, and a gold southern cross in the fly side."
+  },
+  {
+    "code": "km",
+    "name": "Comoros",
+    "nameSwe": "Komorerna",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "flagAlt": "The flag of Comoros is composed of four equal horizontal bands of yellow, white, red and blue, with a green isosceles triangle superimposed on the hoist side of the field. This triangle has its base on the hoist end, spans about two-fifth the width of the field and bears a fly-side facing white crescent and four five-pointed white stars arranged in a vertical line along the opening of the crescent."
+  },
+  {
+    "code": "cg",
+    "name": "Republic of the Congo",
+    "nameSwe": "Kongo-Brazzaville",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Middle Africa",
+    "flagAlt": "The flag of the Republic of the Congo features a yellow diagonal band that extends from the lower hoist-side corner to the upper fly-side corner of the field. Above and beneath this band are a green and red triangle respectively."
+  },
+  {
+    "code": "cd",
+    "name": "DR Congo",
+    "nameSwe": "Kongo-Kinshasa",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Middle Africa",
+    "flagAlt": "The flag of the Democratic Republic of the Congo has a sky-blue field with a yellow-edged red diagonal band that extends from the lower hoist-side corner to the upper fly-side corner of the field. A large five-pointed yellow star is situated above the diagonal band on the upper hoist side of the field."
+  },
+  {
+    "code": "xk",
+    "name": "Kosovo",
+    "nameSwe": "Kosovo",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Southeast Europe",
+    "flagAlt": "The flag of Kosovo has a dark blue field with a gold-colored silhouette of the country in the center, with six five-pointed white stars in a slight arc over it."
+  },
+  {
+    "code": "hr",
+    "name": "Croatia",
+    "nameSwe": "Kroatien",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Southeast Europe",
+    "flagAlt": "The flag of Croatia is composed of three equal horizontal bands of red, white and blue, with the coat of arms of Croatia superimposed in the center."
+  },
+  {
+    "code": "cu",
+    "name": "Cuba",
+    "nameSwe": "Kuba",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flagAlt": "The flag of Cuba is composed of five equal horizontal bands of blue alternating with white and a red equilateral triangle superimposed on the hoist side of the field. The triangle has its base on the hoist end, spans about two-fifth the width of the field and bears a white five-pointed star at its center."
+  },
+  {
+    "code": "kw",
+    "name": "Kuwait",
+    "nameSwe": "Kuwait",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flagAlt": "The flag of Kuwait is composed of three equal horizontal bands of green, white and red, with a black trapezium superimposed on the hoist side of the field. This trapezium has its base on the hoist end and spans about one-fourth the width of the field."
+  },
+  {
+    "code": "la",
+    "name": "Laos",
+    "nameSwe": "Laos",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "flagAlt": "The flag of Laos is composed of three horizontal bands of red, blue and red. The blue band is twice the height of the red bands and bears a white circle at its center."
+  },
+  {
+    "code": "ls",
+    "name": "Lesotho",
+    "nameSwe": "Lesotho",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Southern Africa",
+    "flagAlt": "The flag of Lesotho is composed of three horizontal bands of blue, white and green in the ratio of 3:4:3. A black mokorotlo — a Basotho hat — is centered in the white band."
+  },
+  {
+    "code": "lv",
+    "name": "Latvia",
+    "nameSwe": "Lettland",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "flagAlt": "The flag of Latvia has a carmine-red field with a thin white horizontal band across the middle of the field."
+  },
+  {
+    "code": "lb",
+    "name": "Lebanon",
+    "nameSwe": "Libanon",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flagAlt": "The flag of Lebanon is composed of three horizontal bands of red, white and red. The white band is twice the height of the red bands and bears a green Lebanese Cedar tree at its center."
+  },
+  {
+    "code": "lr",
+    "name": "Liberia",
+    "nameSwe": "Liberia",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "flagAlt": "The flag of Liberia is composed of eleven equal horizontal bands of red alternating with white. A blue square bearing a five-pointed white star is superimposed in the canton."
+  },
+  {
+    "code": "ly",
+    "name": "Libya",
+    "nameSwe": "Libyen",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Northern Africa",
+    "flagAlt": "The flag of Libya is composed of three horizontal bands of red, black and green, with the black band twice the height of the other two bands. At the center of the black band is a fly-side facing white crescent and a five-pointed white star placed just outside the crescent opening."
+  },
+  {
+    "code": "li",
+    "name": "Liechtenstein",
+    "nameSwe": "Liechtenstein",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "flagAlt": "The flag of Liechtenstein is composed of two equal horizontal bands of blue and red, with a golden-yellow crown on the hoist side of the blue band."
+  },
+  {
+    "code": "lt",
+    "name": "Lithuania",
+    "nameSwe": "Litauen",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "flagAlt": "The flag of Lithuania is composed of three equal horizontal bands of yellow, green and red."
+  },
+  {
+    "code": "lu",
+    "name": "Luxembourg",
+    "nameSwe": "Luxemburg",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "flagAlt": "The flag of Luxembourg is composed of three equal horizontal bands of red, white and light blue."
+  },
+  {
+    "code": "mo",
+    "name": "Macau",
+    "nameSwe": "Macao",
+    "independent": false,
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "flagAlt": "The flag of Macau is green with a lotus flower above a stylized bridge and water in white, under an arc of five five-pointed gold stars."
+  },
+  {
+    "code": "mg",
+    "name": "Madagascar",
+    "nameSwe": "Madagaskar",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "flagAlt": "The flag of Madagascar features a white vertical band on the hoist side that takes up about one-third the width of the field, and two equal horizontal bands of red and green adjoining the vertical band."
+  },
+  {
+    "code": "mw",
+    "name": "Malawi",
+    "nameSwe": "Malawi",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "flagAlt": "The flag of Malawi is composed of three equal horizontal bands of black, red and green. The top half of a red sun with thirty-one visible rays is centered in the black band."
+  },
+  {
+    "code": "my",
+    "name": "Malaysia",
+    "nameSwe": "Malaysia",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "flagAlt": "The flag of Malaysia is composed of fourteen equal horizontal bands of red alternating with white. A blue rectangle, bearing a fly-side facing yellow crescent and a fourteen-pointed yellow star placed just outside the crescent opening, is superimposed in the canton."
+  },
+  {
+    "code": "mv",
+    "name": "Maldives",
+    "nameSwe": "Maldiverna",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "flagAlt": "The flag of Maldives has a red field, at the center of which is a large green rectangle bearing a fly-side facing white crescent."
+  },
+  {
+    "code": "ml",
+    "name": "Mali",
+    "nameSwe": "Mali",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "flagAlt": "The flag of Mali is composed of three equal vertical bands of green, yellow and red."
+  },
+  {
+    "code": "mt",
+    "name": "Malta",
+    "nameSwe": "Malta",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "flagAlt": "The flag of Malta is composed of two equal vertical bands of white and red. A representation of the George cross edged in red is situated on the upper hoist-side corner of the white band."
+  },
+  {
+    "code": "ma",
+    "name": "Morocco",
+    "nameSwe": "Marocko",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Northern Africa",
+    "flagAlt": "The flag of Morocco features a green pentagram — a five-pointed linear star — centered on a red field."
+  },
+  {
+    "code": "mh",
+    "name": "Marshall Islands",
+    "nameSwe": "Marshallöarna",
+    "independent": true,
+    "region": "Oceania",
+    "subregion": "Micronesia",
+    "flagAlt": "The flag of Marshall Islands has a blue field with two broadening adjacent diagonal bands of orange and white that extend from the lower hoist-side corner to the upper fly-side corner of the field. A large white star with twenty-four rays — four large rays at the cardinal points and twenty smaller rays — is situated in the upper hoist-side corner above the diagonal bands."
+  },
+  {
+    "code": "mq",
+    "name": "Martinique",
+    "nameSwe": "Martinique",
+    "independent": false,
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flagAlt": "The flag of Martinique consists of a red triangle at the hoist, with two horizontal bands, the upper green and the lower black."
+  },
+  {
+    "code": "mr",
+    "name": "Mauritania",
+    "nameSwe": "Mauretanien",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "flagAlt": "The flag of Mauritania has a green field with a thin red horizontal band at the top and bottom of the field. At the center of the field is a five-pointed yellow star above an upward facing yellow crescent."
+  },
+  {
+    "code": "mu",
+    "name": "Mauritius",
+    "nameSwe": "Mauritius",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "flagAlt": "The flag of Mauritius is composed of four equal horizontal bands of red, blue, yellow and green."
+  },
+  {
+    "code": "yt",
+    "name": "Mayotte",
+    "nameSwe": "Mayotte",
+    "independent": false,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "flagAlt": "The flag of Mayotte bears a white field with the national coat of arms in the center and the country's name in red above it. The coat of arms consists of a shield supported by two seahorses and the national motto in a banner below it. The shield has a white fringe and bears a blue field with an upwards-facing white crescent on the top half and a red field with two yellow ylang-ylang flowers on the bottom half."
+  },
+  {
+    "code": "mx",
+    "name": "Mexico",
+    "nameSwe": "Mexiko",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "North America",
+    "flagAlt": "The flag of Mexico is composed of three equal vertical bands of green, white and red, with the national coat of arms centered in the white band."
+  },
+  {
+    "code": "fm",
+    "name": "Micronesia",
+    "nameSwe": "Mikronesiska federationen",
+    "independent": true,
+    "region": "Oceania",
+    "subregion": "Micronesia",
+    "flagAlt": "The flag of Micronesia has a light blue field, at the center of which are four five-pointed white stars arranged in the shape of a diamond."
+  },
+  {
+    "code": "mz",
+    "name": "Mozambique",
+    "nameSwe": "Moçambique",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "flagAlt": "The flag of Mozambique is composed of three equal horizontal bands of teal, black with white top and bottom edges, and yellow. A red isosceles triangle spanning about two-fifth the width of the field is superimposed on the hoist side with its base on the hoist end. This triangle bears a crossed rifle and hoe in black superimposed on an open white book which is superimposed on a five-pointed yellow star."
+  },
+  {
+    "code": "md",
+    "name": "Moldova",
+    "nameSwe": "Moldavien",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "flagAlt": "The flag of Moldova is composed of three equal vertical bands of blue, yellow and red, with the national coat of arms centered in the yellow band."
+  },
+  {
+    "code": "mc",
+    "name": "Monaco",
+    "nameSwe": "Monaco",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "flagAlt": "The flag of Monaco is composed of two equal horizontal bands of red and white."
+  },
+  {
+    "code": "mn",
+    "name": "Mongolia",
+    "nameSwe": "Mongoliet",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "flagAlt": "The flag of Mongolia is composed of three equal vertical bands of red, blue and red, with the national emblem — the Soyombo — in gold centered in the hoist-side red band."
+  },
+  {
+    "code": "me",
+    "name": "Montenegro",
+    "nameSwe": "Montenegro",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Southeast Europe",
+    "flagAlt": "The flag of Montenegro features a large red central rectangular area surrounded by a golden-yellow border. The coat of arms of Montenegro is centered in the red rectangle."
+  },
+  {
+    "code": "ms",
+    "name": "Montserrat",
+    "nameSwe": "Montserrat",
+    "independent": false,
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flagAlt": "The flag of Montserrat is blue with the UK flag in the canton and the national coat of arms centered in the fly half. The coat of arms shows a woman in a green dress standing beside a yellow harp and embracing a large dark cross with her right arm."
+  },
+  {
+    "code": "mm",
+    "name": "Myanmar",
+    "nameSwe": "Myanmar",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "flagAlt": "The flag of Myanmar is composed of three equal horizontal bands of yellow, green and red, with a large five-pointed white star superimposed at the center of the field."
+  },
+  {
+    "code": "na",
+    "name": "Namibia",
+    "nameSwe": "Namibia",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Southern Africa",
+    "flagAlt": "The flag of Namibia features a white-edged red diagonal band that extends from the lower hoist-side corner to the upper fly-side corner of the field. Above and beneath this band are a blue and green triangle respectively. A gold sun with twelve triangular rays is situated on the hoist side of the upper triangle."
+  },
+  {
+    "code": "nr",
+    "name": "Nauru",
+    "nameSwe": "Nauru",
+    "independent": true,
+    "region": "Oceania",
+    "subregion": "Micronesia",
+    "flagAlt": "The flag of Nauru has a dark blue field with a thin yellow horizontal band across the center and a large white twelve-pointed star beneath the horizontal band on the hoist side of the field."
+  },
+  {
+    "code": "nl",
+    "name": "Netherlands",
+    "nameSwe": "Nederländerna",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "flagAlt": "The flag of the Netherlands is composed of three equal horizontal bands of red, white and blue."
+  },
+  {
+    "code": "np",
+    "name": "Nepal",
+    "nameSwe": "Nepal",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "flagAlt": "The flag of Nepal is the world's only non-quadrilateral flag of a sovereign country. It takes the shape of two adjoining right-angled triangles and has a crimson red field with deep blue edges. Within the smaller upper triangle is an emblem of the upper half of a white sun resting on an upward facing white crescent. The lower triangle bears a white sun with twelve rays."
+  },
+  {
+    "code": "ni",
+    "name": "Nicaragua",
+    "nameSwe": "Nicaragua",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "Central America",
+    "flagAlt": "The flag of Nicaragua is composed of three equal horizontal bands of blue, white and blue, with the national coat of arms centered in the white band."
+  },
+  {
+    "code": "ne",
+    "name": "Niger",
+    "nameSwe": "Niger",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "flagAlt": "The flag of Niger features three equal horizontal bands of orange, white and green, with an orange circle centered in the white band."
+  },
+  {
+    "code": "ng",
+    "name": "Nigeria",
+    "nameSwe": "Nigeria",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "flagAlt": "The flag of Nigeria is composed of three equal vertical bands of green, white and green."
+  },
+  {
+    "code": "nu",
+    "name": "Niue",
+    "nameSwe": "Niue",
+    "independent": false,
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "flagAlt": "The flag of Niue is yellow with the UK flag in the canton. The UK flag has five yellow five-pointed stars, with a large star on a blue disk in the center and smaller stars on each arm of the red cross."
+  },
+  {
+    "code": "kp",
+    "name": "North Korea",
+    "nameSwe": "Nordkorea",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "flagAlt": "The flag of North Korea is composed of three horizontal bands — a large central white-edged red band, and a blue band above and beneath the red band. On the hoist side of the red band is a red five-pointed star within a white circle."
+  },
+  {
+    "code": "mk",
+    "name": "North Macedonia",
+    "nameSwe": "Nordmakedonien",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Southeast Europe",
+    "flagAlt": "The flag of North Macedonia has a red field, at the center of which is a golden-yellow sun with eight broadening rays that extend to the edges of the field."
+  },
+  {
+    "code": "mp",
+    "name": "Northern Mariana Islands",
+    "nameSwe": "Nordmarianerna",
+    "independent": false,
+    "region": "Oceania",
+    "subregion": "Micronesia",
+    "flagAlt": "The flag of the Northern Mariana Islands is blue with a five-pointed white star on a gray latte stone (a traditional foundation stone) in the center, surrounded by a head lei (wreath)."
+  },
+  {
+    "code": "nf",
+    "name": "Norfolk Island",
+    "nameSwe": "Norfolkön",
+    "independent": false,
+    "region": "Oceania",
+    "subregion": "Australia and New Zealand",
+    "flagAlt": "The flag of Norfolk Island has three vertical bands of green, white, and green, with a large green native pine tree centered in the white band."
+  },
+  {
+    "code": "no",
+    "name": "Norway",
+    "nameSwe": "Norge",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "flagAlt": "The flag of Norway has a red field with a large white-edged navy blue cross that extends to the edges of the field. The vertical part of this cross is offset towards the hoist side."
+  },
+  {
+    "code": "nc",
+    "name": "New Caledonia",
+    "nameSwe": "Nya Kaledonien",
+    "independent": false,
+    "region": "Oceania",
+    "subregion": "Melanesia",
+    "flagAlt": "The flag of New Caledonia has three equal horizontal bands of blue, red, and green. A large yellow disk shifted slightly to the hoist side displays a black symbol of a native rooftop adornment."
+  },
+  {
+    "code": "nz",
+    "name": "New Zealand",
+    "nameSwe": "Nya Zeeland",
+    "independent": true,
+    "region": "Oceania",
+    "subregion": "Australia and New Zealand",
+    "flagAlt": "The flag of New Zealand has a dark blue field with the flag of the United Kingdom — the Union Jack — in the canton and a representation of the Southern Cross constellation, made up of four five-pointed white-edged red stars, on the fly side of the field."
+  },
+  {
+    "code": "om",
+    "name": "Oman",
+    "nameSwe": "Oman",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flagAlt": "The flag of Oman features a red vertical band on the hoist side that takes up about one-fourth the width of the field, and three equal horizontal bands of white, red and green adjoining the vertical band. At the top of the vertical band is the white emblem of Oman."
+  },
+  {
+    "code": "pk",
+    "name": "Pakistan",
+    "nameSwe": "Pakistan",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "flagAlt": "The flag of Pakistan is composed of a white vertical band on its hoist side that takes up about one-fourth the width of the field and a dark green rectangular area that spans the rest of the field. A white fly-side facing crescent and five-pointed star are centered in the dark green area."
+  },
+  {
+    "code": "pw",
+    "name": "Palau",
+    "nameSwe": "Palau",
+    "independent": true,
+    "region": "Oceania",
+    "subregion": "Micronesia",
+    "flagAlt": "The flag of Palau has a light blue field with a large golden-yellow circle that is offset slightly towards the hoist side of center."
+  },
+  {
+    "code": "ps",
+    "name": "Palestine",
+    "nameSwe": "Palestina",
+    "independent": false,
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flagAlt": "The flag of Palestine has three equal horizontal stripes of black, white, and green overlaid by a red triangle issuing from the hoist."
+  },
+  {
+    "code": "pa",
+    "name": "Panama",
+    "nameSwe": "Panama",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "Central America",
+    "flagAlt": "The flag of Panama is composed of four equal rectangular areas — a white rectangular area with a blue five-pointed star at its center, a red rectangular area, a white rectangular area with a red five-pointed star at its center, and a blue rectangular area — in the upper hoist side, upper fly side, lower fly side and lower hoist side respectively."
+  },
+  {
+    "code": "pg",
+    "name": "Papua New Guinea",
+    "nameSwe": "Papua Nya Guinea",
+    "independent": true,
+    "region": "Oceania",
+    "subregion": "Melanesia",
+    "flagAlt": "The flag of Papua New Guinea is divided diagonally, from the upper hoist-side corner to the lower fly-side corner, into a lower black and an upper red triangle. On the hoist side of the lower black triangle is a representation of the Southern Cross constellation made up of one small and four larger five-pointed white stars. A golden Raggiana bird-of-paradise is situated on the fly side of the upper red triangle."
+  },
+  {
+    "code": "py",
+    "name": "Paraguay",
+    "nameSwe": "Paraguay",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "South America",
+    "flagAlt": "The flag of Paraguay features three equal horizontal bands of red, white and blue, with an emblem centered in the white band. On the obverse side of the flag depicted, this emblem is the national coat of arms."
+  },
+  {
+    "code": "pe",
+    "name": "Peru",
+    "nameSwe": "Peru",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "South America",
+    "flagAlt": "The flag of Peru is composed of three equal vertical bands of red, white and red, with the national emblem centered in the white band."
+  },
+  {
+    "code": "pn",
+    "name": "Pitcairn Islands",
+    "nameSwe": "Pitcairnöarna",
+    "independent": false,
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "flagAlt": "The flag of the Pitcairn Islands is blue with the UK flag in the canton and the national coat of arms centered on the fly half. The coat of arms has a light-blue shield with a green field which features a yellow anchor with a Bible over it. A wheelbarrow is on the crest, with a flowering twig of miro, a local plant."
+  },
+  {
+    "code": "pl",
+    "name": "Poland",
+    "nameSwe": "Polen",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Central Europe",
+    "flagAlt": "The flag of Poland is composed of two equal horizontal bands of white and red."
+  },
+  {
+    "code": "pt",
+    "name": "Portugal",
+    "nameSwe": "Portugal",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "flagAlt": "The flag of Portugal is composed of two vertical bands of green and red in the ratio of 2:3, with the coat of arms of Portugal centered over the two-color boundary."
+  },
+  {
+    "code": "pr",
+    "name": "Puerto Rico",
+    "nameSwe": "Puerto Rico",
+    "independent": false,
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flagAlt": "The flag of Puerto Rico has five equal horizontal bands of red alternating with white. A blue isosceles triangle based on the hoist side has a large five-pointed white star in the center."
+  },
+  {
+    "code": "qa",
+    "name": "Qatar",
+    "nameSwe": "Qatar",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flagAlt": "The flag of Qatar has a maroon field, on the hoist side of which is a white vertical band that spans about one-third the width of the field and is separated from the rest of the field by nine adjoining fly-side pointing white isosceles triangles that serve as a serrated line."
+  },
+  {
+    "code": "re",
+    "name": "Réunion",
+    "nameSwe": "Réunion",
+    "independent": false,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "flagAlt": "The flag of Réunion has a blue field, with a red triangle spanning the bottom and extending to the center, as well as five yellow beams emanating from the center, spread equally apart."
+  },
+  {
+    "code": "ro",
+    "name": "Romania",
+    "nameSwe": "Rumänien",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Southeast Europe",
+    "flagAlt": "The flag of Romania is composed of three equal vertical bands of navy blue, yellow and red."
+  },
+  {
+    "code": "rw",
+    "name": "Rwanda",
+    "nameSwe": "Rwanda",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "flagAlt": "The flag of Rwanda is composed of three horizontal bands of light blue, yellow and green. The light blue band is twice the height of the other two bands and bears a yellow sun with twenty-four rays on its fly side."
+  },
+  {
+    "code": "ru",
+    "name": "Russia",
+    "nameSwe": "Ryssland",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "flagAlt": "The flag of Russia is composed of three equal horizontal bands of white, blue and red."
+  },
+  {
+    "code": "kn",
+    "name": "Saint Kitts and Nevis",
+    "nameSwe": "Saint Kitts och Nevis",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flagAlt": "The flag of Saint Kitts and Nevis features two large five-pointed white stars within a yellow-edged black diagonal band that extends from the lower hoist-side corner to the upper fly-side corner of the field. Above and beneath this band are a green and red triangle respectively."
+  },
+  {
+    "code": "lc",
+    "name": "Saint Lucia",
+    "nameSwe": "Saint Lucia",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flagAlt": "The flag of Saint Lucia has a light blue field, at the center of which are two triangles which share a common base — a small golden-yellow isosceles triangle superimposed on a large white-edged black isosceles triangle."
+  },
+  {
+    "code": "vc",
+    "name": "Saint Vincent and the Grenadines",
+    "nameSwe": "Saint Vincent och Grenadinerna",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flagAlt": "The flag of Saint Vincent and the Grenadines is composed of three vertical bands of blue, gold and green. The gold band is twice as wide as the other two bands and bears three green diamonds arranged to form the letter V at its center."
+  },
+  {
+    "code": "bl",
+    "name": "Saint Barthélemy",
+    "nameSwe": "Saint-Barthélemy",
+    "independent": false,
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flagAlt": "The flag of Saint Barthélemy features the national coat of arms centered on a white field. The coat of arms is a shield divided into three horizontal stripes: three gold fleurs-de-lis on blue, above a white Maltese cross on red, over three gold crowns on blue. Below the shield is a banner with \"OUANALAO,\" which is what the indigenous people called the island. On top of the shield is a mural crown."
+  },
+  {
+    "code": "mf",
+    "name": "Saint Martin",
+    "nameSwe": "Saint-Martin",
+    "independent": false,
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flagAlt": "The flag of Saint Martin is composed of three equal vertical bands of blue, white and red."
+  },
+  {
+    "code": "pm",
+    "name": "Saint Pierre and Miquelon",
+    "nameSwe": "Saint-Pierre och Miquelon",
+    "independent": false,
+    "region": "Americas",
+    "subregion": "North America",
+    "flagAlt": "The flag of Saint Pierre and Miquelon features a yellow three-masted sailing ship facing the hoist side riding on a blue background with wavy white lines. A black-over-white wavy line divides the ship from the white wavy lines. On the hoist side, a vertical band is divided into three heraldic arms: the top is red with a green diagonal cross extending to the corners and overlaid with a white cross, the middle is white with an ermine pattern, and the bottom is red with two yellow lions outlined in black."
+  },
+  {
+    "code": "sb",
+    "name": "Solomon Islands",
+    "nameSwe": "Salomonöarna",
+    "independent": true,
+    "region": "Oceania",
+    "subregion": "Melanesia",
+    "flagAlt": "The flag of Solomon Islands features a thin yellow diagonal band that extends from the lower hoist-side corner to the upper fly-side corner of the field. Above and beneath this band are a blue and green triangle respectively. Five white five-pointed stars arranged in an X shape are situated on the hoist side of the upper blue triangle."
+  },
+  {
+    "code": "ws",
+    "name": "Samoa",
+    "nameSwe": "Samoa",
+    "independent": true,
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "flagAlt": "The flag of Samoa has a red field. A blue rectangle, bearing a representation of the Southern Cross made up of five large and one smaller five-pointed white stars, is superimposed in the canton."
+  },
+  {
+    "code": "sm",
+    "name": "San Marino",
+    "nameSwe": "San Marino",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "flagAlt": "The flag of San Marino is composed of two equal horizontal bands of white and light blue, with the national coat of arms superimposed in the center."
+  },
+  {
+    "code": "sh",
+    "name": "Saint Helena, Ascension and Tristan da Cunha",
+    "nameSwe": "Sankta Helena",
+    "independent": false,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "flagAlt": "The flag of Saint Helena, Ascension and Tristan da Cunha is blue with the UK flag in the canton and the national coat of arms shield centered on the fly half. The upper third of the shield depicts a white plover, a native bird, on a yellow field. The rest of the shield depicts a rocky coastline and a three-masted sailing ship with sails furled and flying an English flag."
+  },
+  {
+    "code": "st",
+    "name": "São Tomé and Príncipe",
+    "nameSwe": "São Tomé och Príncipe",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Middle Africa",
+    "flagAlt": "The flag of São Tomé and Príncipe has three horizontal bands of green, yellow (double-width), and green, with two black five-pointed stars in the center of the yellow band and a red isosceles triangle based on the hoist side."
+  },
+  {
+    "code": "sa",
+    "name": "Saudi Arabia",
+    "nameSwe": "Saudiarabien",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flagAlt": "The flag of Saudi Arabia has a green field, at the center of which is an Arabic inscription — the Shahada — in white above a white horizontal sabre with its tip pointed to the hoist side of the field."
+  },
+  {
+    "code": "ch",
+    "name": "Switzerland",
+    "nameSwe": "Schweiz",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "flagAlt": "The flag of Switzerland is square shaped. It features a white Swiss cross centered on a red field."
+  },
+  {
+    "code": "sn",
+    "name": "Senegal",
+    "nameSwe": "Senegal",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "flagAlt": "The flag of Senegal is composed of three equal vertical bands of green, golden-yellow and red, with a five-pointed green star centered in the golden-yellow band."
+  },
+  {
+    "code": "rs",
+    "name": "Serbia",
+    "nameSwe": "Serbien",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Southeast Europe",
+    "flagAlt": "The flag of Serbia is composed of three equal horizontal bands of red, blue and white. The coat of arms of Serbia is superimposed at the center of the field slightly towards the hoist side."
+  },
+  {
+    "code": "sc",
+    "name": "Seychelles",
+    "nameSwe": "Seychellerna",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "flagAlt": "The flag of Seychelles is composed of five broadening oblique bands of blue, yellow, red, white and green, which extend from the hoist side of the bottom edge to the top and fly edges of the field."
+  },
+  {
+    "code": "sl",
+    "name": "Sierra Leone",
+    "nameSwe": "Sierra Leone",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "flagAlt": "The flag of Sierra Leone is composed of three equal horizontal bands of green, white and blue."
+  },
+  {
+    "code": "sg",
+    "name": "Singapore",
+    "nameSwe": "Singapore",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "flagAlt": "The flag of Singapore is composed of two equal horizontal bands of red and white. On the hoist side of the red band is a fly-side facing white crescent which partially encloses five small five-pointed white stars arranged in the shape of a pentagon."
+  },
+  {
+    "code": "sx",
+    "name": "Sint Maarten",
+    "nameSwe": "Sint Maarten",
+    "independent": false,
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flagAlt": "The flag of Sint Maarten features two equal horizontal bands of red and blue, with a white isosceles triangle based on the hoist side. The center of the triangle displays the national coat of arms with an orange-bordered blue shield that prominently displays a white courthouse, as well as yellow sage in the upper left and the silhouette of a monument in the upper right. Over the shield is a yellow rising sun and a brown pelican in flight. A yellow scroll below the shield has the Latin motto \"SEMPER PROGREDIENS\" (Always Progressing)."
+  },
+  {
+    "code": "sk",
+    "name": "Slovakia",
+    "nameSwe": "Slovakien",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Central Europe",
+    "flagAlt": "The flag of Slovakia is composed of three equal horizontal bands of white, blue and red. The coat of arms of Slovakia is superimposed at the center of the field slightly towards the hoist side."
+  },
+  {
+    "code": "si",
+    "name": "Slovenia",
+    "nameSwe": "Slovenien",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Central Europe",
+    "flagAlt": "The flag of Slovenia is composed of three equal horizontal bands of white, blue and red. The national coat of arms is situated in the upper hoist side of the field centered on the boundary between the white and blue bands."
+  },
+  {
+    "code": "so",
+    "name": "Somalia",
+    "nameSwe": "Somalia",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "flagAlt": "The flag of Somalia features a large five-pointed white star centered on a light blue field."
+  },
+  {
+    "code": "es",
+    "name": "Spain",
+    "nameSwe": "Spanien",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "flagAlt": "The flag of Spain is composed of three horizontal bands of red, yellow and red, with the yellow band twice the height of the red bands. In the yellow band is the national coat of arms offset slightly towards the hoist side of center."
+  },
+  {
+    "code": "lk",
+    "name": "Sri Lanka",
+    "nameSwe": "Sri Lanka",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "flagAlt": "The flag of Sri Lanka features two large adjacent but separate rectangular areas, centered on a golden-yellow field. The smaller hoist-side rectangle is divided into two equal vertical bands of teal and orange, and the larger fly-side rectangle is maroon with a centered golden-yellow lion holding a Kastane sword in its right fore-paw and four golden-yellow Bo leaves, one in each corner."
+  },
+  {
+    "code": "gb",
+    "name": "United Kingdom",
+    "nameSwe": "Storbritannien",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "flagAlt": "The flag of the United Kingdom — the Union Jack — has a blue field. It features the white-edged red cross of Saint George superimposed on the diagonal red cross of Saint Patrick which is superimposed on the diagonal white cross of Saint Andrew."
+  },
+  {
+    "code": "sd",
+    "name": "Sudan",
+    "nameSwe": "Sudan",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Northern Africa",
+    "flagAlt": "The flag of Sudan is composed of three equal horizontal bands of red, white and black, with a green isosceles triangle superimposed on the hoist side. The green triangle spans about two-fifth the width of the field with its base on the hoist end."
+  },
+  {
+    "code": "sr",
+    "name": "Suriname",
+    "nameSwe": "Surinam",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "South America",
+    "flagAlt": "The flag of Suriname is composed of five horizontal bands of green, white, red, white and green in the ratio of 2:1:4:1:2. A large five-pointed yellow star is centered in the red band."
+  },
+  {
+    "code": "sj",
+    "name": "Svalbard and Jan Mayen",
+    "nameSwe": "Svalbard och Jan Mayen",
+    "independent": false,
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "flagAlt": "The flag of Svalbard and Jan Mayen has a red field with a large white-edged navy blue cross that extends to the edges of the field. The vertical part of this cross is offset towards the hoist side."
+  },
+  {
+    "code": "se",
+    "name": "Sweden",
+    "nameSwe": "Sverige",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "flagAlt": "The flag of Sweden has a blue field with a large golden-yellow cross that extend to the edges of the field. The vertical part of this cross is offset towards the hoist side."
+  },
+  {
+    "code": "sz",
+    "name": "Eswatini",
+    "nameSwe": "Swaziland",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Southern Africa",
+    "flagAlt": "The flag of Eswatini is composed of three horizontal bands — a large central yellow-edged red band, and a light blue band above and beneath the red band. The red band is three times the height of the blue bands and bears a centered emblem made up of a large black and white Nguni shield covering two spears and a staff decorated with feather tassels, all placed horizontally."
+  },
+  {
+    "code": "za",
+    "name": "South Africa",
+    "nameSwe": "Sydafrika",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Southern Africa",
+    "flagAlt": "The flag of South Africa is composed of two equal horizontal bands of red and blue, with a yellow-edged black isosceles triangle superimposed on the hoist side of the field. This triangle has its base centered on the hoist end, spans about two-fifth the width and two-third the height of the field, and is enclosed on its sides by the arms of a white-edged green horizontally oriented Y-shaped band which extends along the boundary of the red and blue bands to the fly end of the field."
+  },
+  {
+    "code": "gs",
+    "name": "South Georgia",
+    "nameSwe": "Sydgeorgien",
+    "independent": false,
+    "region": "Antarctic",
+    "subregion": "",
+    "flagAlt": "The flag of South Georgia is blue with the UK flag in the canton. The national coat of arms is centered on the fly half and has a green shield with a golden lion holding a torch. A fur seal is to the left of the shield and a Macaroni penguin to the right. A reindeer appears above the crest, and below the shield on a scroll is the Latin motto \"LEO TERRAM PROPRIAM PROTEGAT\" (Let the Lion Protect its Own Land)."
+  },
+  {
+    "code": "kr",
+    "name": "South Korea",
+    "nameSwe": "Sydkorea",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "flagAlt": "The flag of South Korea has a white field, at the center of which is a red and blue Taegeuk circle surrounded by four black trigrams, one in each corner."
+  },
+  {
+    "code": "ss",
+    "name": "South Sudan",
+    "nameSwe": "Sydsudan",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Middle Africa",
+    "flagAlt": "The flag of South Sudan is composed of three equal horizontal bands of black, red with white top and bottom edges, and green. A blue equilateral triangle which spans about two-fifth the width of the field is superimposed on the hoist side with its base on the hoist end of the field. At the center of this triangle is a five-pointed yellow star."
+  },
+  {
+    "code": "sy",
+    "name": "Syria",
+    "nameSwe": "Syrien",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flagAlt": "The flag of Syria is composed of three equal horizontal bands of red, white and black. At the center of the white band are two small five-pointed green stars arranged in a horizontal line."
+  },
+  {
+    "code": "tj",
+    "name": "Tajikistan",
+    "nameSwe": "Tadzjikistan",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Central Asia",
+    "flagAlt": "The flag of Tajikistan is composed of three horizontal bands of red, white and green in the ratio of 2:3:2. A golden-yellow crown surmounted by an arc of seven five-pointed golden-yellow stars is centered in the white band."
+  },
+  {
+    "code": "tw",
+    "name": "Taiwan",
+    "nameSwe": "Taiwan",
+    "independent": false,
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "flagAlt": "The flag of Taiwan has a red field with a dark blue rectangle in the canton, bearing a white sun with 12 triangular rays."
+  },
+  {
+    "code": "tz",
+    "name": "Tanzania",
+    "nameSwe": "Tanzania",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "flagAlt": "The flag of Tanzania features a yellow-edged black diagonal band that extends from the lower hoist-side corner to the upper fly-side corner of the field. Above and beneath this band are a green and light blue triangle respectively."
+  },
+  {
+    "code": "td",
+    "name": "Chad",
+    "nameSwe": "Tchad",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Middle Africa",
+    "flagAlt": "The flag of Chad is composed of three equal vertical bands of blue, gold and red."
+  },
+  {
+    "code": "th",
+    "name": "Thailand",
+    "nameSwe": "Thailand",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "flagAlt": "The flag of Thailand is composed of five horizontal bands of red, white, blue, white and red, with the central blue band twice the height of the other four bands."
+  },
+  {
+    "code": "cz",
+    "name": "Czechia",
+    "nameSwe": "Tjeckien",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Central Europe",
+    "flagAlt": "The flag of Czechia is composed of two equal horizontal bands of white and red, with a blue isosceles triangle superimposed on the hoist side of the field. The triangle has its base on the hoist end and spans about two-fifth the width of the field."
+  },
+  {
+    "code": "tg",
+    "name": "Togo",
+    "nameSwe": "Togo",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "flagAlt": "The flag of Togo is composed of five equal horizontal bands of green alternating with yellow. A red square bearing a five-pointed white star is superimposed in the canton."
+  },
+  {
+    "code": "tk",
+    "name": "Tokelau",
+    "nameSwe": "Tokelauöarna",
+    "independent": false,
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "flagAlt": "The flag of Tokelau features a yellow stylized canoe on a dark blue field sailing toward the Southern Cross constellation with four white five-pointed stars at the hoist side."
+  },
+  {
+    "code": "to",
+    "name": "Tonga",
+    "nameSwe": "Tonga",
+    "independent": true,
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "flagAlt": "The flag of Tonga has a red field. A white rectangle bearing a red Greek cross is superimposed in the canton."
+  },
+  {
+    "code": "tt",
+    "name": "Trinidad and Tobago",
+    "nameSwe": "Trinidad och Tobago",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flagAlt": "The flag of Trinidad and Tobago has a red field with a white-edged black diagonal band that extends from the upper hoist-side corner to the lower fly-side corner of the field."
+  },
+  {
+    "code": "tn",
+    "name": "Tunisia",
+    "nameSwe": "Tunisien",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Northern Africa",
+    "flagAlt": "The flag of Tunisia has a red field. A white circle bearing a five-pointed red star within a fly-side facing red crescent is situated at the center of the field."
+  },
+  {
+    "code": "tr",
+    "name": "Turkey",
+    "nameSwe": "Turkiet",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flagAlt": "The flag of Turkey has a red field bearing a large fly-side facing white crescent and a smaller five-pointed white star placed just outside the crescent opening. The white crescent and star are offset slightly towards the hoist side of center."
+  },
+  {
+    "code": "tm",
+    "name": "Turkmenistan",
+    "nameSwe": "Turkmenistan",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Central Asia",
+    "flagAlt": "The flag of Turkmenistan has a green field. It features a red vertical band, bearing five carpet guls stacked above two crossed olive branches, near the hoist end of the field. Just to the fly side of the vertical band near the top edge of the field is a hoist-side facing white crescent and five small five-pointed white stars placed just outside the crescent opening."
+  },
+  {
+    "code": "tc",
+    "name": "Turks and Caicos Islands",
+    "nameSwe": "Turks- och Caicosöarna",
+    "independent": false,
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flagAlt": "The flag of the Turks and Caicos Islands is blue with the UK flag in the canton and the colonial shield centered on the fly half. The shield is yellow and displays a conch shell, a spiny lobster, and a cactus."
+  },
+  {
+    "code": "tv",
+    "name": "Tuvalu",
+    "nameSwe": "Tuvalu",
+    "independent": true,
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "flagAlt": "The flag of Tuvalu has a light blue field with the flag of the United Kingdom — the Union Jack — in the canton. A representation of the country's nine Islands using nine five-pointed yellow stars is situated in the fly half of the field."
+  },
+  {
+    "code": "de",
+    "name": "Germany",
+    "nameSwe": "Tyskland",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "flagAlt": "The flag of Germany is composed of three equal horizontal bands of black, red and gold."
+  },
+  {
+    "code": "ug",
+    "name": "Uganda",
+    "nameSwe": "Uganda",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "flagAlt": "The flag of Uganda is composed of six equal horizontal bands of black, yellow, red, black, yellow and red. A white circle bearing a hoist-side facing grey red-crested crane is superimposed in the center of the field."
+  },
+  {
+    "code": "ua",
+    "name": "Ukraine",
+    "nameSwe": "Ukraina",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "flagAlt": "The flag of Ukraine is composed of two equal horizontal bands of blue and yellow."
+  },
+  {
+    "code": "hu",
+    "name": "Hungary",
+    "nameSwe": "Ungern",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Central Europe",
+    "flagAlt": "The flag of Hungary is composed of three equal horizontal bands of red, white and green."
+  },
+  {
+    "code": "uy",
+    "name": "Uruguay",
+    "nameSwe": "Uruguay",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "South America",
+    "flagAlt": "The flag of Uruguay is composed of nine equal horizontal bands of white alternating with blue, with a white square superimposed in the canton. In the white square is a yellow sun bearing a human face — the Sun of May — from which sixteen rays extend. The sun's rays alternate between triangular and wavy."
+  },
+  {
+    "code": "us",
+    "name": "United States",
+    "nameSwe": "USA",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "North America",
+    "flagAlt": "The flag of the United States of America is composed of thirteen equal horizontal bands of red alternating with white. A blue rectangle, bearing fifty small five-pointed white stars arranged in nine rows where rows of six stars alternate with rows of five stars, is superimposed in the canton."
+  },
+  {
+    "code": "uz",
+    "name": "Uzbekistan",
+    "nameSwe": "Uzbekistan",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "Central Asia",
+    "flagAlt": "The flag of Uzbekistan is composed of three equal horizontal bands of turquoise, white with red top and bottom edges, and green. On the hoist side of the turquoise band is a fly-side facing white crescent and twelve five-pointed white stars arranged just outside the crescent opening in three rows comprising three, four and five stars."
+  },
+  {
+    "code": "vu",
+    "name": "Vanuatu",
+    "nameSwe": "Vanuatu",
+    "independent": true,
+    "region": "Oceania",
+    "subregion": "Melanesia",
+    "flagAlt": "The flag of Vanuatu is composed of two equal horizontal bands of red and green, with a black isosceles triangle superimposed on the hoist side of the field. This triangle has its base on the hoist end, spans about two-fifth the width of the field and is enclosed on its sides by the arms of a thin black-edged yellow horizontally oriented Y-shaped band which extends along the boundary of the red and green bands to the fly end of the field. A yellow boar's tusk encircling two yellow crossed namele leaves is centered in the triangle."
+  },
+  {
+    "code": "va",
+    "name": "Vatican City",
+    "nameSwe": "Vatikanstaten",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "flagAlt": "The flag of Vatican City is square shaped. It is composed of two equal vertical bands of yellow and white, with national coat of arms centered in the white band. The national coat of arms comprises the Papal Tiara superimposed on two crossed keys."
+  },
+  {
+    "code": "ve",
+    "name": "Venezuela",
+    "nameSwe": "Venezuela",
+    "independent": true,
+    "region": "Americas",
+    "subregion": "South America",
+    "flagAlt": "The flag of Venezuela is composed of three equal horizontal bands of yellow, blue and red. At the center of the blue band are eight five-pointed white stars arranged in a horizontal arc."
+  },
+  {
+    "code": "vn",
+    "name": "Vietnam",
+    "nameSwe": "Vietnam",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "flagAlt": "The flag of Vietnam features a large five-pointed yellow star on a red field."
+  },
+  {
+    "code": "eh",
+    "name": "Western Sahara",
+    "nameSwe": "Västsahara",
+    "independent": false,
+    "region": "Africa",
+    "subregion": "Northern Africa",
+    "flagAlt": "The flag of Western Sahara has three equal horizontal stripes of black, white, and green overlaid by a red triangle issuing from the hoist. Centered in the white band is a red fly-facing crescent surrounding a red five-pointed star."
+  },
+  {
+    "code": "wf",
+    "name": "Wallis and Futuna",
+    "nameSwe": "Wallis- och Futunaöarna",
+    "independent": false,
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "flagAlt": "The flag of Wallis and Futuna has a red field with four white isosceles triangles in the middle. The apexes of the triangles are oriented inward and at right angles to each other. The flag of France, outlined in white on two sides, is in the canton."
+  },
+  {
+    "code": "zm",
+    "name": "Zambia",
+    "nameSwe": "Zambia",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "flagAlt": "The flag of Zambia has a green field, on the fly side of which is a soaring orange African fish eagle above a rectangular area divided into three equal vertical bands of red, black and orange."
+  },
+  {
+    "code": "zw",
+    "name": "Zimbabwe",
+    "nameSwe": "Zimbabwe",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Southern Africa",
+    "flagAlt": "The flag of Zimbabwe is composed of seven equal horizontal bands of green, yellow, red, black, red, yellow and green, with a white isosceles triangle superimposed on the hoist side of the field. This triangle is edged in black, spans about one-fourth the width of the field and has its base on the hoist end. A yellow Zimbabwe Bird superimposed on a five-pointed red star is centered in the triangle."
+  },
+  {
+    "code": "ax",
+    "name": "Åland Islands",
+    "nameSwe": "Åland",
+    "independent": false,
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "flagAlt": "The flag of the Åland Islands has a blue field with a large golden-yellow-edged red cross that extends to the edges of the field. The vertical part of this cross is offset towards the hoist side."
+  },
+  {
+    "code": "at",
+    "name": "Austria",
+    "nameSwe": "Österrike",
+    "independent": true,
+    "region": "Europe",
+    "subregion": "Central Europe",
+    "flagAlt": "The flag of Austria is composed of three equal horizontal bands of red, white and red."
+  },
+  {
+    "code": "tl",
+    "name": "Timor-Leste",
+    "nameSwe": "Östtimor",
+    "independent": true,
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "flagAlt": "The flag of Timor-Leste has a red field with two isosceles triangles which share a common base on the hoist end. The smaller black triangle, which bears a five-pointed white star at its center and spans one-third the width of the field, is superimposed on the larger yellow triangle that extends to the center of the field."
+  }
+]

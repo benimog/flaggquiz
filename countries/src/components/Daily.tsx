@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import axios from "axios";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -7,21 +6,18 @@ import { createFilterOptions } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import seedrandom from "seedrandom";
 import { Country } from "../types/Country";
+import { getIndependentCountries } from "../data/countries";
 import FeedbackSnackbar from "./feedback/FeedbackSnackbar";
 import GameOverDialog from "./feedback/GameOverDialog";
-import LoadingSpinner from "./LoadingSpinner";
-import ErrorMessage from "./ErrorMessage";
 
 function Daily() {
-  const [countries, setCountries] = useState<Country[]>([]);
+  const countries = getIndependentCountries();
   const [randomCountry, setRandomCountry] = useState<Country | null>(null);
   const [selectedCountry, setSelectedCountry] = useState<Country | string>("");
   const [correctPicks, setCorrectPicks] = useState<number>(0);
   const [incorrectPicks, setIncorrectPicks] = useState<number>(0);
   const [dailyCountries, setDailyCountries] = useState<Country[]>([]);
   const [countryIndex, setCountryIndex] = useState<number>(0);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
   const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "error" as "error" | "info" });
   const [gameOver, setGameOver] = useState({ open: false, message: "" });
   const autocompleteRef = useRef<HTMLDivElement | null>(null);
@@ -32,43 +28,11 @@ function Daily() {
     stringify: (option: Country) => option.translations.swe.common,
   });
 
-  const fetchData = async () => {
-    setLoading(true);
-    setError(false);
-    try {
-      const response = await axios.get(
-        "https://restcountries.com/v3.1/independent?status=true&fields=name,flags,translations"
-      );
-      const sorted = response.data.sort(
-        (
-          a: { translations: { swe: { common: string } } },
-          b: { translations: { swe: { common: string } } }
-        ) =>
-          a.translations.swe.common.localeCompare(
-            b.translations.swe.common,
-            "sv",
-            { sensitivity: "case" }
-          )
-      );
-      setCountryIndex(0);
-      setCountries(sorted);
-    } catch (err) {
-      console.error("Error fetching data:", err);
-      setError(true);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   useEffect(() => {
     if (countries.length > 0) {
       getDailyCountries();
     }
-  }, [countries]);
+  }, []);
 
   useEffect(() => {
     if (dailyCountries.length > 0) {
@@ -181,9 +145,6 @@ function Daily() {
     dayString += date.toLocaleDateString("sv-SE", options).slice(1);
     return dayString;
   };
-
-  if (loading) return <LoadingSpinner />;
-  if (error) return <ErrorMessage onRetry={fetchData} />;
 
   return (
     <div>

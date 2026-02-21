@@ -94,14 +94,14 @@ function About() {
           >
             Martin
           </Link>
-          {" "}med data från{" "}
+          {" "}med flaggor från{" "}
           <Link
-            href="https://restcountries.com/"
+            href="https://flagcdn.com/"
             target="_blank"
             rel="noreferrer"
             color="primary"
           >
-            restcountries
+            flagcdn
           </Link>
           {" "}| {" "}
           <Link

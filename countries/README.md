@@ -18,7 +18,6 @@ npx tsc --noEmit  # type-check without emitting
 - **MUI v5** — UI components, dark theme
 - **react-router-dom v6** — client-side routing (Swedish paths)
 - **react-simple-maps** — SVG map rendering
-- **axios** — REST Countries API requests
 - **seedrandom** — deterministic daily quiz
 - **d3-geo / topojson-client** — map projections
 
@@ -41,7 +40,7 @@ All routes use Swedish paths. Old English paths (`/about`, `/states`, etc.) redi
 
 ## Data Sources
 
-- **Country data**: [restcountries.com](https://restcountries.com/) v3.1 API (Swedish names via `translations.swe.common`)
+- **Country data**: Bundled locally in `src/data/countries.json` with flag images in `public/flags/` (originally sourced from [restcountries.com](https://restcountries.com/) and [flagcdn.com](https://flagcdn.com/))
 - **World map**: Modified `world-atlas` TopoJSON (Crimea reassigned to Ukraine), served from `public/`
 - **Swedish provinces**: [perliedman/svenska-landskap](https://github.com/perliedman/svenska-landskap) GeoJSON (CC0)
 - **US states**: Local TopoJSON in `src/`

@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Typography from "@mui/material/Typography";
 import { Country } from "../types/Country";
+import { getAllCountries, getIndependentCountries } from "../data/countries";
 import { useFlagQuizGame } from "../hooks/useFlagQuizGame";
 import FeedbackSnackbar from "./feedback/FeedbackSnackbar";
-import LoadingSpinner from "./LoadingSpinner";
-import ErrorMessage from "./ErrorMessage";
 import ScoreDisplay from "./ScoreDisplay";
 
 interface FlagQuizProps {
@@ -18,43 +16,10 @@ interface FlagQuizProps {
 
 const FlagQuiz: React.FC<FlagQuizProps> = ({ mode: initialMode }) => {
   const [mode, setMode] = useState<"independent" | "all">(initialMode);
-  const [countries, setCountries] = useState<Country[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
   const [snackbar, setSnackbar] = useState({ open: false, message: "" });
 
-  const fetchData = async () => {
-    setLoading(true);
-    setError(false);
-    try {
-      const url =
-        mode === "independent"
-          ? "https://restcountries.com/v3.1/independent?status=true&fields=name,flags,translations"
-          : "https://restcountries.com/v3.1/all?fields=name,flags,translations";
-      const response = await axios.get(url);
-      const sorted = response.data.sort(
-        (
-          a: { translations: { swe: { common: string } } },
-          b: { translations: { swe: { common: string } } }
-        ) =>
-          a.translations.swe.common.localeCompare(
-            b.translations.swe.common,
-            "sv",
-            { sensitivity: "case" }
-          )
-      );
-      setCountries(sorted);
-    } catch (err) {
-      console.error("Error fetching data:", err);
-      setError(true);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, [mode]);
+  const countries =
+    mode === "independent" ? getIndependentCountries() : getAllCountries();
 
   const {
     randomCountry,
@@ -91,9 +56,6 @@ const FlagQuiz: React.FC<FlagQuizProps> = ({ mode: initialMode }) => {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [choices, randomCountry]);
-
-  if (loading) return <LoadingSpinner />;
-  if (error) return <ErrorMessage onRetry={fetchData} />;
 
   return (
     <div>

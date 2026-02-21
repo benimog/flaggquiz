@@ -14,7 +14,6 @@ Swedish geography quiz app hosted at flaggquiz.se. Built with Create React App +
 - **React 18** with TypeScript 4.9, bootstrapped with CRA
 - **MUI v5** (@mui/material) — all UI components, dark theme
 - **react-router-dom v6** — client-side routing
-- **axios** — HTTP requests to restcountries.com API
 - **react-simple-maps** — SVG map rendering (world map + US states)
 - **seedrandom** — deterministic daily quiz generation
 - **d3-geo / topojson-client** — map projections and data
@@ -35,6 +34,8 @@ src/
 │   ├── useFlagQuizGame.ts    # Shared quiz logic: random country, choices, scoring
 │   └── useMapZoomPan.ts      # Mouse/touch zoom+pan for map components
 ├── data/
+│   ├── countries.json        # All country data (250 entries, sorted by Swedish name)
+│   ├── countries.ts          # Data access: getAllCountries, getIndependentCountries, getCountriesByRegion
 │   └── countryRegions.ts     # TopoJSON country→region mapping, Swedish names, projection configs
 ├── components/
 │   ├── FlagQuiz.tsx           # Main flag quiz (merged Home+FlagGuess), toggle: independent/all
@@ -64,6 +65,7 @@ src/
 
 ```
 public/
+├── flags/                     # ~250 flag PNG images (320px wide, served locally)
 ├── world-countries.json       # World TopoJSON (modified: Crimea → Ukraine)
 ```
 
@@ -93,12 +95,12 @@ src/
 
 Old English routes (`/flags`, `/write`, `/daily`, `/continents`, `/worldmap`, `/states`, `/countries`, `/about`) redirect to their Swedish equivalents via `<Navigate replace />`.
 
-### External API
+### Country Data
 
-All flag quiz data comes from **restcountries.com v3.1**:
-- `GET /v3.1/independent?status=true&fields=name,flags,translations` — independent countries
-- `GET /v3.1/all?fields=name,flags,translations` — all countries & regions
-- `GET /v3.1/region/{region}?fields=name,flags,translations,independent` — by continent
+All country data (names, flag images, regions) is bundled locally in `src/data/countries.json` and served from `public/flags/`. No external API calls are needed — data loads synchronously on import. The data access module `src/data/countries.ts` provides three functions:
+- `getAllCountries()` — all 250 countries/territories
+- `getIndependentCountries()` — independent countries only
+- `getCountriesByRegion(region)` — countries in a given region (with `independent`, `subregion`, `region` fields)
 
 Country names are displayed using `translations.swe.common` (Swedish).
 
@@ -117,7 +119,7 @@ World map TopoJSON is served locally from `public/world-countries.json`. This is
 - **Shared types** live in `src/types/`. The `Country` interface is the main data shape.
 - **Custom hooks** live in `src/hooks/`. `useFlagQuizGame` handles quiz state (random country, choices, score tracking); `useMapZoomPan` handles zoom/pan for map components.
 - **Feedback**: Wrong answers use `FeedbackSnackbar` (auto-dismissing, severity `"error"`). Empty submissions in write-mode quizzes (FlagWrite, Daily) use severity `"info"` to prompt the user. Game completion uses `GameOverDialog`. Never use browser `alert()`.
-- **Loading/error**: All API-fetching components use `loading`/`error` state → render `LoadingSpinner` or `ErrorMessage` with retry.
+- **Loading/error**: Map components that fetch remote data use `loading`/`error` state → render `LoadingSpinner` or `ErrorMessage` with retry. Flag quiz components load data synchronously from the local data module.
 - **Score display**: Use `ScoreDisplay` component for consistent score presentation.
 - **Selection grids**: Use `SelectGrid` for continent/region picker screens.
 - **Styling**: Use MUI `sx` prop and `Typography` variants. Avoid raw HTML tags (`<p>`, `<h1>`) for text. Theme handles dark mode colors — don't hardcode `color: '#fff'` or `backgroundColor: '#282c34'` in components.

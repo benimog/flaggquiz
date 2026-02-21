@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import {
   Box,
   Paper,
@@ -14,35 +13,11 @@ import {
 } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { Country } from "../types/Country";
+import { getAllCountries } from "../data/countries";
 
 const Countries: React.FC = () => {
-  const [data, setData] = useState<Country[] | null>(null);
-  const [copyList, setCopyList] = useState<Country[] | null>(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get<Country[]>(
-          "https://restcountries.com/v3.1/all?fields=name,flags,translations"
-        );
-
-        const sorted = response.data.sort((a, b) =>
-          a.translations.swe.common.localeCompare(
-            b.translations.swe.common,
-            "sv",
-            { sensitivity: "case" }
-          )
-        );
-
-        setData(sorted);
-        setCopyList(sorted);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const data = getAllCountries();
+  const [copyList, setCopyList] = useState<Country[]>(data);
 
   useEffect(() => {
     const contentEl = document.querySelector(".content");
@@ -54,10 +29,6 @@ const Countries: React.FC = () => {
   }, []);
 
   const requestSearch = (searched: string) => {
-    if (!data) {
-      return;
-    }
-
     const value = searched.trim().toLowerCase();
 
     if (!value.length) {
@@ -136,60 +107,52 @@ const Countries: React.FC = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {copyList ? (
-                copyList.map((item) => (
-                  <TableRow
-                    key={item.translations.swe.common}
-                    hover
+              {copyList.map((item) => (
+                <TableRow
+                  key={item.translations.swe.common}
+                  hover
+                  sx={{
+                    display: "table-row",
+                    transition: "background-color 0.2s ease",
+                    "&:nth-of-type(odd)": {
+                      backgroundColor: "rgba(255,255,255,0.02)",
+                    },
+                    "&:hover": {
+                      backgroundColor: "rgba(255,255,255,0.08)",
+                    },
+                  }}
+                >
+                  <TableCell
+                    component="th"
+                    scope="row"
+                    align={isDesktop ? "left" : "right"}
                     sx={{
-                      display: "table-row",
-                      transition: "background-color 0.2s ease",
-                      "&:nth-of-type(odd)": {
-                        backgroundColor: "rgba(255,255,255,0.02)",
-                      },
-                      "&:hover": {
-                        backgroundColor: "rgba(255,255,255,0.08)",
-                      },
+                      fontSize: { xs: "0.95rem", md: "1.05rem" },
+                      fontWeight: 500,
+                      letterSpacing: "0.015em",
+                      width: { xs: "45%", md: "35%" },
+                      whiteSpace: "normal",
                     }}
                   >
-                    <TableCell
-                      component="th"
-                      scope="row"
-                      align={isDesktop ? "left" : "right"}
+                    {item.translations.swe.common}
+                  </TableCell>
+                  <TableCell align="center" sx={{ width: { xs: "55%", md: "65%" } }}>
+                    <Box
+                      component="img"
+                      src={item.flags.png}
+                      alt={item.translations.swe.common}
+                      loading="lazy"
                       sx={{
-                        fontSize: { xs: "0.95rem", md: "1.05rem" },
-                        fontWeight: 500,
-                        letterSpacing: "0.015em",
-                        width: { xs: "45%", md: "35%" },
-                        whiteSpace: "normal",
+                        width: { xs: 96, sm: 120, md: 160 },
+                        maxWidth: "100%",
+                        height: "auto",
+                        borderRadius: 1,
+                        boxShadow: "0 12px 35px rgba(0,0,0,0.25)",
                       }}
-                    >
-                      {item.translations.swe.common}
-                    </TableCell>
-                    <TableCell align="center" sx={{ width: { xs: "55%", md: "65%" } }}>
-                      <Box
-                        component="img"
-                        src={item.flags.png}
-                        alt={item.translations.swe.common}
-                        loading="lazy"
-                        sx={{
-                          width: { xs: 96, sm: 120, md: 160 },
-                          maxWidth: "100%",
-                          height: "auto",
-                          borderRadius: 1,
-                          boxShadow: "0 12px 35px rgba(0,0,0,0.25)",
-                        }}
-                      />
-                    </TableCell>
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={2} align="center">
-                    Hämtar data...
+                    />
                   </TableCell>
                 </TableRow>
-              )}
+              ))}
             </TableBody>
           </Table>
         </TableContainer>

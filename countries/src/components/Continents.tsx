@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState, useMemo } from "react";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useParams, useNavigate } from "react-router-dom";
 import { Country } from "../types/Country";
+import { getCountriesByRegion } from "../data/countries";
 import { useFlagQuizGame } from "../hooks/useFlagQuizGame";
 import FeedbackSnackbar from "./feedback/FeedbackSnackbar";
-import LoadingSpinner from "./LoadingSpinner";
-import ErrorMessage from "./ErrorMessage";
 import ScoreDisplay from "./ScoreDisplay";
 
 const continentNames: Record<string, string> = {
@@ -32,60 +30,28 @@ function Continents() {
   const navigate = useNavigate();
   const selectedRegion = region || "europe";
 
-  const [countries, setCountries] = useState<Country[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-  const [snackbar, setSnackbar] = useState({ open: false, message: "" });
+  const countries = useMemo(() => {
+    const isAmericas =
+      selectedRegion === "north-america" ||
+      selectedRegion === "south-america";
+    const apiRegion = isAmericas ? "americas" : selectedRegion;
 
-  const fetchData = async () => {
-    setLoading(true);
-    setError(false);
-    try {
-      const isAmericas =
-        selectedRegion === "north-america" ||
-        selectedRegion === "south-america";
-      const apiRegion = isAmericas ? "americas" : selectedRegion;
+    const regionCountries = getCountriesByRegion(apiRegion);
 
-      const response = await axios.get(
-        `https://restcountries.com/v3.1/region/${apiRegion}?fields=name,flags,translations,independent,subregion`
+    let independentCountries = regionCountries.filter((e) => e.independent);
+
+    if (isAmericas) {
+      independentCountries = independentCountries.filter((e) =>
+        selectedRegion === "north-america"
+          ? northAmericaSubregions.has(e.subregion)
+          : e.subregion === "South America"
       );
-
-      let independentCountries = response.data.filter(
-        (e: { independent: boolean }) => e.independent === true
-      );
-
-      if (isAmericas) {
-        independentCountries = independentCountries.filter(
-          (e: { subregion: string }) =>
-            selectedRegion === "north-america"
-              ? northAmericaSubregions.has(e.subregion)
-              : e.subregion === "South America"
-        );
-      }
-
-      independentCountries.sort(
-        (
-          a: { translations: { swe: { common: string } } },
-          b: { translations: { swe: { common: string } } }
-        ) =>
-          a.translations.swe.common.localeCompare(
-            b.translations.swe.common,
-            "sv",
-            { sensitivity: "case" }
-          )
-      );
-      setCountries(independentCountries);
-    } catch (err) {
-      console.error("Error fetching data:", err);
-      setError(true);
-    } finally {
-      setLoading(false);
     }
-  };
 
-  useEffect(() => {
-    fetchData();
+    return independentCountries as Country[];
   }, [selectedRegion]);
+
+  const [snackbar, setSnackbar] = useState({ open: false, message: "" });
 
   const {
     randomCountry,
@@ -122,9 +88,6 @@ function Continents() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [choices, randomCountry]);
-
-  if (loading) return <LoadingSpinner />;
-  if (error) return <ErrorMessage onRetry={fetchData} />;
 
   return (
     <div>
