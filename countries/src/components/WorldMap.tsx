@@ -23,7 +23,10 @@ let geoDataPromise: Promise<Record<string, any>> | null = null;
 export function prefetchGeoData(): Promise<Record<string, any>> {
     if (!geoDataPromise) {
         geoDataPromise = fetch("/world-countries.json")
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                return res.json();
+            })
             .then(data => {
                 geoDataCache = data;
                 return data;
