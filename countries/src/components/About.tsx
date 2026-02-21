@@ -25,6 +25,12 @@ function About() {
               — Gissa rätt land utifrån flaggan
             </li>
             <li>
+              <Link component={RouterLink} to="/flaggor" color="primary">
+                Flaggquiz (alla)
+              </Link>{" "}
+              — Alla länder och regioner
+            </li>
+            <li>
               <Link component={RouterLink} to="/skriv" color="primary">
                 Skrivläge
               </Link>{" "}
@@ -49,16 +55,28 @@ function About() {
               — Klicka på rätt land på kartan
             </li>
             <li>
-              <Link component={RouterLink} to="/stater" color="primary">
-                Amerikanska stater
+              <Link component={RouterLink} to="/varldskarta/regioner" color="primary">
+                Världskarta per världsdel
               </Link>{" "}
-              — Klicka på rätt stat
+              — Kartquiz för en världsdel
             </li>
             <li>
               <Link component={RouterLink} to="/landskap" color="primary">
                 Svenska landskap
               </Link>{" "}
               — Klicka på rätt landskap
+            </li>
+            <li>
+              <Link component={RouterLink} to="/stater" color="primary">
+                Amerikanska stater
+              </Link>{" "}
+              — Klicka på rätt stat
+            </li>
+            <li>
+              <Link component={RouterLink} to="/lander" color="primary">
+                Länder & regioner
+              </Link>{" "}
+              — Sökbar lista med alla länder och flaggor
             </li>
           </ul>
         </Typography>
