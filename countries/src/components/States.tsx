@@ -4,9 +4,11 @@ import { Feature } from "geojson";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import { useTranslation } from "react-i18next";
 import usMap from "../us-states.json";
 import states from "../states.json";
 import { useMapZoomPan } from "../hooks/useMapZoomPan";
+import { getUsStateName } from "../i18n/usStateNames";
 import GameOverDialog from "./feedback/GameOverDialog";
 
 interface CustomFeature extends Feature {
@@ -19,6 +21,7 @@ interface CustomFeature extends Feature {
 const statesList = states as string[];
 
 const States: React.FC = () => {
+  const { t, i18n } = useTranslation();
   const [shuffledStates, setShuffledStates] = useState<string[]>([]);
   const [currentState, setCurrentState] = useState<string | null>(null);
   const [score, setScore] = useState<number>(0);
@@ -41,8 +44,8 @@ const States: React.FC = () => {
     containerStyle,
     transformStyle,
     containerHandlers,
-    zoomTip,
   } = useMapZoomPan();
+  const zoomTip = isTouchDevice ? t("common.zoomTipTouch") : t("common.zoomTipMouse");
 
   useEffect(() => {
     const shuffled = [...statesList].sort(() => Math.random() - 0.5);
@@ -67,12 +70,12 @@ const States: React.FC = () => {
       } else {
         setGameOver({
           open: true,
-          message: `Du klarade ${score + 1}/${statesList.length} stater!`,
+          message: t("game.statesResult", { score: score + 1, total: statesList.length }),
         });
       }
     } else {
       setCurrentAttempts((prev) => prev + 1);
-      setTempStateName(stateName);
+      setTempStateName(getUsStateName(stateName, i18n.language));
       setTimeout(() => setTempStateName(null), 2000);
     }
   };
@@ -94,7 +97,7 @@ const States: React.FC = () => {
       } else {
         setGameOver({
           open: true,
-          message: `Du klarade ${score}/${statesList.length} stater!`,
+          message: t("game.statesResult", { score: score, total: statesList.length }),
         });
       }
     }, 2000);
@@ -138,10 +141,10 @@ const States: React.FC = () => {
       }}
     >
       <Typography variant="h5" component="h1" sx={{ m: 0, mb: "5px" }}>
-        {currentState ?? "Laddar..."}
+        {currentState ? getUsStateName(currentState, i18n.language) : t("common.loading")}
       </Typography>
       <Typography variant="body2" sx={{ m: 0, mb: "10px", opacity: 0.8 }}>
-        Poäng: {score}/{statesList.length}
+        {t("scores.points")}: {score}/{statesList.length}
       </Typography>
 
       <Button
@@ -150,7 +153,7 @@ const States: React.FC = () => {
         onClick={handleSkip}
         sx={{ mb: "10px", fontWeight: "bold" }}
       >
-        Hoppa över
+        {t("common.skip")}
       </Button>
 
       {tempStateName && (
@@ -227,7 +230,7 @@ const States: React.FC = () => {
           disabled={zoom >= 20}
           sx={{ fontWeight: "bold", fontSize: "0.85rem" }}
         >
-          Zooma in
+          {t("common.zoomIn")}
         </Button>
         <Button
           variant="contained"
@@ -236,7 +239,7 @@ const States: React.FC = () => {
           disabled={zoom <= 1}
           sx={{ fontWeight: "bold", fontSize: "0.85rem" }}
         >
-          Zooma ut
+          {t("common.zoomOut")}
         </Button>
         <Button
           variant="outlined"
@@ -244,19 +247,19 @@ const States: React.FC = () => {
           onClick={handleResetZoom}
           sx={{ fontWeight: "bold", fontSize: "0.85rem" }}
         >
-          Återställ
+          {t("common.reset")}
         </Button>
       </Stack>
       <Typography variant="body2" sx={{ mt: 0, opacity: 0.8, mb: "5px" }}>
-        Tips: {zoomTip}
+        {t("common.tip")}: {zoomTip}
       </Typography>
       <Typography variant="caption" sx={{ m: 0, opacity: 0.6 }}>
-        Zoom: {Math.round(zoom * 100)}%
+        {t("common.zoom")}: {Math.round(zoom * 100)}%
       </Typography>
 
       <GameOverDialog
         open={gameOver.open}
-        title="Väl spelat!"
+        title={t("game.wellPlayed")}
         message={gameOver.message}
         onClose={() => setGameOver({ open: false, message: "" })}
         onPlayAgain={handlePlayAgain}

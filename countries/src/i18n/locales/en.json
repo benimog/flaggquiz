@@ -1,0 +1,119 @@
+{
+  "common": {
+    "reset": "Reset",
+    "playAgain": "Play again",
+    "close": "Close",
+    "tryAgain": "Try again",
+    "loading": "Loading...",
+    "answer": "Answer",
+    "skip": "Skip",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "tip": "Tip",
+    "zoom": "Zoom",
+    "zoomTipTouch": "Pinch to zoom. Drag the map to pan.",
+    "zoomTipMouse": "Scroll to zoom. Drag the map to pan.",
+    "country": "Country",
+    "appName": "Flaggquiz.se"
+  },
+  "menu": {
+    "button": "Menu",
+    "sectionFlagquiz": "Flag quiz",
+    "sectionMapquiz": "Map quiz",
+    "sectionOther": "Other",
+    "flagquiz": "Flag quiz",
+    "writeMode": "Write mode",
+    "daily": "Daily",
+    "continent": "Continent",
+    "worldMap": "World map",
+    "provinces": "Swedish provinces",
+    "usStates": "US states",
+    "countries": "Countries & regions",
+    "about": "About flaggquiz",
+    "language": "Language",
+    "swedish": "Svenska",
+    "english": "English"
+  },
+  "quiz": {
+    "pickCountry": "Pick the correct country for the flag",
+    "pickFirst": "Pick a country first!",
+    "wrongAnswerIs": "Wrong! The correct answer is {{answer}}",
+    "independentCountries": "Independent countries",
+    "allCountries": "All countries & regions",
+    "changeContinent": "\u2190 Change continent",
+    "flagXofY": "Flag {{index}} of {{total}}",
+    "title": "Flag quiz - {{continent}}"
+  },
+  "scores": {
+    "correct": "Correct answers",
+    "incorrect": "Incorrect answers",
+    "points": "Score"
+  },
+  "game": {
+    "wellPlayed": "Well played!",
+    "dailyResult": "You got {{correct}} right and {{incorrect}} wrong.",
+    "mapResult": "You got {{score}}/{{total}} countries!",
+    "statesResult": "You got {{score}}/{{total}} states!",
+    "landskapResult": "You got {{score}}/{{total}} provinces!"
+  },
+  "pages": {
+    "continentSelect": {
+      "title": "Pick a continent",
+      "subtitle": "Play flag quiz with countries from a specific continent"
+    },
+    "regionMapSelect": {
+      "title": "Pick a continent",
+      "subtitle": "Play map quiz with countries from a specific continent"
+    },
+    "countries": {
+      "title": "Countries & territories",
+      "description": "Explore the countries of the world and their flags. Use the search box to quickly find a country.",
+      "searchPlaceholder": "Search...",
+      "headerCountry": "Country / region",
+      "headerFlag": "Flag"
+    },
+    "about": {
+      "welcome": "Welcome to flaggquiz.se",
+      "gameModesHeading": "Game modes",
+      "keyboardHeading": "Keyboard",
+      "keyboardIntro": "You can use the keyboard to answer in the flag quiz.",
+      "keyboardAlt": "Use the keys 7, 8, 4, 5",
+      "keyboardCaption": "Use the keys 7, 8, 4, 5 as shown in the image",
+      "createdBy": "Created by",
+      "withFlagsFrom": "with flags from",
+      "modes": {
+        "flagquiz": "Flag quiz",
+        "flagquizDesc": "Guess the correct country from the flag",
+        "flagquizAll": "Flag quiz (all)",
+        "flagquizAllDesc": "All countries and regions",
+        "writeMode": "Write mode",
+        "writeModeDesc": "Type the country's name yourself",
+        "daily": "Daily",
+        "dailyDesc": "10 new flags every day",
+        "continent": "Continent",
+        "continentDesc": "Flag quiz per continent",
+        "worldMap": "World map",
+        "worldMapDesc": "Click the correct country on the map",
+        "regionMap": "World map per continent",
+        "regionMapDesc": "Map quiz for a continent",
+        "provinces": "Swedish provinces",
+        "provincesDesc": "Click the correct province",
+        "usStates": "US states",
+        "usStatesDesc": "Click the correct state",
+        "countries": "Countries & regions",
+        "countriesDesc": "Searchable list of all countries and flags"
+      }
+    }
+  },
+  "continents": {
+    "europe": "Europe",
+    "africa": "Africa",
+    "north-america": "North America",
+    "south-america": "South America",
+    "asia": "Asia",
+    "oceania": "Oceania"
+  },
+  "errors": {
+    "fetchFailed": "Could not fetch data"
+  }
+}

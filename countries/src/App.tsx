@@ -1,5 +1,7 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import "./App.css";
+import "./i18n";
 import { BrowserRouter as Router, Routes, Route, Navigate, useParams } from "react-router-dom";
 import PopdownMenu from "./components/PopdownMenu";
 import LoadingSpinner from "./components/LoadingSpinner";
@@ -30,6 +32,19 @@ function RedirectWorldmapRegion() {
 }
 
 function App() {
+  const { i18n } = useTranslation();
+
+  useEffect(() => {
+    const applyLang = (lng: string) => {
+      document.documentElement.lang = lng.startsWith("en") ? "en" : "sv";
+    };
+    applyLang(i18n.language);
+    i18n.on("languageChanged", applyLang);
+    return () => {
+      i18n.off("languageChanged", applyLang);
+    };
+  }, [i18n]);
+
   return (
     <Router>
       <div className="App">

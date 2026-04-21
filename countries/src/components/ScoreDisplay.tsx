@@ -2,6 +2,7 @@ import React from "react";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
+import { useTranslation } from "react-i18next";
 
 interface ScoreDisplayProps {
   correct: number;
@@ -16,15 +17,18 @@ const ScoreDisplay: React.FC<ScoreDisplayProps> = ({
   total,
   onReset,
 }) => {
+  const { t } = useTranslation();
   return (
     <Box sx={{ mt: 2 }}>
       <Typography variant="body1">
-        Rätta svar: {correct}
+        {t("scores.correct")}: {correct}
         {total != null ? ` / ${total}` : ""}
       </Typography>
-      <Typography variant="body1">Felaktiga svar: {incorrect}</Typography>
+      <Typography variant="body1">
+        {t("scores.incorrect")}: {incorrect}
+      </Typography>
       <Button variant="contained" onClick={onReset} sx={{ mt: 1 }}>
-        Återställ
+        {t("common.reset")}
       </Button>
     </Box>
   );

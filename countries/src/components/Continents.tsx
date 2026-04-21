@@ -3,20 +3,13 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useParams, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Country } from "../types/Country";
 import { getCountriesByRegion } from "../data/countries";
 import { useFlagQuizGame } from "../hooks/useFlagQuizGame";
+import { getCountryName } from "../i18n/countryNames";
 import FeedbackSnackbar from "./feedback/FeedbackSnackbar";
 import ScoreDisplay from "./ScoreDisplay";
-
-const continentNames: Record<string, string> = {
-  africa: "Afrika",
-  "north-america": "Nordamerika",
-  "south-america": "Sydamerika",
-  asia: "Asien",
-  europe: "Europa",
-  oceania: "Oceanien",
-};
 
 // REST Countries API subregions that belong to North America
 const northAmericaSubregions = new Set([
@@ -26,6 +19,7 @@ const northAmericaSubregions = new Set([
 ]);
 
 function Continents() {
+  const { t, i18n } = useTranslation();
   const { region } = useParams<{ region: string }>();
   const navigate = useNavigate();
   const selectedRegion = region || "europe";
@@ -64,10 +58,12 @@ function Continents() {
 
   const onChoice = (choice: Country) => {
     const result = handleChoice(choice);
-    if (!result.correct) {
+    if (!result.correct && result.answer) {
       setSnackbar({
         open: true,
-        message: `Fel! Rätt svar är ${result.answer}`,
+        message: t("quiz.wrongAnswerIs", {
+          answer: getCountryName(result.answer, i18n.language),
+        }),
       });
     }
   };
@@ -89,17 +85,19 @@ function Continents() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [choices, randomCountry]);
 
+  const continentLabel = t(`continents.${selectedRegion}`, { defaultValue: selectedRegion });
+
   return (
     <div>
       <Typography variant="h5" component="h2">
-        Flaggquiz - {continentNames[selectedRegion] || selectedRegion}
+        {t("quiz.title", { continent: continentLabel })}
       </Typography>
       <Button
         variant="outlined"
         onClick={() => navigate("/varldsdelar")}
         sx={{ mb: 2 }}
       >
-        &larr; Byt världsdel
+        {t("quiz.changeContinent")}
       </Button>
 
       {randomCountry && (
@@ -121,10 +119,10 @@ function Continents() {
                   {choices.slice(0, 2).map((choice) => (
                     <Button
                       variant="contained"
-                      key={choice.translations.swe.common}
+                      key={choice.name.common}
                       onClick={() => onChoice(choice)}
                     >
-                      {choice.translations.swe.common}
+                      {getCountryName(choice, i18n.language)}
                     </Button>
                   ))}
                 </Stack>
@@ -132,10 +130,10 @@ function Continents() {
                   {choices.slice(2).map((choice) => (
                     <Button
                       variant="contained"
-                      key={choice.translations.swe.common}
+                      key={choice.name.common}
                       onClick={() => onChoice(choice)}
                     >
-                      {choice.translations.swe.common}
+                      {getCountryName(choice, i18n.language)}
                     </Button>
                   ))}
                 </Stack>

@@ -198,6 +198,7 @@ export const countryToRegion: Record<string, RegionSlug> = {
 // Per-region projection config and display metadata
 export interface RegionConfig {
     nameSwedish: string;
+    nameEnglish: string;
     emoji: string;
     scale: number;
     center: [number, number];
@@ -207,6 +208,7 @@ export interface RegionConfig {
 export const regionConfigs: Record<RegionSlug, RegionConfig> = {
     "europe": {
         nameSwedish: "Europa",
+        nameEnglish: "Europe",
         emoji: "🇪🇺",
         scale: 400,
         center: [15, 50],
@@ -214,6 +216,7 @@ export const regionConfigs: Record<RegionSlug, RegionConfig> = {
     },
     "africa": {
         nameSwedish: "Afrika",
+        nameEnglish: "Africa",
         emoji: "🌍",
         scale: 210,
         center: [20, 5],
@@ -221,6 +224,7 @@ export const regionConfigs: Record<RegionSlug, RegionConfig> = {
     },
     "north-america": {
         nameSwedish: "Nordamerika",
+        nameEnglish: "North America",
         emoji: "🌎",
         scale: 250,
         center: [-90, 35],
@@ -228,6 +232,7 @@ export const regionConfigs: Record<RegionSlug, RegionConfig> = {
     },
     "south-america": {
         nameSwedish: "Sydamerika",
+        nameEnglish: "South America",
         emoji: "🌎",
         scale: 200,
         center: [-60, -27],
@@ -235,6 +240,7 @@ export const regionConfigs: Record<RegionSlug, RegionConfig> = {
     },
     "asia": {
         nameSwedish: "Asien",
+        nameEnglish: "Asia",
         emoji: "🌏",
         scale: 210,
         center: [80, 26],
@@ -242,12 +248,45 @@ export const regionConfigs: Record<RegionSlug, RegionConfig> = {
     },
     "oceania": {
         nameSwedish: "Oceanien",
+        nameEnglish: "Oceania",
         emoji: "🏝️",
         scale: 300,
         center: [150, -28],
         rotate: [0, 0, 0],
     },
 };
+
+export function getRegionDisplayName(slug: RegionSlug, language: string): string {
+    const cfg = regionConfigs[slug];
+    return language.startsWith("en") ? cfg.nameEnglish : cfg.nameSwedish;
+}
+
+// English display names for TopoJSON country keys that are abbreviated or aliased.
+// If a key is missing, the TopoJSON key itself is used as the English display name.
+export const countryNamesEnglish: Record<string, string> = {
+    "Bosnia and Herz.": "Bosnia and Herzegovina",
+    "Central African Rep.": "Central African Republic",
+    "Czechia": "Czech Republic",
+    "Dem. Rep. Congo": "Democratic Republic of the Congo",
+    "Democratic Republic Congo": "Democratic Republic of the Congo",
+    "Dominican Rep.": "Dominican Republic",
+    "Eq. Guinea": "Equatorial Guinea",
+    "eSwatini": "Eswatini",
+    "Falkland Is.": "Falkland Islands",
+    "Macedonia": "North Macedonia",
+    "N. Cyprus": "Northern Cyprus",
+    "S. Sudan": "South Sudan",
+    "Solomon Is.": "Solomon Islands",
+    "United States of America": "United States of America",
+    "W. Sahara": "Western Sahara",
+};
+
+export function getCountryDisplayName(topoName: string, language: string): string {
+    if (language.startsWith("en")) {
+        return countryNamesEnglish[topoName] ?? topoName;
+    }
+    return countryNamesSwedish[topoName] ?? topoName;
+}
 
 // Swedish names for all TopoJSON countries
 export const countryNamesSwedish: Record<string, string> = {

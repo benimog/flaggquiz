@@ -1,12 +1,13 @@
 import React, { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { Feature } from "geojson";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useMapZoomPan } from "../hooks/useMapZoomPan";
-import { countryToRegion, regionConfigs, countryNamesSwedish, RegionSlug } from "../data/countryRegions";
+import { countryToRegion, regionConfigs, getCountryDisplayName, getRegionDisplayName, RegionSlug } from "../data/countryRegions";
 import GameOverDialog from "./feedback/GameOverDialog";
 
 interface CustomFeature extends Feature {
@@ -76,10 +77,6 @@ function getActiveGeoStyle(fillColor: string, isSkipped: boolean, isTouchDevice:
         activeStyleCache.set(key, cached);
     }
     return cached;
-}
-
-function getSwedishName(englishName: string): string {
-    return countryNamesSwedish[englishName] || englishName;
 }
 
 function isInRegion(countryName: string, region: RegionSlug | undefined): boolean {
@@ -175,6 +172,7 @@ interface WorldMapProps {
 
 const WorldMapInner: React.FC<WorldMapProps> = ({ region }) => {
     const navigate = useNavigate();
+    const { t, i18n } = useTranslation();
     const [geoData, setGeoData] = useState<Record<string, any> | null>(geoDataCache);
     const [countries, setCountries] = useState<string[]>([]);
     const [shuffledCountries, setShuffledCountries] = useState<string[]>([]);
@@ -208,8 +206,8 @@ const WorldMapInner: React.FC<WorldMapProps> = ({ region }) => {
         containerStyle,
         transformStyle,
         containerHandlers,
-        zoomTip,
     } = useMapZoomPan();
+    const zoomTip = isTouchDevice ? t("common.zoomTipTouch") : t("common.zoomTipMouse");
 
     const isDraggingRef = useRef(false);
     const hasMovedRef = useRef(false);
@@ -250,7 +248,7 @@ const WorldMapInner: React.FC<WorldMapProps> = ({ region }) => {
                         setTimeout(() => {
                             setGameOver({
                                 open: true,
-                                message: `Du klarade ${score + 1}/${prevCountries.length} länder!`,
+                                message: t("game.mapResult", { score: score + 1, total: prevCountries.length }),
                             });
                         }, 0);
                         return prevCountries;
@@ -260,12 +258,12 @@ const WorldMapInner: React.FC<WorldMapProps> = ({ region }) => {
             });
         } else {
             setCurrentAttempts((prev) => prev + 1);
-            setTempCountryName(getSwedishName(countryName));
+            setTempCountryName(getCountryDisplayName(countryName, i18n.language));
             setTimeout(() => {
                 setTempCountryName(null);
             }, 2000);
         }
-    }, [currentCountry, skippedCountry, currentAttempts, score]);
+    }, [currentCountry, skippedCountry, currentAttempts, score, i18n.language, t]);
 
     const handleSkip = useCallback(() => {
         if (!currentCountry || skippedCountry) return;
@@ -287,7 +285,7 @@ const WorldMapInner: React.FC<WorldMapProps> = ({ region }) => {
                         setTimeout(() => {
                             setGameOver({
                                 open: true,
-                                message: `Du klarade ${score}/${prevCountries.length} länder!`,
+                                message: t("game.mapResult", { score: score, total: prevCountries.length }),
                             });
                         }, 0);
                         return prevCountries;
@@ -296,7 +294,7 @@ const WorldMapInner: React.FC<WorldMapProps> = ({ region }) => {
                 return prevShuffled;
             });
         }, 2000);
-    }, [currentCountry, skippedCountry, currentAttempts, score]);
+    }, [currentCountry, skippedCountry, currentAttempts, score, t]);
 
     const handlePlayAgain = () => {
         setGameOver({ open: false, message: "" });
@@ -330,9 +328,9 @@ const WorldMapInner: React.FC<WorldMapProps> = ({ region }) => {
                 alignItems: "center",
             }}
         >
-            {regionConfig && (
+            {regionConfig && region && (
                 <Typography variant="body2" sx={{ m: 0, opacity: 0.7 }}>
-                    {regionConfig.emoji} {regionConfig.nameSwedish}
+                    {regionConfig.emoji} {getRegionDisplayName(region, i18n.language)}
                 </Typography>
             )}
             {regionConfig && (
@@ -342,15 +340,15 @@ const WorldMapInner: React.FC<WorldMapProps> = ({ region }) => {
                     onClick={() => navigate("/varldskarta/regioner")}
                     sx={{ fontWeight: "bold", fontSize: "0.7rem", padding: "2px 8px", mb: "2px" }}
                 >
-                    Byt världsdel
+                    {t("quiz.changeContinent")}
                 </Button>
             )}
 
             <Typography variant="h5" component="h1" sx={{ my: "2px", fontSize: "1.4em" }}>
-                {currentCountry ? getSwedishName(currentCountry) : "Laddar..."}
+                {currentCountry ? getCountryDisplayName(currentCountry, i18n.language) : t("common.loading")}
             </Typography>
             <Typography variant="body2" sx={{ m: 0, mb: "4px" }}>
-                Poäng: {score}/{countries.length}
+                {t("scores.points")}: {score}/{countries.length}
             </Typography>
 
             <Button
@@ -359,7 +357,7 @@ const WorldMapInner: React.FC<WorldMapProps> = ({ region }) => {
                 onClick={handleSkip}
                 sx={{ mb: "4px", fontWeight: "bold", fontSize: "0.7rem", padding: "2px 10px" }}
             >
-                Hoppa över
+                {t("common.skip")}
             </Button>
 
             {tempCountryName && (
@@ -418,7 +416,7 @@ const WorldMapInner: React.FC<WorldMapProps> = ({ region }) => {
                     disabled={zoom >= 20}
                     sx={{ fontWeight: "bold", fontSize: "0.85rem" }}
                 >
-                    Zooma in
+                    {t("common.zoomIn")}
                 </Button>
                 <Button
                     variant="contained"
@@ -427,7 +425,7 @@ const WorldMapInner: React.FC<WorldMapProps> = ({ region }) => {
                     disabled={zoom <= 1}
                     sx={{ fontWeight: "bold", fontSize: "0.85rem" }}
                 >
-                    Zooma ut
+                    {t("common.zoomOut")}
                 </Button>
                 <Button
                     variant="outlined"
@@ -435,16 +433,16 @@ const WorldMapInner: React.FC<WorldMapProps> = ({ region }) => {
                     onClick={handleResetZoom}
                     sx={{ fontWeight: "bold", fontSize: "0.85rem" }}
                 >
-                    Återställ
+                    {t("common.reset")}
                 </Button>
             </Stack>
             <Typography variant="body2" sx={{ mt: 0, opacity: 0.8, mb: "2px" }}>
-                Tips: {zoomTip}
+                {t("common.tip")}: {zoomTip}
             </Typography>
 
             <GameOverDialog
                 open={gameOver.open}
-                title="Väl spelat!"
+                title={t("game.wellPlayed")}
                 message={gameOver.message}
                 onClose={() => setGameOver({ open: false, message: "" })}
                 onPlayAgain={handlePlayAgain}

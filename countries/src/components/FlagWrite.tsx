@@ -4,12 +4,15 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { createFilterOptions } from "@mui/material";
 import Typography from "@mui/material/Typography";
+import { useTranslation } from "react-i18next";
 import { Country } from "../types/Country";
 import { getIndependentCountries } from "../data/countries";
+import { getCountryName } from "../i18n/countryNames";
 import FeedbackSnackbar from "./feedback/FeedbackSnackbar";
 import ScoreDisplay from "./ScoreDisplay";
 
 function FlagWrite() {
+  const { t, i18n } = useTranslation();
   const countries = getIndependentCountries();
   const [randomCountry, setRandomCountry] = useState<Country | null>(null);
   const [selectedCountry, setSelectedCountry] = useState<Country | string>("");
@@ -20,7 +23,7 @@ function FlagWrite() {
 
   const filterOptions = createFilterOptions({
     matchFrom: "start",
-    stringify: (option: Country) => option.translations.swe.common,
+    stringify: (option: Country) => getCountryName(option, i18n.language),
   });
 
   useEffect(() => {
@@ -38,7 +41,7 @@ function FlagWrite() {
 
   const handleChoice = () => {
     if (!selectedCountry || typeof selectedCountry === "string") {
-      setSnackbar({ open: true, message: "Välj ett land först!", severity: "info" });
+      setSnackbar({ open: true, message: t("quiz.pickFirst"), severity: "info" });
       return;
     }
     if (selectedCountry === randomCountry) {
@@ -47,7 +50,9 @@ function FlagWrite() {
       setIncorrectPicks((prev) => prev + 1);
       setSnackbar({
         open: true,
-        message: `Fel! Rätt svar är ${randomCountry?.translations.swe.common}`,
+        message: t("quiz.wrongAnswerIs", {
+          answer: randomCountry ? getCountryName(randomCountry, i18n.language) : "",
+        }),
         severity: "error",
       });
     }
@@ -68,7 +73,7 @@ function FlagWrite() {
   return (
     <div>
       <Typography variant="body1" sx={{ mb: 1 }}>
-        Välj rätt land för flaggan
+        {t("quiz.pickCountry")}
       </Typography>
       {randomCountry && (
         <div>
@@ -88,14 +93,16 @@ function FlagWrite() {
             id="country-combo-box"
             options={countries}
             filterOptions={filterOptions}
-            getOptionLabel={(option) => option.translations.swe.common}
+            getOptionLabel={(option) => getCountryName(option, i18n.language)}
             renderOption={(props, option) => (
-              <li {...props}>{option.translations.swe.common}</li>
+              <li {...props} key={option.name.common}>
+                {getCountryName(option, i18n.language)}
+              </li>
             )}
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="Land"
+                label={t("common.country")}
                 onKeyDown={(event) => {
                   if (event.key === "Enter" && selectedCountry) {
                     handleChoice();
@@ -110,7 +117,7 @@ function FlagWrite() {
           />
           <div>
             <Button variant="contained" onClick={() => handleChoice()}>
-              Svara
+              {t("common.answer")}
             </Button>
             <ScoreDisplay
               correct={correctPicks}

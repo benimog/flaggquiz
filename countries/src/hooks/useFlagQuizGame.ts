@@ -6,7 +6,7 @@ interface UseFlagQuizGameReturn {
   choices: Country[];
   correctPicks: number;
   incorrectPicks: number;
-  handleChoice: (choice: Country) => { correct: boolean; answer: string };
+  handleChoice: (choice: Country) => { correct: boolean; answer: Country | null };
   resetPicks: () => void;
 }
 
@@ -50,7 +50,7 @@ export function useFlagQuizGame(countries: Country[]): UseFlagQuizGameReturn {
   }, [countries, getRandomCountry]);
 
   const handleChoice = useCallback(
-    (choice: Country): { correct: boolean; answer: string } => {
+    (choice: Country): { correct: boolean; answer: Country | null } => {
       const correct = choice === randomCountry;
       if (correct) {
         setCorrectPicks((prev) => prev + 1);
@@ -60,7 +60,7 @@ export function useFlagQuizGame(countries: Country[]): UseFlagQuizGameReturn {
       getRandomCountry();
       return {
         correct,
-        answer: randomCountry?.translations.swe.common || "",
+        answer: randomCountry,
       };
     },
     [randomCountry, getRandomCountry]

@@ -4,9 +4,11 @@ import { Feature } from "geojson";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import { useTranslation } from "react-i18next";
 import landskapMap from "../svenska-landskap.json";
 import landskap from "../landskap.json";
 import { useMapZoomPan } from "../hooks/useMapZoomPan";
+import { getLandskapName } from "../i18n/landskapNames";
 import GameOverDialog from "./feedback/GameOverDialog";
 
 interface CustomFeature extends Feature {
@@ -19,6 +21,7 @@ interface CustomFeature extends Feature {
 const landskapList = landskap as string[];
 
 const Landskap: React.FC = () => {
+  const { t, i18n } = useTranslation();
   const [shuffledLandskap, setShuffledLandskap] = useState<string[]>([]);
   const [currentLandskap, setCurrentLandskap] = useState<string | null>(null);
   const [score, setScore] = useState<number>(0);
@@ -41,8 +44,8 @@ const Landskap: React.FC = () => {
     containerStyle,
     transformStyle,
     containerHandlers,
-    zoomTip,
   } = useMapZoomPan();
+  const zoomTip = isTouchDevice ? t("common.zoomTipTouch") : t("common.zoomTipMouse");
 
   useEffect(() => {
     const shuffled = [...landskapList].sort(() => Math.random() - 0.5);
@@ -67,12 +70,12 @@ const Landskap: React.FC = () => {
       } else {
         setGameOver({
           open: true,
-          message: `Du klarade ${score + 1}/${landskapList.length} landskap!`,
+          message: t("game.landskapResult", { score: score + 1, total: landskapList.length }),
         });
       }
     } else {
       setCurrentAttempts((prev) => prev + 1);
-      setTempLandskapName(landskapName);
+      setTempLandskapName(getLandskapName(landskapName, i18n.language));
       setTimeout(() => setTempLandskapName(null), 2000);
     }
   };
@@ -94,7 +97,7 @@ const Landskap: React.FC = () => {
       } else {
         setGameOver({
           open: true,
-          message: `Du klarade ${score}/${landskapList.length} landskap!`,
+          message: t("game.landskapResult", { score: score, total: landskapList.length }),
         });
       }
     }, 2000);
@@ -138,10 +141,10 @@ const Landskap: React.FC = () => {
       }}
     >
       <Typography variant="h5" component="h1" sx={{ m: 0, mb: "5px" }}>
-        {currentLandskap ?? "Laddar..."}
+        {currentLandskap ? getLandskapName(currentLandskap, i18n.language) : t("common.loading")}
       </Typography>
       <Typography variant="body2" sx={{ m: 0, mb: "10px", opacity: 0.8 }}>
-        Poäng: {score}/{landskapList.length}
+        {t("scores.points")}: {score}/{landskapList.length}
       </Typography>
 
       <Button
@@ -150,7 +153,7 @@ const Landskap: React.FC = () => {
         onClick={handleSkip}
         sx={{ mb: "10px", fontWeight: "bold" }}
       >
-        Hoppa över
+        {t("common.skip")}
       </Button>
 
       {tempLandskapName && (
@@ -233,7 +236,7 @@ const Landskap: React.FC = () => {
           disabled={zoom >= 20}
           sx={{ fontWeight: "bold", fontSize: "0.85rem" }}
         >
-          Zooma in
+          {t("common.zoomIn")}
         </Button>
         <Button
           variant="contained"
@@ -242,7 +245,7 @@ const Landskap: React.FC = () => {
           disabled={zoom <= 1}
           sx={{ fontWeight: "bold", fontSize: "0.85rem" }}
         >
-          Zooma ut
+          {t("common.zoomOut")}
         </Button>
         <Button
           variant="outlined"
@@ -250,19 +253,19 @@ const Landskap: React.FC = () => {
           onClick={handleResetZoom}
           sx={{ fontWeight: "bold", fontSize: "0.85rem" }}
         >
-          Återställ
+          {t("common.reset")}
         </Button>
       </Stack>
       <Typography variant="body2" sx={{ mt: 0, opacity: 0.8, mb: "5px" }}>
-        Tips: {zoomTip}
+        {t("common.tip")}: {zoomTip}
       </Typography>
       <Typography variant="caption" sx={{ m: 0, opacity: 0.6 }}>
-        Zoom: {Math.round(zoom * 100)}%
+        {t("common.zoom")}: {Math.round(zoom * 100)}%
       </Typography>
 
       <GameOverDialog
         open={gameOver.open}
-        title="Väl spelat!"
+        title={t("game.wellPlayed")}
         message={gameOver.message}
         onClose={() => setGameOver({ open: false, message: "" })}
         onPlayAgain={handlePlayAgain}

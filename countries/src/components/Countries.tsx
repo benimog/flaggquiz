@@ -12,10 +12,13 @@ import {
   Typography,
 } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTranslation } from "react-i18next";
 import { Country } from "../types/Country";
 import { getAllCountries } from "../data/countries";
+import { getCountryName } from "../i18n/countryNames";
 
 const Countries: React.FC = () => {
+  const { t, i18n } = useTranslation();
   const data = getAllCountries();
   const [copyList, setCopyList] = useState<Country[]>(data);
 
@@ -38,7 +41,7 @@ const Countries: React.FC = () => {
 
     setCopyList(
       data.filter((item) =>
-        item.translations.swe.common.toLowerCase().includes(value)
+        getCountryName(item, i18n.language).toLowerCase().includes(value)
       )
     );
   };
@@ -58,17 +61,16 @@ const Countries: React.FC = () => {
       <Box sx={{ maxWidth: "1200px", mx: "auto" }}>
         <Box sx={{ textAlign: "center", mb: 3 }}>
           <Typography variant="h4" component="h1" gutterBottom>
-            Länder & territorier
+            {t("pages.countries.title")}
           </Typography>
           <Typography variant="body1" color="text.secondary">
-            Utforska världens länder och deras flaggor. Använd sökfältet för att
-            snabbt hitta ett land.
+            {t("pages.countries.description")}
           </Typography>
         </Box>
 
         <TextField
           variant="outlined"
-          placeholder="Sök..."
+          placeholder={t("pages.countries.searchPlaceholder")}
           type="search"
           onChange={(e) => requestSearch(e.target.value)}
           InputProps={{ sx: { borderRadius: 999 } }}
@@ -96,63 +98,66 @@ const Countries: React.FC = () => {
               <TableRow>
                 <TableCell align={isDesktop ? "left" : "center"}>
                   <Typography component="span" variant="subtitle1" fontWeight={600}>
-                    Land / region
+                    {t("pages.countries.headerCountry")}
                   </Typography>
                 </TableCell>
                 <TableCell align="center">
                   <Typography component="span" variant="subtitle1" fontWeight={600}>
-                    Flagga
+                    {t("pages.countries.headerFlag")}
                   </Typography>
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {copyList.map((item) => (
-                <TableRow
-                  key={item.translations.swe.common}
-                  hover
-                  sx={{
-                    display: "table-row",
-                    transition: "background-color 0.2s ease",
-                    "&:nth-of-type(odd)": {
-                      backgroundColor: "rgba(255,255,255,0.02)",
-                    },
-                    "&:hover": {
-                      backgroundColor: "rgba(255,255,255,0.08)",
-                    },
-                  }}
-                >
-                  <TableCell
-                    component="th"
-                    scope="row"
-                    align={isDesktop ? "left" : "right"}
+              {copyList.map((item) => {
+                const displayName = getCountryName(item, i18n.language);
+                return (
+                  <TableRow
+                    key={item.name.common}
+                    hover
                     sx={{
-                      fontSize: { xs: "0.95rem", md: "1.05rem" },
-                      fontWeight: 500,
-                      letterSpacing: "0.015em",
-                      width: { xs: "45%", md: "35%" },
-                      whiteSpace: "normal",
+                      display: "table-row",
+                      transition: "background-color 0.2s ease",
+                      "&:nth-of-type(odd)": {
+                        backgroundColor: "rgba(255,255,255,0.02)",
+                      },
+                      "&:hover": {
+                        backgroundColor: "rgba(255,255,255,0.08)",
+                      },
                     }}
                   >
-                    {item.translations.swe.common}
-                  </TableCell>
-                  <TableCell align="center" sx={{ width: { xs: "55%", md: "65%" } }}>
-                    <Box
-                      component="img"
-                      src={item.flags.png}
-                      alt={item.translations.swe.common}
-                      loading="lazy"
+                    <TableCell
+                      component="th"
+                      scope="row"
+                      align={isDesktop ? "left" : "right"}
                       sx={{
-                        width: { xs: 96, sm: 120, md: 160 },
-                        maxWidth: "100%",
-                        height: "auto",
-                        borderRadius: 1,
-                        boxShadow: "0 12px 35px rgba(0,0,0,0.25)",
+                        fontSize: { xs: "0.95rem", md: "1.05rem" },
+                        fontWeight: 500,
+                        letterSpacing: "0.015em",
+                        width: { xs: "45%", md: "35%" },
+                        whiteSpace: "normal",
                       }}
-                    />
-                  </TableCell>
-                </TableRow>
-              ))}
+                    >
+                      {displayName}
+                    </TableCell>
+                    <TableCell align="center" sx={{ width: { xs: "55%", md: "65%" } }}>
+                      <Box
+                        component="img"
+                        src={item.flags.png}
+                        alt={displayName}
+                        loading="lazy"
+                        sx={{
+                          width: { xs: 96, sm: 120, md: 160 },
+                          maxWidth: "100%",
+                          height: "auto",
+                          borderRadius: 1,
+                          boxShadow: "0 12px 35px rgba(0,0,0,0.25)",
+                        }}
+                      />
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         </TableContainer>

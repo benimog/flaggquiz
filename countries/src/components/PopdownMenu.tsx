@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   AppBar,
   Box,
@@ -9,46 +10,51 @@ import {
   MenuItem,
   Typography,
   Divider,
+  ToggleButton,
+  ToggleButtonGroup,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 
 interface MenuSection {
-  title: string;
-  items: { path: string; label: string; emoji: string }[];
+  titleKey: string;
+  items: { path: string; labelKey: string; emoji: string }[];
 }
 
 const menuSections: MenuSection[] = [
   {
-    title: "Flaggquiz",
+    titleKey: "menu.sectionFlagquiz",
     items: [
-      { path: "/", label: "Flaggquiz", emoji: "\u{1F3C1}" },
-      { path: "/skriv", label: "Skrivl\u00E4ge", emoji: "\u270D" },
-      { path: "/daglig", label: "Daglig", emoji: "\u{1F4C6}" },
-      { path: "/varldsdelar", label: "V\u00E4rldsdel", emoji: "\u{1F310}" },
+      { path: "/", labelKey: "menu.flagquiz", emoji: "\u{1F3C1}" },
+      { path: "/skriv", labelKey: "menu.writeMode", emoji: "\u270D" },
+      { path: "/daglig", labelKey: "menu.daily", emoji: "\u{1F4C6}" },
+      { path: "/varldsdelar", labelKey: "menu.continent", emoji: "\u{1F310}" },
     ],
   },
   {
-    title: "Kartquiz",
+    titleKey: "menu.sectionMapquiz",
     items: [
-      { path: "/varldskarta", label: "V\u00E4rldskarta", emoji: "\u{1F5FA}\uFE0F" },
-      { path: "/varldskarta/regioner", label: "V\u00E4rldsdel", emoji: "\u{1F310}" },
-      { path: "/landskap", label: "Svenska landskap", emoji: "\u{1F1F8}\u{1F1EA}" },
-      { path: "/stater", label: "Amerikanska stater", emoji: "\u{1F1FA}\u{1F1F8}" },
+      { path: "/varldskarta", labelKey: "menu.worldMap", emoji: "\u{1F5FA}\uFE0F" },
+      { path: "/varldskarta/regioner", labelKey: "menu.continent", emoji: "\u{1F310}" },
+      { path: "/landskap", labelKey: "menu.provinces", emoji: "\u{1F1F8}\u{1F1EA}" },
+      { path: "/stater", labelKey: "menu.usStates", emoji: "\u{1F1FA}\u{1F1F8}" },
     ],
   },
   {
-    title: "\u00D6vrigt",
+    titleKey: "menu.sectionOther",
     items: [
-      { path: "/lander", label: "L\u00E4nder & regioner", emoji: "\u{1F30D}" },
-      { path: "/om", label: "Om flaggquiz", emoji: "\u{1F9FE}" },
+      { path: "/lander", labelKey: "menu.countries", emoji: "\u{1F30D}" },
+      { path: "/om", labelKey: "menu.about", emoji: "\u{1F9FE}" },
     ],
   },
 ];
 
 const PopdownMenu = () => {
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+
+  const currentLang = i18n.language.startsWith("en") ? "en" : "sv";
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -56,6 +62,15 @@ const PopdownMenu = () => {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleLanguageChange = (
+    _event: React.MouseEvent<HTMLElement>,
+    newLang: string | null
+  ) => {
+    if (newLang && newLang !== currentLang) {
+      i18n.changeLanguage(newLang);
+    }
   };
 
   const handleKeyDown = (event: KeyboardEvent) => {
@@ -79,7 +94,7 @@ const PopdownMenu = () => {
       <Toolbar>
         <Box flexGrow={1} display="flex" justifyContent="center">
           <Typography variant="h4" component="div">
-            Flaggquiz.se
+            {t("common.appName")}
           </Typography>
         </Box>
         <IconButton
@@ -91,7 +106,7 @@ const PopdownMenu = () => {
           sx={{ ml: "auto" }}
         >
           <MenuIcon sx={{ mr: 0.5 }} />
-          <p>Meny</p>
+          <p>{t("menu.button")}</p>
         </IconButton>
         <Menu
           id="menu"
@@ -107,7 +122,7 @@ const PopdownMenu = () => {
           MenuListProps={{ disablePadding: true }}
         >
           {menuSections.map((section, index) => (
-            <Box key={section.title} sx={{ py: 1 }}>
+            <Box key={section.titleKey} sx={{ py: 1 }}>
               <Typography
                 variant="overline"
                 sx={{
@@ -119,11 +134,11 @@ const PopdownMenu = () => {
                   mb: 0.5,
                 }}
               >
-                {section.title}
+                {t(section.titleKey)}
               </Typography>
               {section.items.map((item) => (
                 <MenuItem
-                  key={item.path}
+                  key={`${section.titleKey}-${item.path}-${item.labelKey}`}
                   onClick={() => {
                     navigate(item.path);
                     handleMenuClose();
@@ -134,7 +149,7 @@ const PopdownMenu = () => {
                   }}
                 >
                   <Typography textAlign="left" className="emoji">
-                    {`${item.emoji} ${item.label}`}
+                    {`${item.emoji} ${t(item.labelKey)}`}
                   </Typography>
                 </MenuItem>
               ))}
@@ -143,6 +158,35 @@ const PopdownMenu = () => {
               )}
             </Box>
           ))}
+          <Divider sx={{ my: 1, opacity: 0.3 }} />
+          <Box sx={{ py: 1, px: 2 }}>
+            <Typography
+              variant="overline"
+              sx={{
+                display: "block",
+                fontWeight: 600,
+                letterSpacing: "0.08em",
+                color: "text.secondary",
+                mb: 0.5,
+              }}
+            >
+              {t("menu.language")}
+            </Typography>
+            <ToggleButtonGroup
+              value={currentLang}
+              exclusive
+              onChange={handleLanguageChange}
+              size="small"
+              fullWidth
+            >
+              <ToggleButton value="sv" aria-label="Svenska">
+                {t("menu.swedish")}
+              </ToggleButton>
+              <ToggleButton value="en" aria-label="English">
+                {t("menu.english")}
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </Box>
         </Menu>
       </Toolbar>
     </AppBar>
