@@ -5,6 +5,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
+import { useTranslation } from "react-i18next";
 
 interface GameOverDialogProps {
   open: boolean;
@@ -21,6 +22,7 @@ const GameOverDialog: React.FC<GameOverDialogProps> = ({
   onClose,
   onPlayAgain,
 }) => {
+  const { t } = useTranslation();
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>{title}</DialogTitle>
@@ -30,10 +32,10 @@ const GameOverDialog: React.FC<GameOverDialogProps> = ({
       <DialogActions>
         {onPlayAgain && (
           <Button onClick={onPlayAgain} variant="contained">
-            Spela igen
+            {t("common.playAgain")}
           </Button>
         )}
-        <Button onClick={onClose}>Stäng</Button>
+        <Button onClick={onClose}>{t("common.close")}</Button>
       </DialogActions>
     </Dialog>
   );

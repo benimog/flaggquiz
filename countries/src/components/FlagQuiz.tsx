@@ -4,9 +4,11 @@ import Button from "@mui/material/Button";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Typography from "@mui/material/Typography";
+import { useTranslation } from "react-i18next";
 import { Country } from "../types/Country";
 import { getAllCountries, getIndependentCountries } from "../data/countries";
 import { useFlagQuizGame } from "../hooks/useFlagQuizGame";
+import { getCountryName } from "../i18n/countryNames";
 import FeedbackSnackbar from "./feedback/FeedbackSnackbar";
 import ScoreDisplay from "./ScoreDisplay";
 
@@ -15,6 +17,7 @@ interface FlagQuizProps {
 }
 
 const FlagQuiz: React.FC<FlagQuizProps> = ({ mode: initialMode }) => {
+  const { t, i18n } = useTranslation();
   const [mode, setMode] = useState<"independent" | "all">(initialMode);
   const [snackbar, setSnackbar] = useState({ open: false, message: "" });
 
@@ -32,10 +35,12 @@ const FlagQuiz: React.FC<FlagQuizProps> = ({ mode: initialMode }) => {
 
   const onChoice = (choice: Country) => {
     const result = handleChoice(choice);
-    if (!result.correct) {
+    if (!result.correct && result.answer) {
       setSnackbar({
         open: true,
-        message: `Fel! Rätt svar är ${result.answer}`,
+        message: t("quiz.wrongAnswerIs", {
+          answer: getCountryName(result.answer, i18n.language),
+        }),
       });
     }
   };
@@ -71,12 +76,12 @@ const FlagQuiz: React.FC<FlagQuizProps> = ({ mode: initialMode }) => {
         size="small"
         sx={{ mb: 2 }}
       >
-        <ToggleButton value="independent">Självständiga länder</ToggleButton>
-        <ToggleButton value="all">Alla länder & regioner</ToggleButton>
+        <ToggleButton value="independent">{t("quiz.independentCountries")}</ToggleButton>
+        <ToggleButton value="all">{t("quiz.allCountries")}</ToggleButton>
       </ToggleButtonGroup>
 
       <Typography variant="body1" sx={{ mb: 1 }}>
-        Välj rätt land för flaggan
+        {t("quiz.pickCountry")}
       </Typography>
 
       {randomCountry && (
@@ -109,10 +114,10 @@ const FlagQuiz: React.FC<FlagQuizProps> = ({ mode: initialMode }) => {
                   {choices.slice(0, 2).map((choice) => (
                     <Button
                       variant="contained"
-                      key={choice.translations.swe.common}
+                      key={choice.name.common}
                       onClick={() => onChoice(choice)}
                     >
-                      {choice.translations.swe.common}
+                      {getCountryName(choice, i18n.language)}
                     </Button>
                   ))}
                 </Stack>
@@ -120,10 +125,10 @@ const FlagQuiz: React.FC<FlagQuizProps> = ({ mode: initialMode }) => {
                   {choices.slice(2).map((choice) => (
                     <Button
                       variant="contained"
-                      key={choice.translations.swe.common}
+                      key={choice.name.common}
                       onClick={() => onChoice(choice)}
                     >
-                      {choice.translations.swe.common}
+                      {getCountryName(choice, i18n.language)}
                     </Button>
                   ))}
                 </Stack>

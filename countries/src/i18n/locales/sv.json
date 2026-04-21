@@ -1,0 +1,119 @@
+{
+  "common": {
+    "reset": "Återställ",
+    "playAgain": "Spela igen",
+    "close": "Stäng",
+    "tryAgain": "Försök igen",
+    "loading": "Laddar...",
+    "answer": "Svara",
+    "skip": "Hoppa över",
+    "zoomIn": "Zooma in",
+    "zoomOut": "Zooma ut",
+    "tip": "Tips",
+    "zoom": "Zoom",
+    "zoomTipTouch": "Nyp för att zooma. Dra kartan för att panorera.",
+    "zoomTipMouse": "Scrolla för att zooma. Dra kartan för att panorera.",
+    "country": "Land",
+    "appName": "Flaggquiz.se"
+  },
+  "menu": {
+    "button": "Meny",
+    "sectionFlagquiz": "Flaggquiz",
+    "sectionMapquiz": "Kartquiz",
+    "sectionOther": "Övrigt",
+    "flagquiz": "Flaggquiz",
+    "writeMode": "Skrivläge",
+    "daily": "Daglig",
+    "continent": "Världsdel",
+    "worldMap": "Världskarta",
+    "provinces": "Svenska landskap",
+    "usStates": "Amerikanska stater",
+    "countries": "Länder & regioner",
+    "about": "Om flaggquiz",
+    "language": "Språk",
+    "swedish": "Svenska",
+    "english": "English"
+  },
+  "quiz": {
+    "pickCountry": "Välj rätt land för flaggan",
+    "pickFirst": "Välj ett land först!",
+    "wrongAnswerIs": "Fel! Rätt svar är {{answer}}",
+    "independentCountries": "Självständiga länder",
+    "allCountries": "Alla länder & regioner",
+    "changeContinent": "\u2190 Byt världsdel",
+    "flagXofY": "Flagga {{index}} av {{total}}",
+    "title": "Flaggquiz - {{continent}}"
+  },
+  "scores": {
+    "correct": "Rätta svar",
+    "incorrect": "Felaktiga svar",
+    "points": "Poäng"
+  },
+  "game": {
+    "wellPlayed": "Väl spelat!",
+    "dailyResult": "Du fick {{correct}} rätt och {{incorrect}} fel.",
+    "mapResult": "Du klarade {{score}}/{{total}} länder!",
+    "statesResult": "Du klarade {{score}}/{{total}} stater!",
+    "landskapResult": "Du klarade {{score}}/{{total}} landskap!"
+  },
+  "pages": {
+    "continentSelect": {
+      "title": "Välj en världsdel",
+      "subtitle": "Spela flaggquiz med länder från en specifik världsdel"
+    },
+    "regionMapSelect": {
+      "title": "Välj en världsdel",
+      "subtitle": "Spela kartquiz med länder från en specifik världsdel"
+    },
+    "countries": {
+      "title": "Länder & territorier",
+      "description": "Utforska världens länder och deras flaggor. Använd sökfältet för att snabbt hitta ett land.",
+      "searchPlaceholder": "Sök...",
+      "headerCountry": "Land / region",
+      "headerFlag": "Flagga"
+    },
+    "about": {
+      "welcome": "Välkommen till flaggquiz.se",
+      "gameModesHeading": "Spellägen",
+      "keyboardHeading": "Tangentbord",
+      "keyboardIntro": "Det går att använda tangentbordet för att svara i flaggquiz.",
+      "keyboardAlt": "Använd tangenterna 7, 8, 4, 5",
+      "keyboardCaption": "Använd tangenterna 7, 8, 4, 5 enligt bilden",
+      "createdBy": "Skapad av",
+      "withFlagsFrom": "med flaggor från",
+      "modes": {
+        "flagquiz": "Flaggquiz",
+        "flagquizDesc": "Gissa rätt land utifrån flaggan",
+        "flagquizAll": "Flaggquiz (alla)",
+        "flagquizAllDesc": "Alla länder och regioner",
+        "writeMode": "Skrivläge",
+        "writeModeDesc": "Skriv landets namn själv",
+        "daily": "Daglig",
+        "dailyDesc": "10 nya flaggor varje dag",
+        "continent": "Världsdel",
+        "continentDesc": "Flaggquiz per världsdel",
+        "worldMap": "Världskarta",
+        "worldMapDesc": "Klicka på rätt land på kartan",
+        "regionMap": "Världskarta per världsdel",
+        "regionMapDesc": "Kartquiz för en världsdel",
+        "provinces": "Svenska landskap",
+        "provincesDesc": "Klicka på rätt landskap",
+        "usStates": "Amerikanska stater",
+        "usStatesDesc": "Klicka på rätt stat",
+        "countries": "Länder & regioner",
+        "countriesDesc": "Sökbar lista med alla länder och flaggor"
+      }
+    }
+  },
+  "continents": {
+    "europe": "Europa",
+    "africa": "Afrika",
+    "north-america": "Nordamerika",
+    "south-america": "Sydamerika",
+    "asia": "Asien",
+    "oceania": "Oceanien"
+  },
+  "errors": {
+    "fetchFailed": "Kunde inte hämta data"
+  }
+}

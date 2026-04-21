@@ -4,13 +4,16 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { createFilterOptions } from "@mui/material";
 import Typography from "@mui/material/Typography";
+import { useTranslation } from "react-i18next";
 import seedrandom from "seedrandom";
 import { Country } from "../types/Country";
 import { getIndependentCountries } from "../data/countries";
+import { getCountryName } from "../i18n/countryNames";
 import FeedbackSnackbar from "./feedback/FeedbackSnackbar";
 import GameOverDialog from "./feedback/GameOverDialog";
 
 function Daily() {
+  const { t, i18n } = useTranslation();
   const countries = getIndependentCountries();
   const [randomCountry, setRandomCountry] = useState<Country | null>(null);
   const [selectedCountry, setSelectedCountry] = useState<Country | string>("");
@@ -25,7 +28,7 @@ function Daily() {
 
   const filterOptions = createFilterOptions({
     matchFrom: "start",
-    stringify: (option: Country) => option.translations.swe.common,
+    stringify: (option: Country) => getCountryName(option, i18n.language),
   });
 
   useEffect(() => {
@@ -48,7 +51,7 @@ function Daily() {
 
   const handleChoice = () => {
     if (!selectedCountry || typeof selectedCountry === "string") {
-      setSnackbar({ open: true, message: "Välj ett land först!", severity: "info" });
+      setSnackbar({ open: true, message: t("quiz.pickFirst"), severity: "info" });
       return;
     }
     const isCorrect =
@@ -60,7 +63,9 @@ function Daily() {
       setIncorrectPicks((prev) => prev + 1);
       setSnackbar({
         open: true,
-        message: `Fel! Rätt svar är ${randomCountry?.translations.swe.common}`,
+        message: t("quiz.wrongAnswerIs", {
+          answer: randomCountry ? getCountryName(randomCountry, i18n.language) : "",
+        }),
         severity: "error",
       });
     }
@@ -72,7 +77,7 @@ function Daily() {
       const finalIncorrect = incorrectPicks + (isCorrect ? 0 : 1);
       setGameOver({
         open: true,
-        message: `Du fick ${finalCorrect} rätt och ${finalIncorrect} fel.`,
+        message: t("game.dailyResult", { correct: finalCorrect, incorrect: finalIncorrect }),
       });
       setCountryIndex(0);
       setCorrectPicks(0);
@@ -138,12 +143,9 @@ function Daily() {
       month: "long",
       day: "numeric",
     };
-    let dayString = date
-      .toLocaleDateString("sv-SE", options)
-      .charAt(0)
-      .toUpperCase();
-    dayString += date.toLocaleDateString("sv-SE", options).slice(1);
-    return dayString;
+    const locale = i18n.language.startsWith("en") ? "en-GB" : "sv-SE";
+    const formatted = date.toLocaleDateString(locale, options);
+    return formatted.charAt(0).toUpperCase() + formatted.slice(1);
   };
 
   return (
@@ -152,10 +154,10 @@ function Daily() {
         {getCurrentDate()}
       </Typography>
       <Typography variant="body1" sx={{ mt: 1 }}>
-        Välj rätt land för flaggan
+        {t("quiz.pickCountry")}
       </Typography>
       <Typography variant="body2" sx={{ mt: 1 }}>
-        Flagga {countryIndex + 1} av {numberOfCountries}
+        {t("quiz.flagXofY", { index: countryIndex + 1, total: numberOfCountries })}
       </Typography>
       <div>
         <img
@@ -174,14 +176,16 @@ function Daily() {
           id="country-combo-box"
           options={countries}
           filterOptions={filterOptions}
-          getOptionLabel={(option) => option.translations.swe.common}
+          getOptionLabel={(option) => getCountryName(option, i18n.language)}
           renderOption={(props, option) => (
-            <li {...props}>{option.translations.swe.common}</li>
+            <li {...props} key={option.name.common}>
+              {getCountryName(option, i18n.language)}
+            </li>
           )}
           renderInput={(params) => (
             <TextField
               {...params}
-              label="Land"
+              label={t("common.country")}
               onKeyDown={(event) => {
                 if (event.key === "Enter" && selectedCountry) {
                   handleChoice();
@@ -196,12 +200,14 @@ function Daily() {
         />
         <div>
           <Button variant="contained" onClick={() => handleChoice()}>
-            Svara
+            {t("common.answer")}
           </Button>
           <Typography variant="body1" sx={{ mt: 1 }}>
-            Rätta svar: {correctPicks}
+            {t("scores.correct")}: {correctPicks}
           </Typography>
-          <Typography variant="body1">Felaktiga svar: {incorrectPicks}</Typography>
+          <Typography variant="body1">
+            {t("scores.incorrect")}: {incorrectPicks}
+          </Typography>
         </div>
       </div>
 
@@ -214,7 +220,7 @@ function Daily() {
 
       <GameOverDialog
         open={gameOver.open}
-        title="Väl spelat!"
+        title={t("game.wellPlayed")}
         message={gameOver.message}
         onClose={() => setGameOver({ open: false, message: "" })}
         onPlayAgain={() => {
