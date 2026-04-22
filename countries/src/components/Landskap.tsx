@@ -132,8 +132,11 @@ const Landskap: React.FC = () => {
         width: "90%",
         maxWidth: "900px",
         margin: "0 auto",
+        flex: 1,
+        minHeight: 0,
         paddingTop: "10px",
         position: "relative",
+        overflow: "hidden",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -178,6 +181,8 @@ const Landskap: React.FC = () => {
         ref={mapContainerRef}
         style={{
           width: "100%",
+          flex: 1,
+          minHeight: 0,
           overflow: "hidden",
           border: "2px solid #555",
           borderRadius: "8px",
@@ -191,7 +196,7 @@ const Landskap: React.FC = () => {
             projectionConfig={{ center: [18, 63], scale: 1050 }}
             width={800}
             height={600}
-            style={{ width: "100%", height: "auto" }}
+            style={{ width: "100%", height: "100%" }}
           >
             <Geographies geography={landskapMap}>
               {({ geographies }: { geographies: CustomFeature[] }) =>

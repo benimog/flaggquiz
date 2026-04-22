@@ -281,6 +281,7 @@ export function useMapZoomPan() {
     transform: `scale(${zoom}) translate(${pan.x / zoom}px, ${pan.y / zoom}px)`,
     transformOrigin: "center center",
     transition: isDragging || isPinching || isWheelZooming ? "none" : "transform 0.2s ease-out",
+    height: "100%",
   }), [zoom, pan.x, pan.y, isDragging, isPinching, isWheelZooming]);
 
   const containerHandlers = useMemo(() => ({

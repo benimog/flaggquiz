@@ -132,8 +132,11 @@ const States: React.FC = () => {
         width: "90%",
         maxWidth: "900px",
         margin: "0 auto",
+        flex: 1,
+        minHeight: 0,
         paddingTop: "10px",
         position: "relative",
+        overflow: "hidden",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -178,6 +181,8 @@ const States: React.FC = () => {
         ref={mapContainerRef}
         style={{
           width: "100%",
+          flex: 1,
+          minHeight: 0,
           overflow: "hidden",
           border: "2px solid #555",
           borderRadius: "8px",
@@ -186,7 +191,7 @@ const States: React.FC = () => {
         {...containerHandlers}
       >
         <div style={transformStyle}>
-          <ComposableMap projection="geoAlbersUsa" style={{ width: "100%", height: "auto" }}>
+          <ComposableMap projection="geoAlbersUsa" style={{ width: "100%", height: "100%" }}>
             <Geographies geography={usMap}>
               {({ geographies }: { geographies: CustomFeature[] }) =>
                 geographies.map((geo) => {

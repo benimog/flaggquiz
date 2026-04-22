@@ -45,7 +45,7 @@ const BACKGROUND_GEO_STYLE = {
     pressed: { fill: "#F5F5F5", outline: "none" },
 };
 
-const COMPOSABLE_MAP_STYLE = { width: "100%", height: "auto" };
+const COMPOSABLE_MAP_STYLE = { width: "100%", height: "100%" };
 
 const activeStyleCache = new Map<string, {
     default: Record<string, string | number>;
@@ -320,7 +320,9 @@ const WorldMapInner: React.FC<WorldMapProps> = ({ region }) => {
             style={{
                 width: "90%",
                 maxWidth: "1400px",
-                maxHeight: "calc(100vh - 70px)",
+                margin: "0 auto",
+                flex: 1,
+                minHeight: 0,
                 paddingTop: "5px",
                 overflow: "hidden",
                 display: "flex",
@@ -382,7 +384,8 @@ const WorldMapInner: React.FC<WorldMapProps> = ({ region }) => {
                 ref={mapContainerRef}
                 style={{
                     width: "100%",
-                    maxHeight: "55vh",
+                    flex: 1,
+                    minHeight: 0,
                     overflow: "hidden",
                     border: "2px solid #555",
                     borderRadius: "8px",
