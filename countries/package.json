@@ -56,7 +56,6 @@
     ]
   },
   "devDependencies": {
-    "@types/react-router-dom": "^5.3.3",
     "@types/react-simple-maps": "^3.0.0",
     "@types/seedrandom": "^3.0.8"
   }
