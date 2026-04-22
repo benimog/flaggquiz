@@ -18,6 +18,7 @@ npx tsc --noEmit  # type-check without emitting
 - **MUI v5** — UI components, dark theme
 - **react-router-dom v6** — client-side routing (Swedish paths)
 - **react-simple-maps** — SVG map rendering
+- **react-i18next** — Swedish/English language support (SV/EN toggle in menu)
 - **seedrandom** — deterministic daily quiz
 - **d3-geo / topojson-client** — map projections
 

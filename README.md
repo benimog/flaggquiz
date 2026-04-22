@@ -1,6 +1,6 @@
 # Flaggquiz.se
 
-Swedish geography quiz app hosted at [flaggquiz.se](https://flaggquiz.se).
+Geography quiz app hosted at [flaggquiz.se](https://flaggquiz.se). Supports Swedish and English (SV/EN toggle in the menu).
 
 ## Game Modes
 
@@ -25,6 +25,7 @@ Swedish geography quiz app hosted at [flaggquiz.se](https://flaggquiz.se).
 - React 18 + TypeScript, bootstrapped with Create React App
 - MUI v5 for UI components (dark theme)
 - react-simple-maps for interactive SVG maps
+- react-i18next for Swedish/English language support
 - Country data and flag images bundled locally (from [flagcdn](https://flagcdn.com/))
 
 ## Development
