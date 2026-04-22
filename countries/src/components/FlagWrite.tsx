@@ -88,7 +88,7 @@ function FlagWrite() {
             }}
           />
           <Autocomplete
-            sx={{ mt: 2, mb: 2 }}
+            sx={{ mt: 2, mb: 2, maxWidth: { sm: 400 }, mx: "auto" }}
             ref={autocompleteRef}
             id="country-combo-box"
             options={countries}
