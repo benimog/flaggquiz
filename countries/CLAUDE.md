@@ -1,17 +1,17 @@
 # Flaggquiz.se
 
-Geography quiz app hosted at flaggquiz.se. Supports Swedish (default) and English. Built with Create React App + TypeScript.
+Geography quiz app hosted at flaggquiz.se. Supports Swedish (default) and English. Built with Vite + TypeScript.
 
 ## Commands
 
 - `npm start` — dev server (port 3000)
 - `npm run build` — production build (postbuild copies .htaccess + sitemap.txt to build/ via Node.js for cross-platform support)
-- `npm test` — run tests (Jest + React Testing Library)
+- `npm test` — run tests (Vitest + React Testing Library)
 - `npx tsc --noEmit` — type-check without emitting
 
 ## Tech Stack
 
-- **React 18** with TypeScript 4.9, bootstrapped with CRA
+- **React 18** with TypeScript 5.9, built with Vite 6
 - **MUI v5** (@mui/material) — all UI components, dark theme
 - **react-router-dom v6** — client-side routing
 - **react-simple-maps** — SVG map rendering (world map + US states)

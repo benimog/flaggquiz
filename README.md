@@ -22,7 +22,7 @@ Geography quiz app hosted at [flaggquiz.se](https://flaggquiz.se). Supports Swed
 
 ## Tech Stack
 
-- React 18 + TypeScript, bootstrapped with Create React App
+- React 18 + TypeScript, built with Vite 6
 - MUI v5 for UI components (dark theme)
 - react-simple-maps for interactive SVG maps
 - react-i18next for Swedish/English language support

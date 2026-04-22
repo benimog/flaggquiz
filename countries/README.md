@@ -8,13 +8,13 @@ React app for [flaggquiz.se](https://flaggquiz.se). See [CLAUDE.md](CLAUDE.md) f
 npm install
 npm start         # dev server on localhost:3000
 npm run build     # production build
-npm test          # Jest + React Testing Library
+npm test          # Vitest + React Testing Library
 npx tsc --noEmit  # type-check without emitting
 ```
 
 ## Tech Stack
 
-- **React 18** + TypeScript 4.9 (Create React App)
+- **React 18** + TypeScript 5.9 (Vite 6)
 - **MUI v5** — UI components, dark theme
 - **react-router-dom v6** — client-side routing (Swedish paths)
 - **react-simple-maps** — SVG map rendering
