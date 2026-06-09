@@ -2,7 +2,7 @@ import React, { Suspense, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import "./App.css";
 import "./i18n";
-import { BrowserRouter as Router, Routes, Route, Navigate, useParams } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, useParams, useLocation } from "react-router-dom";
 import PopdownMenu from "./components/PopdownMenu";
 import LoadingSpinner from "./components/LoadingSpinner";
 
@@ -21,6 +21,32 @@ const RegionMapSelect = React.lazy(() => import("./components/RegionMapSelect"))
 const Landskap = React.lazy(() => import("./components/Landskap"));
 const About = React.lazy(() => import("./components/About"));
 const NotFound = React.lazy(() => import("./components/NotFound"));
+
+// First URL segment -> translation key for the document title
+const pageTitleKeys: Record<string, string> = {
+  flaggor: "menu.flagquiz",
+  skriv: "menu.writeMode",
+  daglig: "menu.daily",
+  varldsdelar: "menu.continent",
+  varldskarta: "menu.worldMap",
+  landskap: "menu.provinces",
+  stater: "menu.usStates",
+  lander: "menu.countries",
+  om: "menu.about",
+};
+
+function PageTitle() {
+  const location = useLocation();
+  const { t, i18n } = useTranslation();
+
+  useEffect(() => {
+    const segment = location.pathname.split("/")[1];
+    const key = pageTitleKeys[segment];
+    document.title = key ? `${t(key)} – Flaggquiz.se` : "Flaggquiz.se";
+  }, [location.pathname, t, i18n.language]);
+
+  return null;
+}
 
 function RedirectContinentRegion() {
   const { region } = useParams();
@@ -48,6 +74,7 @@ function App() {
 
   return (
     <Router>
+      <PageTitle />
       <div className="App">
         <div className="top-container">
           <PopdownMenu />
