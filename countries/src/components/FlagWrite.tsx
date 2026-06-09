@@ -84,7 +84,7 @@ function FlagWrite() {
         <div>
           <img
             src={randomCountry.flags.png}
-            alt={randomCountry.flags.alt}
+            alt={t("quiz.flagAlt")}
             style={{
               maxWidth: "320px",
               width: "100%",
@@ -95,7 +95,7 @@ function FlagWrite() {
           <Autocomplete
             sx={{ mt: 2, mb: 2, maxWidth: { sm: 400 }, mx: "auto" }}
             ref={autocompleteRef}
-            id="country-combo-box"
+            id="flagwrite-country-combo-box"
             options={countries}
             filterOptions={filterOptions}
             getOptionLabel={(option) => getCountryName(option, i18n.language)}

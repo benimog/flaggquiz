@@ -39,6 +39,7 @@
     "pickFirst": "Välj ett land först!",
     "wrongAnswerIs": "Fel! Rätt svar är {{answer}}",
     "correctAnswer": "Rätt svar!",
+    "flagAlt": "Flagga att gissa",
     "independentCountries": "Självständiga länder",
     "allCountries": "Alla länder & regioner",
     "changeContinent": "\u2190 Byt världsdel",

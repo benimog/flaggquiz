@@ -39,6 +39,7 @@
     "pickFirst": "Pick a country first!",
     "wrongAnswerIs": "Wrong! The correct answer is {{answer}}",
     "correctAnswer": "Correct!",
+    "flagAlt": "Flag to guess",
     "independentCountries": "Independent countries",
     "allCountries": "All countries & regions",
     "changeContinent": "\u2190 Change continent",

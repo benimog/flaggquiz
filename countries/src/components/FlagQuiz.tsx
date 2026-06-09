@@ -100,7 +100,7 @@ const FlagQuiz: React.FC<FlagQuizProps> = ({ mode: initialMode }) => {
           }}>
             <img
               src={randomCountry.flags.png}
-              alt={randomCountry.flags.alt}
+              alt={t("quiz.flagAlt")}
               style={{
                 maxWidth: "100%",
                 maxHeight: "100%",

@@ -21,6 +21,14 @@ interface CustomFeature extends Feature {
 
 const statesList = states as string[];
 
+// Geometries in the map data that are not quiz targets (DC, Puerto Rico) —
+// rendered as inert background so clicking them doesn't count as a miss.
+const NON_QUIZ_GEO_STYLE = {
+  default: { fill: "#F5F5F5", stroke: "#E0E0E0", strokeWidth: 0.5, outline: "none" },
+  hover: { fill: "#F5F5F5", stroke: "#E0E0E0", strokeWidth: 0.5, outline: "none", cursor: "default" },
+  pressed: { fill: "#F5F5F5", outline: "none" },
+};
+
 const States: React.FC = () => {
   const { t, i18n } = useTranslation();
   const [shuffledStates, setShuffledStates] = useState<string[]>([]);
@@ -197,6 +205,15 @@ const States: React.FC = () => {
               {({ geographies }: { geographies: CustomFeature[] }) =>
                 geographies.map((geo) => {
                   const stateName = geo.properties?.NAME || "Unknown";
+                  if (!statesList.includes(stateName)) {
+                    return (
+                      <Geography
+                        key={geo.rsmKey}
+                        geography={geo}
+                        style={NON_QUIZ_GEO_STYLE}
+                      />
+                    );
+                  }
                   const fillColor = getFillColor(stateName);
                   const isSkipped = stateName === skippedState;
                   return (

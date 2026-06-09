@@ -106,7 +106,7 @@ const PopdownMenu = () => {
           sx={{ ml: "auto" }}
         >
           <MenuIcon sx={{ mr: 0.5 }} />
-          <p>{t("menu.button")}</p>
+          <Typography component="span">{t("menu.button")}</Typography>
         </IconButton>
         <Menu
           id="menu"

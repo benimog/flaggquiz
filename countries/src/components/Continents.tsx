@@ -84,7 +84,7 @@ function Continents() {
         <div>
           <img
             src={randomCountry.flags.png}
-            alt={randomCountry.flags.alt}
+            alt={t("quiz.flagAlt")}
             style={{
               maxWidth: "320px",
               width: "100%",
