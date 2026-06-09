@@ -52,6 +52,7 @@
   "game": {
     "wellPlayed": "Well played!",
     "dailyResult": "You got {{correct}} right and {{incorrect}} wrong.",
+    "comeBackTomorrow": "Come back tomorrow for new flags!",
     "mapResult": "You got {{score}}/{{total}} countries!",
     "statesResult": "You got {{score}}/{{total}} states!",
     "landskapResult": "You got {{score}}/{{total}} provinces!"

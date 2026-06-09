@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import seedrandom from "seedrandom";
 import { Country } from "../types/Country";
 import { getIndependentCountries } from "../data/countries";
+import { getDailySeed } from "../utils/stockholmDate";
 import { getCountryName } from "../i18n/countryNames";
 import FeedbackSnackbar from "./feedback/FeedbackSnackbar";
 import GameOverDialog from "./feedback/GameOverDialog";
@@ -77,7 +78,7 @@ function Daily() {
       const finalIncorrect = incorrectPicks + (isCorrect ? 0 : 1);
       setGameOver({
         open: true,
-        message: t("game.dailyResult", { correct: finalCorrect, incorrect: finalIncorrect }),
+        message: `${t("game.dailyResult", { correct: finalCorrect, incorrect: finalIncorrect })} ${t("game.comeBackTomorrow")}`,
       });
       setCountryIndex(0);
       setCorrectPicks(0);
@@ -100,39 +101,18 @@ function Daily() {
   }, [randomCountry]);
 
   const getDailyCountries = () => {
-    const date = new Date(
-      new Date().toLocaleDateString("sv-SE", { timeZone: "Europe/Stockholm" })
-    );
+    const rng = seedrandom(getDailySeed());
 
-    const seed = `${date.getFullYear()}-${
-      date.getMonth() + 1
-    }-${date.getDate()}`;
-    const rng = seedrandom(seed);
+    const shuffledArray = [...countries];
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(rng() * (i + 1));
+      [shuffledArray[i], shuffledArray[j]] = [
+        shuffledArray[j],
+        shuffledArray[i],
+      ];
+    }
 
-    const getRandomObjects = (
-      _seed: string,
-      array: Country[],
-      count: number
-    ) => {
-      const shuffledArray = [...array];
-
-      for (let i = shuffledArray.length - 1; i > 0; i--) {
-        const j = Math.floor(rng() * (i + 1));
-        [shuffledArray[i], shuffledArray[j]] = [
-          shuffledArray[j],
-          shuffledArray[i],
-        ];
-      }
-
-      return shuffledArray.slice(0, count);
-    };
-    const selectedCountries = getRandomObjects(
-      seed,
-      countries,
-      numberOfCountries
-    );
-
-    setDailyCountries(selectedCountries);
+    setDailyCountries(shuffledArray.slice(0, numberOfCountries));
   };
 
   const getCurrentDate = () => {
@@ -142,6 +122,7 @@ function Daily() {
       year: "numeric",
       month: "long",
       day: "numeric",
+      timeZone: "Europe/Stockholm",
     };
     const locale = i18n.language.startsWith("en") ? "en-GB" : "sv-SE";
     const formatted = date.toLocaleDateString(locale, options);
@@ -223,9 +204,6 @@ function Daily() {
         title={t("game.wellPlayed")}
         message={gameOver.message}
         onClose={() => setGameOver({ open: false, message: "" })}
-        onPlayAgain={() => {
-          setGameOver({ open: false, message: "" });
-        }}
       />
     </div>
   );
