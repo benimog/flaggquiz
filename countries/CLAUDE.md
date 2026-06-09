@@ -35,8 +35,12 @@ src/
 ├── types/Country.ts          # Shared Country interface (flags, name, translations)
 ├── theme.ts                  # Global MUI dark theme (palette.mode: 'dark', bg: #282c34)
 ├── hooks/
-│   ├── useFlagQuizGame.ts    # Shared quiz logic: random country, choices, scoring
+│   ├── useFlagQuizGame.ts    # Shared flag quiz logic: random country (no immediate repeats), choices, scoring
+│   ├── useMapQuizGame.ts     # Shared map quiz logic: shuffled targets, scoring, skip reveal, game over
 │   └── useMapZoomPan.ts      # Mouse/touch zoom+pan for map components
+├── utils/
+│   ├── shuffle.ts            # Fisher-Yates shuffle (use this, never sort(() => Math.random() - 0.5))
+│   └── stockholmDate.ts      # Stockholm-timezone date parts + daily quiz seed
 ├── data/
 │   ├── countries.json        # All country data (250 entries, sorted by Swedish name)
 │   ├── countries.ts          # Data access: getAllCountries, getIndependentCountries, getCountriesByRegion
@@ -65,6 +69,7 @@ src/
 │   ├── ScoreDisplay.tsx       # Standardized correct/incorrect display + reset
 │   ├── LoadingSpinner.tsx     # Centered CircularProgress + "Laddar..."
 │   ├── ErrorMessage.tsx       # Error state with retry button
+│   ├── NotFound.tsx           # 404 page (catch-all route)
 │   └── feedback/
 │       ├── FeedbackSnackbar.tsx  # MUI Snackbar+Alert for wrong answers
 │       └── GameOverDialog.tsx    # MUI Dialog for game completion
@@ -104,14 +109,19 @@ src/
 | `/lander` | `Countries` | Searchable country/flag table |
 | `/om` | `About` | About page |
 
-Old English routes (`/flags`, `/write`, `/daily`, `/continents`, `/worldmap`, `/states`, `/countries`, `/about`) redirect to their Swedish equivalents via `<Navigate replace />`.
+Old English routes (`/flags`, `/write`, `/daily`, `/continents`, `/worldmap`, `/states`, `/countries`, `/about`) redirect to their Swedish equivalents via `<Navigate replace />`. Unknown paths render `NotFound` (catch-all `*` route); invalid region slugs redirect to the corresponding picker. The valid slugs live in `countryRegions.ts` (`regionSlugs`, `isRegionSlug`).
+
+`PageTitle` in `App.tsx` sets a localized per-route `document.title` based on the first URL segment.
 
 ### Country Data
 
 All country data (names, flag images, regions) is bundled locally in `src/data/countries.json` and served from `public/flags/`. No external API calls are needed — data loads synchronously on import. The data access module `src/data/countries.ts` provides three functions:
 - `getAllCountries()` — all 250 countries/territories
-- `getIndependentCountries()` — independent countries only
+- `getIndependentCountries()` — independent countries only (195: UN members + Vatican + Kosovo)
 - `getCountriesByRegion(region)` — countries in a given region (with `independent`, `subregion`, `region` fields)
+- `getIndependentCountriesByContinent(slug)` — independent countries for a continent slug; splits "Americas" into North/South America via subregions (note: the data uses subregion `"North America"`, not REST Countries' `"Northern America"`)
+
+Data invariants (names, region coverage, flag paths) are guarded by `src/data/*.test.ts` — extend those tests when changing the data files.
 
 Country names are displayed via the `countryNames.ts` i18n helper, which returns `translations.swe.common` in Swedish mode and `name.common` in English mode.
 
@@ -132,7 +142,9 @@ World map TopoJSON is served locally from `public/world-countries.json`. This is
 
 - **Shared types** live in `src/types/`. The `Country` interface is the main data shape.
 - **Custom hooks** live in `src/hooks/`. `useFlagQuizGame` handles quiz state (random country, choices, score tracking); `useMapZoomPan` handles zoom/pan for map components.
-- **Feedback**: Wrong answers use `FeedbackSnackbar` (auto-dismissing, severity `"error"`). Empty submissions in write-mode quizzes (FlagWrite, Daily) use severity `"info"` to prompt the user. Game completion uses `GameOverDialog`. Never use browser `alert()`.
+- **Feedback**: Wrong answers use `FeedbackSnackbar` (auto-dismissing, severity `"error"`); correct answers show a short `"success"` snackbar (1200ms). Empty submissions in write-mode quizzes (FlagWrite, Daily) use severity `"info"` to prompt the user. Game completion uses `GameOverDialog`. Never use browser `alert()`.
+- **Quiz flag alt text**: In quiz modes use the neutral `t("quiz.flagAlt")` — the descriptive `flagAlt` data names the country and would spoil the answer for screen readers. The Countries table uses the country name.
+- **Shuffling**: Use `shuffle()` from `src/utils/shuffle.ts`; never `sort(() => Math.random() - 0.5)`.
 - **Loading/error**: Map components that fetch remote data use `loading`/`error` state → render `LoadingSpinner` or `ErrorMessage` with retry. Flag quiz components load data synchronously from the local data module.
 - **Score display**: Use `ScoreDisplay` component for consistent score presentation.
 - **Selection grids**: Use `SelectGrid` for continent/region picker screens.
@@ -149,7 +161,7 @@ World map TopoJSON is served locally from `public/world-countries.json`. This is
 
 ### Map components
 
-`States.tsx` and `WorldMap.tsx` both use `useMapZoomPan` for zoom/pan. WorldMap has a memoized `MapGeographyLayer` sub-component for performance. The `countryRegions.ts` data file maps TopoJSON country names to regions and provides Swedish translations + projection configs per region.
+`States.tsx`, `Landskap.tsx` and `WorldMap.tsx` share game logic via `useMapQuizGame` (shuffled targets, scoring, attempt-based fill colors, 2s skip reveal, game over/replay) and zoom/pan via `useMapZoomPan`. WorldMap has a memoized `MapGeographyLayer` sub-component for performance. The `countryRegions.ts` data file maps TopoJSON country names to regions and provides Swedish translations + projection configs per region. Map geometries that are not quiz targets (DC and Puerto Rico in States; out-of-region countries in WorldMap) are rendered as inert background.
 
 `WorldMap.tsx` exports a `prefetchGeoData()` function that fetches and caches the world TopoJSON at module level. The data is fetched once on first import and passed as an object to `<Geographies>` (not as a URL), avoiding re-fetches on component remount. `RegionMapSelect` also calls `prefetchGeoData()` on mount to warm the cache while the user picks a region.
 
@@ -159,4 +171,4 @@ World map TopoJSON is served locally from `public/world-countries.json`. This is
 
 ### Daily quiz
 
-Uses `seedrandom` with the current Stockholm-timezone date as seed, so all users get the same 10 countries each day.
+Uses `seedrandom` seeded by `getDailySeed()` (`src/utils/stockholmDate.ts`), which derives the date directly from the Stockholm-formatted date string so all users worldwide get the same 10 countries each day. Don't re-parse the date string through `new Date()` — that reads back in the device timezone and breaks the shared seed (this was a real bug). The game-over dialog intentionally has no "play again" (same seed would repeat the identical quiz).
