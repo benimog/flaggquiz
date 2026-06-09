@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import landskapMap from "../svenska-landskap.json";
 import landskap from "../landskap.json";
 import { useMapZoomPan } from "../hooks/useMapZoomPan";
-import { shuffle } from "../utils/shuffle";
+import { useMapQuizGame, SKIP_REVEAL_MS } from "../hooks/useMapQuizGame";
 import { getLandskapName } from "../i18n/landskapNames";
 import GameOverDialog from "./feedback/GameOverDialog";
 
@@ -23,15 +23,21 @@ const landskapList = landskap as string[];
 
 const Landskap: React.FC = () => {
   const { t, i18n } = useTranslation();
-  const [shuffledLandskap, setShuffledLandskap] = useState<string[]>([]);
-  const [currentLandskap, setCurrentLandskap] = useState<string | null>(null);
-  const [score, setScore] = useState<number>(0);
-  const [guessedLandskap, setGuessedLandskap] = useState<Set<string>>(new Set());
-  const [attempts, setAttempts] = useState<{ [key: string]: number }>({});
-  const [currentAttempts, setCurrentAttempts] = useState<number>(0);
   const [tempLandskapName, setTempLandskapName] = useState<string | null>(null);
-  const [skippedLandskap, setSkippedLandskap] = useState<string | null>(null);
-  const [gameOver, setGameOver] = useState({ open: false, message: "" });
+
+  const {
+    currentTarget: currentLandskap,
+    score,
+    total,
+    skippedTarget: skippedLandskap,
+    gameOver,
+    start,
+    handleGuess,
+    handleSkip,
+    playAgain,
+    closeGameOver,
+    getFillColor,
+  } = useMapQuizGame();
 
   const {
     zoom,
@@ -49,81 +55,16 @@ const Landskap: React.FC = () => {
   const zoomTip = isTouchDevice ? t("common.zoomTipTouch") : t("common.zoomTipMouse");
 
   useEffect(() => {
-    const shuffled = shuffle(landskapList);
-    setShuffledLandskap(shuffled);
-    setCurrentLandskap(shuffled[0] ?? null);
-  }, []);
+    start(landskapList);
+  }, [start]);
 
   const handleLandskapClick = (landskapName: string) => {
-    if (!currentLandskap || isDragging || hasMoved || skippedLandskap) return;
-
-    if (landskapName === currentLandskap) {
-      setScore((prev) => prev + 1);
-      setGuessedLandskap((prev) => new Set(prev).add(landskapName));
-      setAttempts((prevAttempts) => ({
-        ...prevAttempts,
-        [landskapName]: currentAttempts + 1,
-      }));
-      const nextIndex = shuffledLandskap.indexOf(currentLandskap) + 1;
-      if (nextIndex < shuffledLandskap.length) {
-        setCurrentLandskap(shuffledLandskap[nextIndex]);
-        setCurrentAttempts(0);
-      } else {
-        setGameOver({
-          open: true,
-          message: t("game.landskapResult", { score: score + 1, total: landskapList.length }),
-        });
-      }
-    } else {
-      setCurrentAttempts((prev) => prev + 1);
+    if (isDragging || hasMoved) return;
+    const correct = handleGuess(landskapName);
+    if (correct === false) {
       setTempLandskapName(getLandskapName(landskapName, i18n.language));
-      setTimeout(() => setTempLandskapName(null), 2000);
+      setTimeout(() => setTempLandskapName(null), SKIP_REVEAL_MS);
     }
-  };
-
-  const handleSkip = () => {
-    if (!currentLandskap || skippedLandskap) return;
-    const skipped = currentLandskap;
-    setSkippedLandskap(skipped);
-    setAttempts((prevAttempts) => ({
-      ...prevAttempts,
-      [skipped]: currentAttempts,
-    }));
-    setTimeout(() => {
-      setSkippedLandskap(null);
-      const nextIndex = shuffledLandskap.indexOf(skipped) + 1;
-      if (nextIndex < shuffledLandskap.length) {
-        setCurrentLandskap(shuffledLandskap[nextIndex]);
-        setCurrentAttempts(0);
-      } else {
-        setGameOver({
-          open: true,
-          message: t("game.landskapResult", { score: score, total: landskapList.length }),
-        });
-      }
-    }, 2000);
-  };
-
-  const getFillColor = (landskapName: string) => {
-    const attemptCount = attempts[landskapName] || 0;
-    if (guessedLandskap.has(landskapName)) {
-      if (attemptCount === 1) return "#00FF00";
-      if (attemptCount === 2) return "#8ec961";
-      if (attemptCount === 3) return "#fff200";
-      return "#FF0000";
-    }
-    return "#D6D6DA";
-  };
-
-  const handlePlayAgain = () => {
-    setGameOver({ open: false, message: "" });
-    const shuffled = shuffle(landskapList);
-    setShuffledLandskap(shuffled);
-    setCurrentLandskap(shuffled[0] ?? null);
-    setScore(0);
-    setGuessedLandskap(new Set());
-    setAttempts({});
-    setCurrentAttempts(0);
   };
 
   return (
@@ -148,7 +89,7 @@ const Landskap: React.FC = () => {
         {currentLandskap ? getLandskapName(currentLandskap, i18n.language) : t("common.loading")}
       </Typography>
       <Typography variant="body2" sx={{ m: 0, mb: "10px", opacity: 0.8 }}>
-        {t("scores.points")}: {score}/{landskapList.length}
+        {t("scores.points")}: {score}/{total}
       </Typography>
 
       <Button
@@ -270,11 +211,11 @@ const Landskap: React.FC = () => {
       </Typography>
 
       <GameOverDialog
-        open={gameOver.open}
+        open={gameOver}
         title={t("game.wellPlayed")}
-        message={gameOver.message}
-        onClose={() => setGameOver({ open: false, message: "" })}
-        onPlayAgain={handlePlayAgain}
+        message={t("game.landskapResult", { score, total })}
+        onClose={closeGameOver}
+        onPlayAgain={playAgain}
       />
     </div>
   );

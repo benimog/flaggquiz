@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useMapZoomPan } from "../hooks/useMapZoomPan";
-import { shuffle } from "../utils/shuffle";
+import { useMapQuizGame, SKIP_REVEAL_MS } from "../hooks/useMapQuizGame";
 import { countryToRegion, regionConfigs, getCountryDisplayName, getRegionDisplayName, isRegionSlug, RegionSlug } from "../data/countryRegions";
 import GameOverDialog from "./feedback/GameOverDialog";
 
@@ -39,6 +39,9 @@ export function prefetchGeoData(): Promise<Record<string, any>> {
 
 // Start prefetch immediately when module loads
 prefetchGeoData();
+
+// Geometries that are never quiz targets
+const EXCLUDED_GEOGRAPHIES = new Set(["Antarctica", "Fr. S. Antarctic Lands"]);
 
 const BACKGROUND_GEO_STYLE = {
     default: { fill: "#F5F5F5", stroke: "#E0E0E0", strokeWidth: 0.3, outline: "none" },
@@ -90,10 +93,8 @@ interface MapGeographyLayerProps {
     region: RegionSlug | undefined;
     projection: string;
     projectionConfig: { scale: number; center: [number, number]; rotate: [number, number, number] };
-    guessedCountries: Set<string>;
-    attempts: { [key: string]: number };
+    getFillColor: (name: string) => string;
     skippedCountry: string | null;
-    currentCountry: string | null;
     onCountryClick: (countryName: string) => void;
     onGeographiesLoad: (geographies: CustomFeature[]) => void;
     isLoaded: boolean;
@@ -105,25 +106,13 @@ const MapGeographyLayer = React.memo<MapGeographyLayerProps>(({
     region,
     projection,
     projectionConfig,
-    guessedCountries,
-    attempts,
+    getFillColor,
     skippedCountry,
     onCountryClick,
     onGeographiesLoad,
     isLoaded,
     isTouchDevice,
 }) => {
-    const getFillColor = (countryName: string) => {
-        const attemptCount = attempts[countryName] || 0;
-        if (guessedCountries.has(countryName)) {
-            if (attemptCount === 1) return "#00FF00";
-            if (attemptCount === 2) return "#8ec961";
-            if (attemptCount === 3) return "#fff200";
-            return "#FF0000";
-        }
-        return "#D6D6DA";
-    };
-
     return (
         <ComposableMap
             projection={projection}
@@ -138,7 +127,7 @@ const MapGeographyLayer = React.memo<MapGeographyLayerProps>(({
 
                     return geographies.map((geo) => {
                         const countryName = geo.properties?.name || "Unknown";
-                        if (countryName === "Antarctica" || countryName === "Fr. S. Antarctic Lands") return null;
+                        if (EXCLUDED_GEOGRAPHIES.has(countryName)) return null;
 
                         if (region && !isInRegion(countryName, region)) {
                             return (
@@ -175,23 +164,33 @@ const WorldMapInner: React.FC<WorldMapProps> = ({ region }) => {
     const navigate = useNavigate();
     const { t, i18n } = useTranslation();
     const [geoData, setGeoData] = useState<Record<string, any> | null>(geoDataCache);
-    const [countries, setCountries] = useState<string[]>([]);
-    const [shuffledCountries, setShuffledCountries] = useState<string[]>([]);
-    const [currentCountry, setCurrentCountry] = useState<string | null>(null);
-    const [score, setScore] = useState<number>(0);
-    const [guessedCountries, setGuessedCountries] = useState<Set<string>>(new Set());
-    const [attempts, setAttempts] = useState<{ [key: string]: number }>({});
-    const [currentAttempts, setCurrentAttempts] = useState<number>(0);
     const [tempCountryName, setTempCountryName] = useState<string | null>(null);
-    const [skippedCountry, setSkippedCountry] = useState<string | null>(null);
     const [isLoaded, setIsLoaded] = useState(false);
-    const [gameOver, setGameOver] = useState({ open: false, message: "" });
+
+    const {
+        currentTarget: currentCountry,
+        score,
+        total,
+        skippedTarget: skippedCountry,
+        gameOver,
+        start,
+        handleGuess,
+        handleSkip,
+        playAgain,
+        closeGameOver,
+        getFillColor,
+    } = useMapQuizGame();
 
     useEffect(() => {
         if (!geoData) {
             prefetchGeoData().then(setGeoData);
         }
     }, [geoData]);
+
+    // Re-initialize the quiz when navigating to a different region
+    useEffect(() => {
+        setIsLoaded(false);
+    }, [region]);
 
     const regionConfig = region ? regionConfigs[region] : null;
 
@@ -217,97 +216,25 @@ const WorldMapInner: React.FC<WorldMapProps> = ({ region }) => {
 
     const handleGeographiesLoad = useCallback((geographies: CustomFeature[]) => {
         if (!isLoaded && geographies.length > 0) {
-            const countryNames = shuffle(
-                geographies
-                    .map((geo) => geo.properties.name)
-                    .filter((name) => name && name !== "Antarctica" && name !== "Fr. S. Antarctic Lands" && isInRegion(name, region))
-            );
+            const countryNames = geographies
+                .map((geo) => geo.properties.name)
+                .filter((name) => name && !EXCLUDED_GEOGRAPHIES.has(name) && isInRegion(name, region));
 
-            setCountries(countryNames);
-            setShuffledCountries(countryNames);
-            setCurrentCountry(countryNames[0]);
+            start(countryNames);
             setIsLoaded(true);
         }
-    }, [isLoaded, region]);
+    }, [isLoaded, region, start]);
 
     const handleCountryClick = useCallback((countryName: string) => {
-        if (!currentCountry || isDraggingRef.current || hasMovedRef.current || skippedCountry) return;
-
-        if (countryName === currentCountry) {
-            setScore((prev) => prev + 1);
-            setGuessedCountries((prev) => new Set(prev).add(countryName));
-            setAttempts((prevAttempts) => ({
-                ...prevAttempts,
-                [countryName]: currentAttempts + 1,
-            }));
-            setShuffledCountries((prevShuffled) => {
-                const nextIndex = prevShuffled.indexOf(currentCountry) + 1;
-                if (nextIndex < prevShuffled.length) {
-                    setCurrentCountry(prevShuffled[nextIndex]);
-                    setCurrentAttempts(0);
-                } else {
-                    setCountries((prevCountries) => {
-                        setTimeout(() => {
-                            setGameOver({
-                                open: true,
-                                message: t("game.mapResult", { score: score + 1, total: prevCountries.length }),
-                            });
-                        }, 0);
-                        return prevCountries;
-                    });
-                }
-                return prevShuffled;
-            });
-        } else {
-            setCurrentAttempts((prev) => prev + 1);
+        if (isDraggingRef.current || hasMovedRef.current) return;
+        const correct = handleGuess(countryName);
+        if (correct === false) {
             setTempCountryName(getCountryDisplayName(countryName, i18n.language));
             setTimeout(() => {
                 setTempCountryName(null);
-            }, 2000);
+            }, SKIP_REVEAL_MS);
         }
-    }, [currentCountry, skippedCountry, currentAttempts, score, i18n.language, t]);
-
-    const handleSkip = useCallback(() => {
-        if (!currentCountry || skippedCountry) return;
-        const skipped = currentCountry;
-        setSkippedCountry(skipped);
-        setAttempts((prevAttempts) => ({
-            ...prevAttempts,
-            [skipped]: currentAttempts,
-        }));
-        setTimeout(() => {
-            setSkippedCountry(null);
-            setShuffledCountries((prevShuffled) => {
-                const nextIndex = prevShuffled.indexOf(skipped) + 1;
-                if (nextIndex < prevShuffled.length) {
-                    setCurrentCountry(prevShuffled[nextIndex]);
-                    setCurrentAttempts(0);
-                } else {
-                    setCountries((prevCountries) => {
-                        setTimeout(() => {
-                            setGameOver({
-                                open: true,
-                                message: t("game.mapResult", { score: score, total: prevCountries.length }),
-                            });
-                        }, 0);
-                        return prevCountries;
-                    });
-                }
-                return prevShuffled;
-            });
-        }, 2000);
-    }, [currentCountry, skippedCountry, currentAttempts, score, t]);
-
-    const handlePlayAgain = () => {
-        setGameOver({ open: false, message: "" });
-        setScore(0);
-        setGuessedCountries(new Set());
-        setAttempts({});
-        setCurrentAttempts(0);
-        const reshuffled = [...countries]
-        setShuffledCountries(reshuffled);
-        setCurrentCountry(reshuffled[0]);
-    };
+    }, [handleGuess, i18n.language]);
 
     const projection = regionConfig ? "geoMercator" : "geoEqualEarth";
     const projectionConfig = useMemo(() => regionConfig
@@ -352,7 +279,7 @@ const WorldMapInner: React.FC<WorldMapProps> = ({ region }) => {
                 {currentCountry ? getCountryDisplayName(currentCountry, i18n.language) : t("common.loading")}
             </Typography>
             <Typography variant="body2" sx={{ m: 0, mb: "4px" }}>
-                {t("scores.points")}: {score}/{countries.length}
+                {t("scores.points")}: {score}/{total}
             </Typography>
 
             <Button
@@ -401,10 +328,8 @@ const WorldMapInner: React.FC<WorldMapProps> = ({ region }) => {
                         region={region}
                         projection={projection}
                         projectionConfig={projectionConfig}
-                        guessedCountries={guessedCountries}
-                        attempts={attempts}
+                        getFillColor={getFillColor}
                         skippedCountry={skippedCountry}
-                        currentCountry={currentCountry}
                         onCountryClick={handleCountryClick}
                         onGeographiesLoad={handleGeographiesLoad}
                         isLoaded={isLoaded}
@@ -446,11 +371,11 @@ const WorldMapInner: React.FC<WorldMapProps> = ({ region }) => {
             </Typography>
 
             <GameOverDialog
-                open={gameOver.open}
+                open={gameOver}
                 title={t("game.wellPlayed")}
-                message={gameOver.message}
-                onClose={() => setGameOver({ open: false, message: "" })}
-                onPlayAgain={handlePlayAgain}
+                message={t("game.mapResult", { score, total })}
+                onClose={closeGameOver}
+                onPlayAgain={playAgain}
             />
         </div>
     );

@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import usMap from "../us-states.json";
 import states from "../states.json";
 import { useMapZoomPan } from "../hooks/useMapZoomPan";
-import { shuffle } from "../utils/shuffle";
+import { useMapQuizGame, SKIP_REVEAL_MS } from "../hooks/useMapQuizGame";
 import { getUsStateName } from "../i18n/usStateNames";
 import GameOverDialog from "./feedback/GameOverDialog";
 
@@ -31,15 +31,21 @@ const NON_QUIZ_GEO_STYLE = {
 
 const States: React.FC = () => {
   const { t, i18n } = useTranslation();
-  const [shuffledStates, setShuffledStates] = useState<string[]>([]);
-  const [currentState, setCurrentState] = useState<string | null>(null);
-  const [score, setScore] = useState<number>(0);
-  const [guessedStates, setGuessedStates] = useState<Set<string>>(new Set());
-  const [attempts, setAttempts] = useState<{ [key: string]: number }>({});
-  const [currentAttempts, setCurrentAttempts] = useState<number>(0);
   const [tempStateName, setTempStateName] = useState<string | null>(null);
-  const [skippedState, setSkippedState] = useState<string | null>(null);
-  const [gameOver, setGameOver] = useState({ open: false, message: "" });
+
+  const {
+    currentTarget: currentState,
+    score,
+    total,
+    skippedTarget: skippedState,
+    gameOver,
+    start,
+    handleGuess,
+    handleSkip,
+    playAgain,
+    closeGameOver,
+    getFillColor,
+  } = useMapQuizGame();
 
   const {
     zoom,
@@ -57,81 +63,16 @@ const States: React.FC = () => {
   const zoomTip = isTouchDevice ? t("common.zoomTipTouch") : t("common.zoomTipMouse");
 
   useEffect(() => {
-    const shuffled = shuffle(statesList);
-    setShuffledStates(shuffled);
-    setCurrentState(shuffled[0] ?? null);
-  }, []);
+    start(statesList);
+  }, [start]);
 
   const handleStateClick = (stateName: string) => {
-    if (!currentState || isDragging || hasMoved || skippedState) return;
-
-    if (stateName === currentState) {
-      setScore((prev) => prev + 1);
-      setGuessedStates((prev) => new Set(prev).add(stateName));
-      setAttempts((prevAttempts) => ({
-        ...prevAttempts,
-        [stateName]: currentAttempts + 1,
-      }));
-      const nextIndex = shuffledStates.indexOf(currentState) + 1;
-      if (nextIndex < shuffledStates.length) {
-        setCurrentState(shuffledStates[nextIndex]);
-        setCurrentAttempts(0);
-      } else {
-        setGameOver({
-          open: true,
-          message: t("game.statesResult", { score: score + 1, total: statesList.length }),
-        });
-      }
-    } else {
-      setCurrentAttempts((prev) => prev + 1);
+    if (isDragging || hasMoved) return;
+    const correct = handleGuess(stateName);
+    if (correct === false) {
       setTempStateName(getUsStateName(stateName, i18n.language));
-      setTimeout(() => setTempStateName(null), 2000);
+      setTimeout(() => setTempStateName(null), SKIP_REVEAL_MS);
     }
-  };
-
-  const handleSkip = () => {
-    if (!currentState || skippedState) return;
-    const skipped = currentState;
-    setSkippedState(skipped);
-    setAttempts((prevAttempts) => ({
-      ...prevAttempts,
-      [skipped]: currentAttempts,
-    }));
-    setTimeout(() => {
-      setSkippedState(null);
-      const nextIndex = shuffledStates.indexOf(skipped) + 1;
-      if (nextIndex < shuffledStates.length) {
-        setCurrentState(shuffledStates[nextIndex]);
-        setCurrentAttempts(0);
-      } else {
-        setGameOver({
-          open: true,
-          message: t("game.statesResult", { score: score, total: statesList.length }),
-        });
-      }
-    }, 2000);
-  };
-
-  const getFillColor = (stateName: string) => {
-    const attemptCount = attempts[stateName] || 0;
-    if (guessedStates.has(stateName)) {
-      if (attemptCount === 1) return "#00FF00";
-      if (attemptCount === 2) return "#8ec961";
-      if (attemptCount === 3) return "#fff200";
-      return "#FF0000";
-    }
-    return "#D6D6DA";
-  };
-
-  const handlePlayAgain = () => {
-    setGameOver({ open: false, message: "" });
-    const shuffled = shuffle(statesList);
-    setShuffledStates(shuffled);
-    setCurrentState(shuffled[0] ?? null);
-    setScore(0);
-    setGuessedStates(new Set());
-    setAttempts({});
-    setCurrentAttempts(0);
   };
 
   return (
@@ -156,7 +97,7 @@ const States: React.FC = () => {
         {currentState ? getUsStateName(currentState, i18n.language) : t("common.loading")}
       </Typography>
       <Typography variant="body2" sx={{ m: 0, mb: "10px", opacity: 0.8 }}>
-        {t("scores.points")}: {score}/{statesList.length}
+        {t("scores.points")}: {score}/{total}
       </Typography>
 
       <Button
@@ -281,11 +222,11 @@ const States: React.FC = () => {
       </Typography>
 
       <GameOverDialog
-        open={gameOver.open}
+        open={gameOver}
         title={t("game.wellPlayed")}
-        message={gameOver.message}
-        onClose={() => setGameOver({ open: false, message: "" })}
-        onPlayAgain={handlePlayAgain}
+        message={t("game.statesResult", { score, total })}
+        onClose={closeGameOver}
+        onPlayAgain={playAgain}
       />
     </div>
   );
