@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Box,
   Paper,
@@ -13,14 +13,14 @@ import {
 } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTranslation } from "react-i18next";
-import { Country } from "../types/Country";
 import { getAllCountries } from "../data/countries";
 import { getCountryName } from "../i18n/countryNames";
 
+const data = getAllCountries();
+
 const Countries: React.FC = () => {
   const { t, i18n } = useTranslation();
-  const data = getAllCountries();
-  const [copyList, setCopyList] = useState<Country[]>(data);
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     const contentEl = document.querySelector(".content");
@@ -31,20 +31,14 @@ const Countries: React.FC = () => {
     };
   }, []);
 
-  const requestSearch = (searched: string) => {
-    const value = searched.trim().toLowerCase();
-
-    if (!value.length) {
-      setCopyList(data);
-      return;
-    }
-
-    setCopyList(
-      data.filter((item) =>
-        getCountryName(item, i18n.language).toLowerCase().includes(value)
-      )
+  // Recomputed when the language changes so an active filter follows along
+  const copyList = useMemo(() => {
+    const value = query.trim().toLowerCase();
+    if (!value.length) return data;
+    return data.filter((item) =>
+      getCountryName(item, i18n.language).toLowerCase().includes(value)
     );
-  };
+  }, [query, i18n.language]);
 
   const isDesktop = useMediaQuery("(min-width:1024px)");
 
@@ -72,7 +66,7 @@ const Countries: React.FC = () => {
           variant="outlined"
           placeholder={t("pages.countries.searchPlaceholder")}
           type="search"
-          onChange={(e) => requestSearch(e.target.value)}
+          onChange={(e) => setQuery(e.target.value)}
           InputProps={{ sx: { borderRadius: 999 } }}
           sx={{
             width: "100%",

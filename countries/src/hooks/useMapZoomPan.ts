@@ -294,10 +294,6 @@ export function useMapZoomPan() {
     onTouchEnd: handleTouchEnd,
   }), [handleMouseDown, handleMouseMove, handleMouseUp, handleTouchStart, handleTouchMove, handleTouchEnd]);
 
-  const zoomTip = isTouchDevice
-    ? "Nyp för att zooma. Dra kartan för att panorera."
-    : "Scrolla för att zooma. Dra kartan för att panorera.";
-
   return {
     zoom,
     pan,
@@ -312,6 +308,5 @@ export function useMapZoomPan() {
     containerStyle,
     transformStyle,
     containerHandlers,
-    zoomTip,
   };
 }

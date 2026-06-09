@@ -30,12 +30,16 @@ test("every quizzed map geometry has a Swedish display name", () => {
   expect(missing).toEqual([]);
 });
 
-test("English alias keys all exist in the TopoJSON", () => {
+test("no stale mapping keys that don't exist in the TopoJSON", () => {
   const geoSet = new Set(geometryNames);
-  const stale = Object.keys(countryNamesEnglish).filter(
-    (key) => !geoSet.has(key)
-  );
-  expect(stale).toEqual([]);
+  for (const mapping of [
+    countryToRegion,
+    countryNamesSwedish,
+    countryNamesEnglish,
+  ]) {
+    const stale = Object.keys(mapping).filter((key) => !geoSet.has(key));
+    expect(stale).toEqual([]);
+  }
 });
 
 test("display names use current country naming in both languages", () => {
