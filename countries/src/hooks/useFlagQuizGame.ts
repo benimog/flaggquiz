@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Country } from "../types/Country";
+import { shuffle } from "../utils/shuffle";
 
 interface UseFlagQuizGameReturn {
   randomCountry: Country | null;
@@ -16,31 +17,31 @@ export function useFlagQuizGame(countries: Country[]): UseFlagQuizGameReturn {
   const [correctPicks, setCorrectPicks] = useState<number>(0);
   const [incorrectPicks, setIncorrectPicks] = useState<number>(0);
 
+  // Track the current country in a ref so getRandomCountry can avoid
+  // showing the same flag twice in a row.
+  const currentCountryRef = useRef<Country | null>(null);
+
   const getChoices = useCallback(
     (randomIndex: number) => {
-      const result: Country[] = [];
-      while (result.length < 3) {
-        const randomChoiceIndex = Math.floor(Math.random() * countries.length);
-        if (randomChoiceIndex !== randomIndex) {
-          const randomChoice = countries[randomChoiceIndex];
-          if (!result.includes(randomChoice)) {
-            result.push(randomChoice);
-          }
-        }
-      }
-      result.push(countries[randomIndex]);
-      result.sort(() => Math.random() - 0.5);
-      return result;
+      const wrongChoices = shuffle(
+        countries.filter((_, index) => index !== randomIndex)
+      ).slice(0, 3);
+      return shuffle([...wrongChoices, countries[randomIndex]]);
     },
     [countries]
   );
 
   const getRandomCountry = useCallback(() => {
-    if (countries.length > 0) {
-      const randomIndex = Math.floor(Math.random() * countries.length);
-      setRandomCountry(countries[randomIndex]);
-      setChoices(getChoices(randomIndex));
+    if (countries.length === 0) return;
+    let randomIndex = Math.floor(Math.random() * countries.length);
+    if (countries.length > 1) {
+      while (countries[randomIndex] === currentCountryRef.current) {
+        randomIndex = Math.floor(Math.random() * countries.length);
+      }
     }
+    currentCountryRef.current = countries[randomIndex];
+    setRandomCountry(countries[randomIndex]);
+    setChoices(getChoices(randomIndex));
   }, [countries, getChoices]);
 
   useEffect(() => {

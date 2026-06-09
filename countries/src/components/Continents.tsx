@@ -22,7 +22,7 @@ function Continents() {
     [selectedRegion]
   );
 
-  const [snackbar, setSnackbar] = useState({ open: false, message: "" });
+  const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "error" as "error" | "success" });
 
   const {
     randomCountry,
@@ -35,12 +35,15 @@ function Continents() {
 
   const onChoice = (choice: Country) => {
     const result = handleChoice(choice);
-    if (!result.correct && result.answer) {
+    if (result.correct) {
+      setSnackbar({ open: true, message: t("quiz.correctAnswer"), severity: "success" });
+    } else if (result.answer) {
       setSnackbar({
         open: true,
         message: t("quiz.wrongAnswerIs", {
           answer: getCountryName(result.answer, i18n.language),
         }),
+        severity: "error",
       });
     }
   };
@@ -128,8 +131,9 @@ function Continents() {
       <FeedbackSnackbar
         open={snackbar.open}
         message={snackbar.message}
-        severity="error"
-        onClose={() => setSnackbar({ open: false, message: "" })}
+        severity={snackbar.severity}
+        autoHideDuration={snackbar.severity === "success" ? 1200 : 2500}
+        onClose={() => setSnackbar((prev) => ({ ...prev, open: false }))}
       />
     </div>
   );

@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import landskapMap from "../svenska-landskap.json";
 import landskap from "../landskap.json";
 import { useMapZoomPan } from "../hooks/useMapZoomPan";
+import { shuffle } from "../utils/shuffle";
 import { getLandskapName } from "../i18n/landskapNames";
 import GameOverDialog from "./feedback/GameOverDialog";
 
@@ -48,7 +49,7 @@ const Landskap: React.FC = () => {
   const zoomTip = isTouchDevice ? t("common.zoomTipTouch") : t("common.zoomTipMouse");
 
   useEffect(() => {
-    const shuffled = [...landskapList].sort(() => Math.random() - 0.5);
+    const shuffled = shuffle(landskapList);
     setShuffledLandskap(shuffled);
     setCurrentLandskap(shuffled[0] ?? null);
   }, []);
@@ -116,7 +117,7 @@ const Landskap: React.FC = () => {
 
   const handlePlayAgain = () => {
     setGameOver({ open: false, message: "" });
-    const shuffled = [...landskapList].sort(() => Math.random() - 0.5);
+    const shuffled = shuffle(landskapList);
     setShuffledLandskap(shuffled);
     setCurrentLandskap(shuffled[0] ?? null);
     setScore(0);

@@ -22,13 +22,13 @@ function Daily() {
   const [incorrectPicks, setIncorrectPicks] = useState<number>(0);
   const [dailyCountries, setDailyCountries] = useState<Country[]>([]);
   const [countryIndex, setCountryIndex] = useState<number>(0);
-  const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "error" as "error" | "info" });
+  const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "error" as "error" | "info" | "success" });
   const [gameOver, setGameOver] = useState({ open: false, message: "" });
   const autocompleteRef = useRef<HTMLDivElement | null>(null);
   const numberOfCountries = 10;
 
   const filterOptions = createFilterOptions({
-    matchFrom: "start",
+    matchFrom: "any",
     stringify: (option: Country) => getCountryName(option, i18n.language),
   });
 
@@ -60,6 +60,7 @@ function Daily() {
 
     if (isCorrect) {
       setCorrectPicks((prev) => prev + 1);
+      setSnackbar({ open: true, message: t("quiz.correctAnswer"), severity: "success" });
     } else {
       setIncorrectPicks((prev) => prev + 1);
       setSnackbar({
@@ -196,7 +197,8 @@ function Daily() {
         open={snackbar.open}
         message={snackbar.message}
         severity={snackbar.severity}
-        onClose={() => setSnackbar({ open: false, message: "", severity: "error" })}
+        autoHideDuration={snackbar.severity === "success" ? 1200 : 2500}
+        onClose={() => setSnackbar((prev) => ({ ...prev, open: false }))}
       />
 
       <GameOverDialog

@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import usMap from "../us-states.json";
 import states from "../states.json";
 import { useMapZoomPan } from "../hooks/useMapZoomPan";
+import { shuffle } from "../utils/shuffle";
 import { getUsStateName } from "../i18n/usStateNames";
 import GameOverDialog from "./feedback/GameOverDialog";
 
@@ -48,7 +49,7 @@ const States: React.FC = () => {
   const zoomTip = isTouchDevice ? t("common.zoomTipTouch") : t("common.zoomTipMouse");
 
   useEffect(() => {
-    const shuffled = [...statesList].sort(() => Math.random() - 0.5);
+    const shuffled = shuffle(statesList);
     setShuffledStates(shuffled);
     setCurrentState(shuffled[0] ?? null);
   }, []);
@@ -116,7 +117,7 @@ const States: React.FC = () => {
 
   const handlePlayAgain = () => {
     setGameOver({ open: false, message: "" });
-    const shuffled = [...statesList].sort(() => Math.random() - 0.5);
+    const shuffled = shuffle(statesList);
     setShuffledStates(shuffled);
     setCurrentState(shuffled[0] ?? null);
     setScore(0);

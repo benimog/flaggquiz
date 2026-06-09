@@ -38,6 +38,7 @@
     "pickCountry": "Pick the correct country for the flag",
     "pickFirst": "Pick a country first!",
     "wrongAnswerIs": "Wrong! The correct answer is {{answer}}",
+    "correctAnswer": "Correct!",
     "independentCountries": "Independent countries",
     "allCountries": "All countries & regions",
     "changeContinent": "\u2190 Change continent",

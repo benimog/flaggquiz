@@ -18,11 +18,11 @@ function FlagWrite() {
   const [selectedCountry, setSelectedCountry] = useState<Country | string>("");
   const [correctPicks, setCorrectPicks] = useState<number>(0);
   const [incorrectPicks, setIncorrectPicks] = useState<number>(0);
-  const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "error" as "error" | "info" });
+  const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "error" as "error" | "info" | "success" });
   const autocompleteRef = useRef<HTMLDivElement | null>(null);
 
   const filterOptions = createFilterOptions({
-    matchFrom: "start",
+    matchFrom: "any",
     stringify: (option: Country) => getCountryName(option, i18n.language),
   });
 
@@ -33,10 +33,14 @@ function FlagWrite() {
   }, []);
 
   const getRandomCountry = () => {
-    if (countries.length > 0) {
-      const randomIndex = Math.floor(Math.random() * countries.length);
-      setRandomCountry(countries[randomIndex]);
+    if (countries.length === 0) return;
+    let randomIndex = Math.floor(Math.random() * countries.length);
+    if (countries.length > 1) {
+      while (countries[randomIndex] === randomCountry) {
+        randomIndex = Math.floor(Math.random() * countries.length);
+      }
     }
+    setRandomCountry(countries[randomIndex]);
   };
 
   const handleChoice = () => {
@@ -46,6 +50,7 @@ function FlagWrite() {
     }
     if (selectedCountry === randomCountry) {
       setCorrectPicks((prev) => prev + 1);
+      setSnackbar({ open: true, message: t("quiz.correctAnswer"), severity: "success" });
     } else {
       setIncorrectPicks((prev) => prev + 1);
       setSnackbar({
@@ -132,7 +137,8 @@ function FlagWrite() {
         open={snackbar.open}
         message={snackbar.message}
         severity={snackbar.severity}
-        onClose={() => setSnackbar({ open: false, message: "", severity: "error" })}
+        autoHideDuration={snackbar.severity === "success" ? 1200 : 2500}
+        onClose={() => setSnackbar((prev) => ({ ...prev, open: false }))}
       />
     </div>
   );

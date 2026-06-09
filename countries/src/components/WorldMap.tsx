@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useMapZoomPan } from "../hooks/useMapZoomPan";
+import { shuffle } from "../utils/shuffle";
 import { countryToRegion, regionConfigs, getCountryDisplayName, getRegionDisplayName, RegionSlug } from "../data/countryRegions";
 import GameOverDialog from "./feedback/GameOverDialog";
 
@@ -216,10 +217,11 @@ const WorldMapInner: React.FC<WorldMapProps> = ({ region }) => {
 
     const handleGeographiesLoad = useCallback((geographies: CustomFeature[]) => {
         if (!isLoaded && geographies.length > 0) {
-            const countryNames = geographies
-                .map((geo) => geo.properties.name)
-                .filter((name) => name && name !== "Antarctica" && name !== "Fr. S. Antarctic Lands" && isInRegion(name, region))
-                .sort(() => Math.random() - 0.5);
+            const countryNames = shuffle(
+                geographies
+                    .map((geo) => geo.properties.name)
+                    .filter((name) => name && name !== "Antarctica" && name !== "Fr. S. Antarctic Lands" && isInRegion(name, region))
+            );
 
             setCountries(countryNames);
             setShuffledCountries(countryNames);
@@ -302,7 +304,7 @@ const WorldMapInner: React.FC<WorldMapProps> = ({ region }) => {
         setGuessedCountries(new Set());
         setAttempts({});
         setCurrentAttempts(0);
-        const reshuffled = [...countries].sort(() => Math.random() - 0.5);
+        const reshuffled = [...countries]
         setShuffledCountries(reshuffled);
         setCurrentCountry(reshuffled[0]);
     };
