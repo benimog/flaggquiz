@@ -1,6 +1,20 @@
 // Region slugs used in URL params
 export type RegionSlug = "europe" | "africa" | "north-america" | "south-america" | "asia" | "oceania";
 
+// Canonical slug list, in menu/picker display order
+export const regionSlugs: RegionSlug[] = [
+    "europe",
+    "africa",
+    "north-america",
+    "south-america",
+    "asia",
+    "oceania",
+];
+
+export function isRegionSlug(value: string | undefined): value is RegionSlug {
+    return !!value && (regionSlugs as string[]).includes(value);
+}
+
 // Map every TopoJSON country name to a region
 export const countryToRegion: Record<string, RegionSlug> = {
     // Europe

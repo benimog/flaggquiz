@@ -117,6 +117,8 @@
     "oceania": "Oceanien"
   },
   "errors": {
-    "fetchFailed": "Kunde inte hämta data"
+    "fetchFailed": "Kunde inte hämta data",
+    "notFound": "Sidan finns inte.",
+    "goHome": "Till startsidan"
   }
 }

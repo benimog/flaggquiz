@@ -2,10 +2,11 @@ import React, { useEffect, useState, useMemo } from "react";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Navigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Country } from "../types/Country";
 import { getIndependentCountriesByContinent } from "../data/countries";
+import { isRegionSlug } from "../data/countryRegions";
 import { useFlagQuizGame } from "../hooks/useFlagQuizGame";
 import { getCountryName } from "../i18n/countryNames";
 import FeedbackSnackbar from "./feedback/FeedbackSnackbar";
@@ -64,6 +65,10 @@ function Continents() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [choices, randomCountry]);
+
+  if (!isRegionSlug(selectedRegion)) {
+    return <Navigate to="/varldsdelar" replace />;
+  }
 
   const continentLabel = t(`continents.${selectedRegion}`, { defaultValue: selectedRegion });
 

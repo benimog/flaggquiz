@@ -117,6 +117,8 @@
     "oceania": "Oceania"
   },
   "errors": {
-    "fetchFailed": "Could not fetch data"
+    "fetchFailed": "Could not fetch data",
+    "notFound": "Page not found.",
+    "goHome": "Go to the start page"
   }
 }

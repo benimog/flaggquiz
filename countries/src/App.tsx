@@ -20,6 +20,7 @@ const WorldMapRegion = React.lazy(() =>
 const RegionMapSelect = React.lazy(() => import("./components/RegionMapSelect"));
 const Landskap = React.lazy(() => import("./components/Landskap"));
 const About = React.lazy(() => import("./components/About"));
+const NotFound = React.lazy(() => import("./components/NotFound"));
 
 function RedirectContinentRegion() {
   const { region } = useParams();
@@ -80,6 +81,8 @@ function App() {
               <Route path="/worldmap" element={<Navigate to="/varldskarta" replace />} />
               <Route path="/worldmap/regions" element={<Navigate to="/varldskarta/regioner" replace />} />
               <Route path="/worldmap/:region" element={<RedirectWorldmapRegion />} />
+
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
         </div>

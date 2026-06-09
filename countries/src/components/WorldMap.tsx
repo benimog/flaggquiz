@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo, useRef, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Navigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { Feature } from "geojson";
@@ -8,7 +8,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useMapZoomPan } from "../hooks/useMapZoomPan";
 import { shuffle } from "../utils/shuffle";
-import { countryToRegion, regionConfigs, getCountryDisplayName, getRegionDisplayName, RegionSlug } from "../data/countryRegions";
+import { countryToRegion, regionConfigs, getCountryDisplayName, getRegionDisplayName, isRegionSlug, RegionSlug } from "../data/countryRegions";
 import GameOverDialog from "./feedback/GameOverDialog";
 
 interface CustomFeature extends Feature {
@@ -460,9 +460,10 @@ const WorldMap: React.FC = () => <WorldMapInner />;
 
 export const WorldMapRegion: React.FC = () => {
     const { region } = useParams<{ region: string }>();
-    const validRegions: RegionSlug[] = ["europe", "africa", "north-america", "south-america", "asia", "oceania"];
-    const regionSlug = validRegions.includes(region as RegionSlug) ? (region as RegionSlug) : undefined;
-    return <WorldMapInner region={regionSlug} />;
+    if (!isRegionSlug(region)) {
+        return <Navigate to="/varldskarta/regioner" replace />;
+    }
+    return <WorldMapInner region={region} />;
 };
 
 export default WorldMap;
