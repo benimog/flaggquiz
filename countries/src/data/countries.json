@@ -495,6 +495,15 @@
     "flagAlt": "The flag of Estonia is composed of three equal horizontal bands of blue, black and white."
   },
   {
+    "code": "sz",
+    "name": "Eswatini",
+    "nameSwe": "Eswatini",
+    "independent": true,
+    "region": "Africa",
+    "subregion": "Southern Africa",
+    "flagAlt": "The flag of Eswatini is composed of three horizontal bands — a large central yellow-edged red band, and a light blue band above and beneath the red band. The red band is three times the height of the blue bands and bears a centered emblem made up of a large black and white Nguni shield covering two spears and a staff decorated with feather tassels, all placed horizontally."
+  },
+  {
     "code": "et",
     "name": "Ethiopia",
     "nameSwe": "Etiopien",
@@ -1721,7 +1730,7 @@
   {
     "code": "sh",
     "name": "Saint Helena, Ascension and Tristan da Cunha",
-    "nameSwe": "Sankta Helena",
+    "nameSwe": "Sankt Helena, Ascension och Tristan da Cunha",
     "independent": false,
     "region": "Africa",
     "subregion": "Western Africa",
@@ -1899,15 +1908,6 @@
     "flagAlt": "The flag of Sweden has a blue field with a large golden-yellow cross that extend to the edges of the field. The vertical part of this cross is offset towards the hoist side."
   },
   {
-    "code": "sz",
-    "name": "Eswatini",
-    "nameSwe": "Swaziland",
-    "independent": true,
-    "region": "Africa",
-    "subregion": "Southern Africa",
-    "flagAlt": "The flag of Eswatini is composed of three horizontal bands — a large central yellow-edged red band, and a light blue band above and beneath the red band. The red band is three times the height of the blue bands and bears a centered emblem made up of a large black and white Nguni shield covering two spears and a staff decorated with feather tassels, all placed horizontally."
-  },
-  {
     "code": "za",
     "name": "South Africa",
     "nameSwe": "Sydafrika",
@@ -2018,7 +2018,7 @@
   {
     "code": "tk",
     "name": "Tokelau",
-    "nameSwe": "Tokelauöarna",
+    "nameSwe": "Tokelau",
     "independent": false,
     "region": "Oceania",
     "subregion": "Polynesia",

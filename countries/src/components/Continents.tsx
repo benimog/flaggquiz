@@ -5,18 +5,11 @@ import Typography from "@mui/material/Typography";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Country } from "../types/Country";
-import { getCountriesByRegion } from "../data/countries";
+import { getIndependentCountriesByContinent } from "../data/countries";
 import { useFlagQuizGame } from "../hooks/useFlagQuizGame";
 import { getCountryName } from "../i18n/countryNames";
 import FeedbackSnackbar from "./feedback/FeedbackSnackbar";
 import ScoreDisplay from "./ScoreDisplay";
-
-// REST Countries API subregions that belong to North America
-const northAmericaSubregions = new Set([
-  "Northern America",
-  "Central America",
-  "Caribbean",
-]);
 
 function Continents() {
   const { t, i18n } = useTranslation();
@@ -24,26 +17,10 @@ function Continents() {
   const navigate = useNavigate();
   const selectedRegion = region || "europe";
 
-  const countries = useMemo(() => {
-    const isAmericas =
-      selectedRegion === "north-america" ||
-      selectedRegion === "south-america";
-    const apiRegion = isAmericas ? "americas" : selectedRegion;
-
-    const regionCountries = getCountriesByRegion(apiRegion);
-
-    let independentCountries = regionCountries.filter((e) => e.independent);
-
-    if (isAmericas) {
-      independentCountries = independentCountries.filter((e) =>
-        selectedRegion === "north-america"
-          ? northAmericaSubregions.has(e.subregion)
-          : e.subregion === "South America"
-      );
-    }
-
-    return independentCountries as Country[];
-  }, [selectedRegion]);
+  const countries = useMemo(
+    () => getIndependentCountriesByContinent(selectedRegion),
+    [selectedRegion]
+  );
 
   const [snackbar, setSnackbar] = useState({ open: false, message: "" });
 

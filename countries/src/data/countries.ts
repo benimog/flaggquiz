@@ -65,3 +65,30 @@ export function getCountriesByRegion(region: string): CountryWithRegion[] {
     .filter((c) => c.region.toLowerCase() === region.toLowerCase())
     .map(toCountryWithRegion);
 }
+
+// Subregions of the "Americas" region that belong to North America
+const northAmericaSubregions = new Set([
+  "North America",
+  "Central America",
+  "Caribbean",
+]);
+
+export function getIndependentCountriesByContinent(
+  continent: string
+): Country[] {
+  const isAmericas =
+    continent === "north-america" || continent === "south-america";
+  const region = isAmericas ? "americas" : continent;
+
+  let countries = getCountriesByRegion(region).filter((c) => c.independent);
+
+  if (isAmericas) {
+    countries = countries.filter((c) =>
+      continent === "north-america"
+        ? northAmericaSubregions.has(c.subregion)
+        : c.subregion === "South America"
+    );
+  }
+
+  return countries;
+}
