@@ -8,6 +8,8 @@ interface RawCountry {
   independent: boolean;
   region: string;
   subregion: string;
+  capital?: string;
+  capitalSwe?: string;
   flagAlt: string;
 }
 
@@ -34,6 +36,14 @@ function toCountry(raw: RawCountry): Country {
         official: "",
       },
     },
+    ...(raw.capital
+      ? {
+          capital: {
+            common: raw.capital,
+            swe: raw.capitalSwe ?? raw.capital,
+          },
+        }
+      : {}),
   };
 }
 

@@ -12,6 +12,8 @@ interface RawCountry {
   independent: boolean;
   region: string;
   subregion: string;
+  capital?: string;
+  capitalSwe?: string;
   flagAlt: string;
 }
 
@@ -45,6 +47,22 @@ test("getAllCountries returns every entry with a local flag path", () => {
   for (const c of all) {
     expect(c.flags.png).toMatch(/^\/flags\/[a-z]{2,3}\.png$/);
   }
+});
+
+test("every independent country has English and Swedish capital names", () => {
+  for (const c of getIndependentCountries()) {
+    expect(c.capital?.common).toBeTruthy();
+    expect(c.capital?.swe).toBeTruthy();
+  }
+});
+
+test("uses Swedish exonyms for capitals", () => {
+  const byCode = new Map(data.map((c) => [c.code, c]));
+  expect(byCode.get("se")?.capitalSwe).toBe("Stockholm");
+  expect(byCode.get("dk")?.capital).toBe("Copenhagen");
+  expect(byCode.get("dk")?.capitalSwe).toBe("Köpenhamn");
+  expect(byCode.get("cn")?.capitalSwe).toBe("Peking");
+  expect(byCode.get("fi")?.capitalSwe).toBe("Helsingfors");
 });
 
 test("uses current Swedish country names", () => {

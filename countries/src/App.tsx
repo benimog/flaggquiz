@@ -7,6 +7,8 @@ import PopdownMenu from "./components/PopdownMenu";
 import LoadingSpinner from "./components/LoadingSpinner";
 
 const FlagQuiz = React.lazy(() => import("./components/FlagQuiz"));
+const ReverseFlagQuiz = React.lazy(() => import("./components/ReverseFlagQuiz"));
+const CapitalQuiz = React.lazy(() => import("./components/CapitalQuiz"));
 const FlagWrite = React.lazy(() => import("./components/FlagWrite"));
 const Daily = React.lazy(() => import("./components/Daily"));
 const ContinentSelect = React.lazy(() => import("./components/ContinentSelect"));
@@ -25,6 +27,8 @@ const NotFound = React.lazy(() => import("./components/NotFound"));
 // First URL segment -> translation key for the document title
 const pageTitleKeys: Record<string, string> = {
   flaggor: "menu.flagquiz",
+  "hitta-flaggan": "menu.findFlag",
+  huvudstader: "menu.capitals",
   skriv: "menu.writeMode",
   daglig: "menu.daily",
   varldsdelar: "menu.continent",
@@ -84,6 +88,8 @@ function App() {
             <Routes>
               <Route path="/" element={<FlagQuiz mode="independent" />} />
               <Route path="/flaggor" element={<FlagQuiz mode="all" />} />
+              <Route path="/hitta-flaggan" element={<ReverseFlagQuiz />} />
+              <Route path="/huvudstader" element={<CapitalQuiz />} />
               <Route path="/lander" element={<Countries />} />
               <Route path="/skriv" element={<FlagWrite />} />
               <Route path="/om" element={<About />} />

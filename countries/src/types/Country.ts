@@ -14,4 +14,8 @@ export interface Country {
       common: string;
     };
   };
+  capital?: {
+    common: string;
+    swe: string;
+  };
 }

@@ -33,6 +33,18 @@ function About() {
               — {t("pages.about.modes.flagquizAllDesc")}
             </li>
             <li>
+              <Link component={RouterLink} to="/hitta-flaggan" color="primary">
+                {t("pages.about.modes.findFlag")}
+              </Link>{" "}
+              — {t("pages.about.modes.findFlagDesc")}
+            </li>
+            <li>
+              <Link component={RouterLink} to="/huvudstader" color="primary">
+                {t("pages.about.modes.capitals")}
+              </Link>{" "}
+              — {t("pages.about.modes.capitalsDesc")}
+            </li>
+            <li>
               <Link component={RouterLink} to="/skriv" color="primary">
                 {t("pages.about.modes.writeMode")}
               </Link>{" "}

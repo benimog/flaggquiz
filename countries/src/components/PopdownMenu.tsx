@@ -25,6 +25,7 @@ const menuSections: MenuSection[] = [
     titleKey: "menu.sectionFlagquiz",
     items: [
       { path: "/", labelKey: "menu.flagquiz", emoji: "\u{1F3C1}" },
+      { path: "/hitta-flaggan", labelKey: "menu.findFlag", emoji: "\u{1F50D}" },
       { path: "/skriv", labelKey: "menu.writeMode", emoji: "\u270D" },
       { path: "/daglig", labelKey: "menu.daily", emoji: "\u{1F4C6}" },
       { path: "/varldsdelar", labelKey: "menu.continent", emoji: "\u{1F310}" },
@@ -42,6 +43,7 @@ const menuSections: MenuSection[] = [
   {
     titleKey: "menu.sectionOther",
     items: [
+      { path: "/huvudstader", labelKey: "menu.capitals", emoji: "\u{1F3DB}\uFE0F" },
       { path: "/lander", labelKey: "menu.countries", emoji: "\u{1F30D}" },
       { path: "/om", labelKey: "menu.about", emoji: "\u{1F9FE}" },
     ],
