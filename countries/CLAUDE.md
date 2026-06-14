@@ -35,7 +35,7 @@ src/
 ├── types/Country.ts          # Shared Country interface (flags, name, translations)
 ├── theme.ts                  # Global MUI dark theme (palette.mode: 'dark', bg: #282c34)
 ├── hooks/
-│   ├── useFlagQuizGame.ts    # Shared flag quiz logic: random country (no immediate repeats), choices, scoring
+│   ├── useFlagQuizGame.ts    # Shared multiple-choice quiz logic: shuffled deck (each country once), choices, scoring, game over; practice flag = never-ending
 │   ├── useMapQuizGame.ts     # Shared map quiz logic: shuffled targets, scoring, skip reveal, game over
 │   └── useMapZoomPan.ts      # Mouse/touch zoom+pan for map components
 ├── utils/
@@ -146,7 +146,8 @@ World map TopoJSON is served locally from `public/world-countries.json`. This is
 ### Patterns
 
 - **Shared types** live in `src/types/`. The `Country` interface is the main data shape.
-- **Custom hooks** live in `src/hooks/`. `useFlagQuizGame` handles quiz state (random country, choices, score tracking); `useMapZoomPan` handles zoom/pan for map components.
+- **Custom hooks** live in `src/hooks/`. `useFlagQuizGame` handles multiple-choice quiz state (deck order, choices, score tracking, game over); `useMapZoomPan` handles zoom/pan for map components.
+- **Flag quiz game modes**: The four multiple-choice quizzes (`FlagQuiz`, `ReverseFlagQuiz`, `Continents`, `CapitalQuiz`) share `useFlagQuizGame`. Standard mode (default) plays the shuffled pool through once — each country appears exactly once — then shows `GameOverDialog`. Practice mode (`t("quiz.practiceMode")`, "Testläge") is the never-ending variant: it reshuffles and continues forever. Each component owns a `practice` boolean state and a `standard`/`practice` `ToggleButtonGroup`. The array passed to the hook must be referentially stable (module-level getter, module-level filter, or `useMemo`) — an inline `.filter()`/`.map()` would restart the deck every render and break standard mode.
 - **Feedback**: Wrong answers use `FeedbackSnackbar` (auto-dismissing, severity `"error"`); correct answers show a short `"success"` snackbar (1200ms). Empty submissions in write-mode quizzes (FlagWrite, Daily) use severity `"info"` to prompt the user. Game completion uses `GameOverDialog`. Never use browser `alert()`.
 - **Quiz flag alt text**: In quiz modes use the neutral `t("quiz.flagAlt")` — the descriptive `flagAlt` data names the country and would spoil the answer for screen readers. The Countries table uses the country name.
 - **Shuffling**: Use `shuffle()` from `src/utils/shuffle.ts`; never `sort(() => Math.random() - 0.5)`.

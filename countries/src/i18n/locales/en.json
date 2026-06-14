@@ -51,6 +51,8 @@
     "flagAlt": "Flag to guess",
     "independentCountries": "Independent countries",
     "allCountries": "All countries & regions",
+    "standardMode": "Game",
+    "practiceMode": "Practice",
     "changeContinent": "\u2190 Change continent",
     "flagXofY": "Flag {{index}} of {{total}}",
     "title": "Flag quiz - {{continent}}"
@@ -62,6 +64,7 @@
   },
   "game": {
     "wellPlayed": "Well played!",
+    "quizResult": "You got {{correct}} out of {{total}} right!",
     "dailyResult": "You got {{correct}} right and {{incorrect}} wrong.",
     "comeBackTomorrow": "Come back tomorrow for new flags!",
     "mapResult": "You got {{score}}/{{total}} countries!",

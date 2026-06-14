@@ -10,11 +10,13 @@ import { getAllCountries, getIndependentCountries } from "../data/countries";
 import { useFlagQuizGame } from "../hooks/useFlagQuizGame";
 import { getCountryName } from "../i18n/countryNames";
 import FeedbackSnackbar from "./feedback/FeedbackSnackbar";
+import GameOverDialog from "./feedback/GameOverDialog";
 import ScoreDisplay from "./ScoreDisplay";
 
 const ReverseFlagQuiz: React.FC = () => {
   const { t, i18n } = useTranslation();
   const [mode, setMode] = useState<"independent" | "all">("independent");
+  const [practice, setPractice] = useState<boolean>(false);
   const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "error" as "error" | "success" });
 
   const countries =
@@ -25,9 +27,12 @@ const ReverseFlagQuiz: React.FC = () => {
     choices,
     correctPicks,
     incorrectPicks,
+    total,
+    gameOver,
     handleChoice,
     resetPicks,
-  } = useFlagQuizGame(countries);
+    closeGameOver,
+  } = useFlagQuizGame(countries, practice);
 
   const onChoice = (choice: Country) => {
     const result = handleChoice(choice);
@@ -83,21 +88,35 @@ const ReverseFlagQuiz: React.FC = () => {
 
   return (
     <div>
-      <ToggleButtonGroup
-        value={mode}
-        exclusive
-        onChange={(_, newMode) => {
-          if (newMode) {
-            setMode(newMode);
-            resetPicks();
-          }
-        }}
-        size="small"
-        sx={{ mb: 2 }}
-      >
-        <ToggleButton value="independent">{t("quiz.independentCountries")}</ToggleButton>
-        <ToggleButton value="all">{t("quiz.allCountries")}</ToggleButton>
-      </ToggleButtonGroup>
+      <Stack spacing={1.5} alignItems="center" sx={{ mb: 2 }}>
+        <ToggleButtonGroup
+          value={mode}
+          exclusive
+          onChange={(_, newMode) => {
+            if (newMode) {
+              setMode(newMode);
+            }
+          }}
+          size="small"
+        >
+          <ToggleButton value="independent">{t("quiz.independentCountries")}</ToggleButton>
+          <ToggleButton value="all">{t("quiz.allCountries")}</ToggleButton>
+        </ToggleButtonGroup>
+
+        <ToggleButtonGroup
+          value={practice ? "practice" : "standard"}
+          exclusive
+          onChange={(_, val) => {
+            if (val) {
+              setPractice(val === "practice");
+            }
+          }}
+          size="small"
+        >
+          <ToggleButton value="standard">{t("quiz.standardMode")}</ToggleButton>
+          <ToggleButton value="practice">{t("quiz.practiceMode")}</ToggleButton>
+        </ToggleButtonGroup>
+      </Stack>
 
       <Typography variant="body1" sx={{ mb: 1 }}>
         {t("quiz.pickFlag")}
@@ -119,10 +138,25 @@ const ReverseFlagQuiz: React.FC = () => {
           <ScoreDisplay
             correct={correctPicks}
             incorrect={incorrectPicks}
+            total={practice ? undefined : total}
             onReset={resetPicks}
           />
         </div>
       )}
+
+      {!randomCountry && total > 0 && !gameOver && (
+        <Button variant="contained" onClick={resetPicks} sx={{ mt: 2 }}>
+          {t("common.playAgain")}
+        </Button>
+      )}
+
+      <GameOverDialog
+        open={gameOver}
+        title={t("game.wellPlayed")}
+        message={t("game.quizResult", { correct: correctPicks, total })}
+        onPlayAgain={resetPicks}
+        onClose={closeGameOver}
+      />
 
       <FeedbackSnackbar
         open={snackbar.open}

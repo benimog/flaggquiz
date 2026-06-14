@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useMemo } from "react";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Typography from "@mui/material/Typography";
 import { useParams, useNavigate, Navigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -10,6 +12,7 @@ import { isRegionSlug } from "../data/countryRegions";
 import { useFlagQuizGame } from "../hooks/useFlagQuizGame";
 import { getCountryName } from "../i18n/countryNames";
 import FeedbackSnackbar from "./feedback/FeedbackSnackbar";
+import GameOverDialog from "./feedback/GameOverDialog";
 import ScoreDisplay from "./ScoreDisplay";
 
 function Continents() {
@@ -23,6 +26,7 @@ function Continents() {
     [selectedRegion]
   );
 
+  const [practice, setPractice] = useState<boolean>(false);
   const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "error" as "error" | "success" });
 
   const {
@@ -30,9 +34,12 @@ function Continents() {
     choices,
     correctPicks,
     incorrectPicks,
+    total,
+    gameOver,
     handleChoice,
     resetPicks,
-  } = useFlagQuizGame(countries);
+    closeGameOver,
+  } = useFlagQuizGame(countries, practice);
 
   const onChoice = (choice: Country) => {
     const result = handleChoice(choice);
@@ -77,13 +84,25 @@ function Continents() {
       <Typography variant="h5" component="h2">
         {t("quiz.title", { continent: continentLabel })}
       </Typography>
-      <Button
-        variant="outlined"
-        onClick={() => navigate("/varldsdelar")}
-        sx={{ mb: 2 }}
-      >
-        {t("quiz.changeContinent")}
-      </Button>
+      <Stack spacing={1.5} alignItems="center" sx={{ mb: 2 }}>
+        <Button variant="outlined" onClick={() => navigate("/varldsdelar")}>
+          {t("quiz.changeContinent")}
+        </Button>
+
+        <ToggleButtonGroup
+          value={practice ? "practice" : "standard"}
+          exclusive
+          onChange={(_, val) => {
+            if (val) {
+              setPractice(val === "practice");
+            }
+          }}
+          size="small"
+        >
+          <ToggleButton value="standard">{t("quiz.standardMode")}</ToggleButton>
+          <ToggleButton value="practice">{t("quiz.practiceMode")}</ToggleButton>
+        </ToggleButtonGroup>
+      </Stack>
 
       {randomCountry && (
         <div>
@@ -128,10 +147,25 @@ function Continents() {
           <ScoreDisplay
             correct={correctPicks}
             incorrect={incorrectPicks}
+            total={practice ? undefined : total}
             onReset={resetPicks}
           />
         </div>
       )}
+
+      {!randomCountry && total > 0 && !gameOver && (
+        <Button variant="contained" onClick={resetPicks} sx={{ mt: 2 }}>
+          {t("common.playAgain")}
+        </Button>
+      )}
+
+      <GameOverDialog
+        open={gameOver}
+        title={t("game.wellPlayed")}
+        message={t("game.quizResult", { correct: correctPicks, total })}
+        onPlayAgain={resetPicks}
+        onClose={closeGameOver}
+      />
 
       <FeedbackSnackbar
         open={snackbar.open}

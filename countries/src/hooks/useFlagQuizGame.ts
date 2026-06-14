@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Country } from "../types/Country";
 import { shuffle } from "../utils/shuffle";
 
@@ -7,69 +7,113 @@ interface UseFlagQuizGameReturn {
   choices: Country[];
   correctPicks: number;
   incorrectPicks: number;
+  total: number;
+  gameOver: boolean;
   handleChoice: (choice: Country) => { correct: boolean; answer: Country | null };
   resetPicks: () => void;
+  closeGameOver: () => void;
 }
 
-export function useFlagQuizGame(countries: Country[]): UseFlagQuizGameReturn {
-  const [randomCountry, setRandomCountry] = useState<Country | null>(null);
+// Shared logic for the four multiple-choice flag quizzes (FlagQuiz,
+// ReverseFlagQuiz, Continents, CapitalQuiz). The pool is shuffled into a deck
+// and presented one question at a time so each country appears exactly once.
+//
+// - Standard mode (default): the deck is played through once, then `gameOver`.
+// - Practice mode (`practice = true`): never-ending — when the deck is
+//   exhausted it reshuffles and continues (avoiding an immediate repeat of the
+//   last flag at the wrap boundary).
+//
+// In both modes the three wrong choices are drawn from the full pool and may
+// repeat across questions; only the question (the answer flag) is unique.
+export function useFlagQuizGame(
+  countries: Country[],
+  practice: boolean = false
+): UseFlagQuizGameReturn {
+  const [order, setOrder] = useState<Country[]>([]);
+  const [index, setIndex] = useState<number>(0);
   const [choices, setChoices] = useState<Country[]>([]);
   const [correctPicks, setCorrectPicks] = useState<number>(0);
   const [incorrectPicks, setIncorrectPicks] = useState<number>(0);
+  const [gameOver, setGameOver] = useState<boolean>(false);
 
-  // Track the current country in a ref so getRandomCountry can avoid
-  // showing the same flag twice in a row.
-  const currentCountryRef = useRef<Country | null>(null);
-
-  const getChoices = useCallback(
-    (randomIndex: number) => {
+  const buildChoices = useCallback(
+    (answer: Country) => {
       const wrongChoices = shuffle(
-        countries.filter((_, index) => index !== randomIndex)
+        countries.filter((c) => c !== answer)
       ).slice(0, 3);
-      return shuffle([...wrongChoices, countries[randomIndex]]);
+      return shuffle([...wrongChoices, answer]);
     },
     [countries]
   );
 
-  const getRandomCountry = useCallback(() => {
-    if (countries.length === 0) return;
-    let randomIndex = Math.floor(Math.random() * countries.length);
-    if (countries.length > 1) {
-      while (countries[randomIndex] === currentCountryRef.current) {
-        randomIndex = Math.floor(Math.random() * countries.length);
-      }
-    }
-    currentCountryRef.current = countries[randomIndex];
-    setRandomCountry(countries[randomIndex]);
-    setChoices(getChoices(randomIndex));
-  }, [countries, getChoices]);
+  const setup = useCallback(() => {
+    const newOrder = shuffle(countries);
+    setOrder(newOrder);
+    setIndex(0);
+    setChoices(newOrder.length > 0 ? buildChoices(newOrder[0]) : []);
+    setCorrectPicks(0);
+    setIncorrectPicks(0);
+    setGameOver(false);
+  }, [countries, buildChoices]);
 
+  // (Re)start whenever the pool changes (mode/continent/direction toggle) or
+  // when switching between standard and practice mode. The country getters
+  // return stable, module-level arrays, so this fires only on real changes.
   useEffect(() => {
-    if (countries.length > 0) {
-      getRandomCountry();
+    setup();
+  }, [setup, practice]);
+
+  const advance = useCallback(() => {
+    const next = index + 1;
+    if (next >= order.length) {
+      if (practice) {
+        const last = order[index];
+        let newOrder = shuffle(countries);
+        if (newOrder.length > 1) {
+          while (newOrder[0] === last) {
+            newOrder = shuffle(countries);
+          }
+        }
+        setOrder(newOrder);
+        setIndex(0);
+        setChoices(newOrder.length > 0 ? buildChoices(newOrder[0]) : []);
+      } else {
+        setIndex(next);
+        setChoices([]);
+        setGameOver(true);
+      }
+    } else {
+      setIndex(next);
+      setChoices(buildChoices(order[next]));
     }
-  }, [countries, getRandomCountry]);
+  }, [index, order, practice, countries, buildChoices]);
+
+  const randomCountry = index < order.length ? order[index] : null;
 
   const handleChoice = useCallback(
     (choice: Country): { correct: boolean; answer: Country | null } => {
-      const correct = choice === randomCountry;
+      if (gameOver) {
+        return { correct: false, answer: null };
+      }
+      const answer = randomCountry;
+      const correct = choice === answer;
       if (correct) {
         setCorrectPicks((prev) => prev + 1);
       } else {
         setIncorrectPicks((prev) => prev + 1);
       }
-      getRandomCountry();
-      return {
-        correct,
-        answer: randomCountry,
-      };
+      advance();
+      return { correct, answer };
     },
-    [randomCountry, getRandomCountry]
+    [gameOver, randomCountry, advance]
   );
 
   const resetPicks = useCallback(() => {
-    setCorrectPicks(0);
-    setIncorrectPicks(0);
+    setup();
+  }, [setup]);
+
+  const closeGameOver = useCallback(() => {
+    setGameOver(false);
   }, []);
 
   return {
@@ -77,7 +121,10 @@ export function useFlagQuizGame(countries: Country[]): UseFlagQuizGameReturn {
     choices,
     correctPicks,
     incorrectPicks,
+    total: order.length,
+    gameOver,
     handleChoice,
     resetPicks,
+    closeGameOver,
   };
 }

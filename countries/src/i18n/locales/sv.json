@@ -51,6 +51,8 @@
     "flagAlt": "Flagga att gissa",
     "independentCountries": "Självständiga länder",
     "allCountries": "Alla länder & regioner",
+    "standardMode": "Spel",
+    "practiceMode": "Testläge",
     "changeContinent": "\u2190 Byt världsdel",
     "flagXofY": "Flagga {{index}} av {{total}}",
     "title": "Flaggquiz - {{continent}}"
@@ -62,6 +64,7 @@
   },
   "game": {
     "wellPlayed": "Väl spelat!",
+    "quizResult": "Du fick {{correct}} rätt av {{total}}!",
     "dailyResult": "Du fick {{correct}} rätt och {{incorrect}} fel.",
     "comeBackTomorrow": "Kom tillbaka imorgon för nya flaggor!",
     "mapResult": "Du klarade {{score}}/{{total}} länder!",
