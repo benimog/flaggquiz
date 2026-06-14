@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import ToggleButton from "@mui/material/ToggleButton";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Typography from "@mui/material/Typography";
 import { useTranslation } from "react-i18next";
 import { Country } from "../types/Country";
@@ -11,6 +9,7 @@ import { useFlagQuizGame } from "../hooks/useFlagQuizGame";
 import { getCountryName } from "../i18n/countryNames";
 import FeedbackSnackbar from "./feedback/FeedbackSnackbar";
 import GameOverDialog from "./feedback/GameOverDialog";
+import QuizOptions from "./QuizOptions";
 import ScoreDisplay from "./ScoreDisplay";
 
 const ReverseFlagQuiz: React.FC = () => {
@@ -89,49 +88,37 @@ const ReverseFlagQuiz: React.FC = () => {
 
   return (
     <div>
-      <Stack spacing={1.5} alignItems="center" sx={{ mb: 2 }}>
-        <ToggleButtonGroup
-          value={mode}
-          exclusive
-          onChange={(_, newMode) => {
-            if (newMode) {
-              setMode(newMode);
-            }
-          }}
-          size="small"
-        >
-          <ToggleButton value="independent">{t("quiz.independentCountries")}</ToggleButton>
-          <ToggleButton value="all">{t("quiz.allCountries")}</ToggleButton>
-        </ToggleButtonGroup>
-
-        <ToggleButtonGroup
-          value={practice ? "practice" : "standard"}
-          exclusive
-          onChange={(_, val) => {
-            if (val) {
-              setPractice(val === "practice");
-            }
-          }}
-          size="small"
-        >
-          <ToggleButton value="standard">{t("quiz.standardMode")}</ToggleButton>
-          <ToggleButton value="practice">{t("quiz.practiceMode")}</ToggleButton>
-        </ToggleButtonGroup>
-
-        <ToggleButtonGroup
-          value={hard ? "hard" : "normal"}
-          exclusive
-          onChange={(_, val) => {
-            if (val) {
-              setHard(val === "hard");
-            }
-          }}
-          size="small"
-        >
-          <ToggleButton value="normal">{t("quiz.normalMode")}</ToggleButton>
-          <ToggleButton value="hard">{t("quiz.hardMode")}</ToggleButton>
-        </ToggleButtonGroup>
-      </Stack>
+      <QuizOptions
+        controls={[
+          {
+            caption: t("quiz.scopeLabel"),
+            value: mode,
+            options: [
+              { value: "independent", label: t("quiz.independentShort") },
+              { value: "all", label: t("quiz.allShort") },
+            ],
+            onChange: (val) => setMode(val as "independent" | "all"),
+          },
+          {
+            caption: t("quiz.modeLabel"),
+            value: practice ? "practice" : "standard",
+            options: [
+              { value: "standard", label: t("quiz.standardMode") },
+              { value: "practice", label: t("quiz.practiceMode") },
+            ],
+            onChange: (val) => setPractice(val === "practice"),
+          },
+          {
+            caption: t("quiz.difficultyLabel"),
+            value: hard ? "hard" : "normal",
+            options: [
+              { value: "normal", label: t("quiz.normalMode") },
+              { value: "hard", label: t("quiz.hardMode") },
+            ],
+            onChange: (val) => setHard(val === "hard"),
+          },
+        ]}
+      />
 
       <Typography variant="body1" sx={{ mb: 1 }}>
         {t("quiz.pickFlag")}

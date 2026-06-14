@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
-import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import ToggleButton from "@mui/material/ToggleButton";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useParams, useNavigate, Navigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -13,6 +11,8 @@ import { useFlagQuizGame } from "../hooks/useFlagQuizGame";
 import { getCountryName } from "../i18n/countryNames";
 import FeedbackSnackbar from "./feedback/FeedbackSnackbar";
 import GameOverDialog from "./feedback/GameOverDialog";
+import QuizOptions from "./QuizOptions";
+import ChoiceGrid from "./ChoiceGrid";
 import ScoreDisplay from "./ScoreDisplay";
 
 function Continents() {
@@ -85,39 +85,34 @@ function Continents() {
       <Typography variant="h5" component="h2">
         {t("quiz.title", { continent: continentLabel })}
       </Typography>
-      <Stack spacing={1.5} alignItems="center" sx={{ mb: 2 }}>
-        <Button variant="outlined" onClick={() => navigate("/varldsdelar")}>
+      <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
+        <Button variant="outlined" size="small" onClick={() => navigate("/varldsdelar")}>
           {t("quiz.changeContinent")}
         </Button>
+      </Box>
 
-        <ToggleButtonGroup
-          value={practice ? "practice" : "standard"}
-          exclusive
-          onChange={(_, val) => {
-            if (val) {
-              setPractice(val === "practice");
-            }
-          }}
-          size="small"
-        >
-          <ToggleButton value="standard">{t("quiz.standardMode")}</ToggleButton>
-          <ToggleButton value="practice">{t("quiz.practiceMode")}</ToggleButton>
-        </ToggleButtonGroup>
-
-        <ToggleButtonGroup
-          value={hard ? "hard" : "normal"}
-          exclusive
-          onChange={(_, val) => {
-            if (val) {
-              setHard(val === "hard");
-            }
-          }}
-          size="small"
-        >
-          <ToggleButton value="normal">{t("quiz.normalMode")}</ToggleButton>
-          <ToggleButton value="hard">{t("quiz.hardMode")}</ToggleButton>
-        </ToggleButtonGroup>
-      </Stack>
+      <QuizOptions
+        controls={[
+          {
+            caption: t("quiz.modeLabel"),
+            value: practice ? "practice" : "standard",
+            options: [
+              { value: "standard", label: t("quiz.standardMode") },
+              { value: "practice", label: t("quiz.practiceMode") },
+            ],
+            onChange: (val) => setPractice(val === "practice"),
+          },
+          {
+            caption: t("quiz.difficultyLabel"),
+            value: hard ? "hard" : "normal",
+            options: [
+              { value: "normal", label: t("quiz.normalMode") },
+              { value: "hard", label: t("quiz.hardMode") },
+            ],
+            onChange: (val) => setHard(val === "hard"),
+          },
+        ]}
+      />
 
       {randomCountry && (
         <div>
@@ -131,34 +126,11 @@ function Continents() {
               borderRadius: "4px",
             }}
           />
-          <div>
-            <Stack spacing={2} sx={{ mt: 2 }}>
-              <Stack spacing={2} direction="row" justifyContent="center">
-                <Stack spacing={2} direction="column">
-                  {choices.slice(0, 2).map((choice) => (
-                    <Button
-                      variant="contained"
-                      key={choice.name.common}
-                      onClick={() => onChoice(choice)}
-                    >
-                      {getCountryName(choice, i18n.language)}
-                    </Button>
-                  ))}
-                </Stack>
-                <Stack spacing={2} direction="column">
-                  {choices.slice(2).map((choice) => (
-                    <Button
-                      variant="contained"
-                      key={choice.name.common}
-                      onClick={() => onChoice(choice)}
-                    >
-                      {getCountryName(choice, i18n.language)}
-                    </Button>
-                  ))}
-                </Stack>
-              </Stack>
-            </Stack>
-          </div>
+          <ChoiceGrid
+            choices={choices}
+            getLabel={(choice) => getCountryName(choice, i18n.language)}
+            onChoice={onChoice}
+          />
           <ScoreDisplay
             correct={correctPicks}
             incorrect={incorrectPicks}
