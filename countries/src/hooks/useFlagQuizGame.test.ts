@@ -24,6 +24,44 @@ test("provides 4 unique choices including the answer", () => {
   expect(result.current.choices).toContain(result.current.randomCountry);
 });
 
+test("hard mode draws wrong choices from the answer's group when possible", () => {
+  // Two groups of 5; with a group key the 3 distractors must share the
+  // answer's group (the group has 4 others, enough to fill all three).
+  const countries: Country[] = [];
+  const groups = new Map<Country, string>();
+  for (const group of ["A", "B"]) {
+    for (let i = 0; i < 5; i++) {
+      const c = makeCountry(`${group}-${i}`);
+      groups.set(c, group);
+      countries.push(c);
+    }
+  }
+  const getGroupKey = (c: Country) => groups.get(c);
+  const { result } = renderHook(() =>
+    useFlagQuizGame(countries, false, getGroupKey)
+  );
+
+  const answerGroup = getGroupKey(result.current.randomCountry!);
+  for (const choice of result.current.choices) {
+    expect(getGroupKey(choice)).toBe(answerGroup);
+  }
+});
+
+test("hard mode fills from the rest of the pool when the group is too small", () => {
+  // The answer's group has only itself, so all 3 distractors come from
+  // outside the group but choices must still be 4 and unique.
+  const countries = makeCountries(6);
+  const getGroupKey = (c: Country) =>
+    c === countries[0] ? "solo" : "everyone-else";
+  const { result } = renderHook(() =>
+    useFlagQuizGame(countries, false, getGroupKey)
+  );
+
+  expect(result.current.choices).toHaveLength(4);
+  expect(new Set(result.current.choices).size).toBe(4);
+  expect(result.current.choices).toContain(result.current.randomCountry);
+});
+
 test("handles pools smaller than 4 without hanging", () => {
   const countries = makeCountries(2);
   const { result } = renderHook(() => useFlagQuizGame(countries));

@@ -44,6 +44,7 @@ const menuSections: MenuSection[] = [
     titleKey: "menu.sectionOther",
     items: [
       { path: "/huvudstader", labelKey: "menu.capitals", emoji: "\u{1F3DB}\uFE0F" },
+      { path: "/befolkning", labelKey: "menu.population", emoji: "\u{1F465}" },
       { path: "/lander", labelKey: "menu.countries", emoji: "\u{1F30D}" },
       { path: "/om", labelKey: "menu.about", emoji: "\u{1F9FE}" },
     ],

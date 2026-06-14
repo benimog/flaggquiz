@@ -9,6 +9,7 @@ import LoadingSpinner from "./components/LoadingSpinner";
 const FlagQuiz = React.lazy(() => import("./components/FlagQuiz"));
 const ReverseFlagQuiz = React.lazy(() => import("./components/ReverseFlagQuiz"));
 const CapitalQuiz = React.lazy(() => import("./components/CapitalQuiz"));
+const PopulationQuiz = React.lazy(() => import("./components/PopulationQuiz"));
 const FlagWrite = React.lazy(() => import("./components/FlagWrite"));
 const Daily = React.lazy(() => import("./components/Daily"));
 const ContinentSelect = React.lazy(() => import("./components/ContinentSelect"));
@@ -29,6 +30,7 @@ const pageTitleKeys: Record<string, string> = {
   flaggor: "menu.flagquiz",
   "hitta-flaggan": "menu.findFlag",
   huvudstader: "menu.capitals",
+  befolkning: "menu.population",
   skriv: "menu.writeMode",
   daglig: "menu.daily",
   varldsdelar: "menu.continent",
@@ -90,6 +92,7 @@ function App() {
               <Route path="/flaggor" element={<FlagQuiz mode="all" />} />
               <Route path="/hitta-flaggan" element={<ReverseFlagQuiz />} />
               <Route path="/huvudstader" element={<CapitalQuiz />} />
+              <Route path="/befolkning" element={<PopulationQuiz />} />
               <Route path="/lander" element={<Countries />} />
               <Route path="/skriv" element={<FlagWrite />} />
               <Route path="/om" element={<About />} />

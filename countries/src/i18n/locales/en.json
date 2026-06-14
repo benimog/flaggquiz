@@ -31,6 +31,7 @@
     "provinces": "Swedish provinces",
     "usStates": "US states",
     "countries": "Countries & regions",
+    "population": "Population",
     "about": "About flaggquiz",
     "language": "Language",
     "swedish": "Svenska",
@@ -53,6 +54,8 @@
     "allCountries": "All countries & regions",
     "standardMode": "Game",
     "practiceMode": "Practice",
+    "normalMode": "Normal",
+    "hardMode": "Hard",
     "changeContinent": "\u2190 Change continent",
     "flagXofY": "Flag {{index}} of {{total}}",
     "title": "Flag quiz - {{continent}}"
@@ -67,9 +70,23 @@
     "quizResult": "You got {{correct}} out of {{total}} right!",
     "dailyResult": "You got {{correct}} right and {{incorrect}} wrong.",
     "comeBackTomorrow": "Come back tomorrow for new flags!",
+    "shareResult": "Copy result",
+    "copied": "Copied!",
     "mapResult": "You got {{score}}/{{total}} countries!",
     "statesResult": "You got {{score}}/{{total}} states!",
     "landskapResult": "You got {{score}}/{{total}} provinces!"
+  },
+  "population": {
+    "title": "More or fewer?",
+    "intro": "Guess whether each country has more or fewer inhabitants than the previous one. How long a streak can you reach?",
+    "question": "Does {{challenger}} have more or fewer inhabitants than {{anchor}}?",
+    "inhabitants": "{{value}} inhabitants",
+    "more": "More",
+    "fewer": "Fewer",
+    "streak": "Streak",
+    "best": "Best",
+    "gameOverTitle": "Wrong!",
+    "gameOverMessage": "You reached a streak of {{streak}}. Best: {{best}}."
   },
   "pages": {
     "continentSelect": {
@@ -120,7 +137,9 @@
         "usStates": "US states",
         "usStatesDesc": "Click the correct state",
         "countries": "Countries & regions",
-        "countriesDesc": "Searchable list of all countries and flags"
+        "countriesDesc": "Searchable list of all countries and flags",
+        "population": "Population",
+        "populationDesc": "Higher or lower: guess which country has more people"
       }
     }
   },

@@ -45,6 +45,12 @@ function About() {
               — {t("pages.about.modes.capitalsDesc")}
             </li>
             <li>
+              <Link component={RouterLink} to="/befolkning" color="primary">
+                {t("pages.about.modes.population")}
+              </Link>{" "}
+              — {t("pages.about.modes.populationDesc")}
+            </li>
+            <li>
               <Link component={RouterLink} to="/skriv" color="primary">
                 {t("pages.about.modes.writeMode")}
               </Link>{" "}

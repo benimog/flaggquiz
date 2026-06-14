@@ -18,4 +18,5 @@ export interface Country {
     common: string;
     swe: string;
   };
+  population?: number;
 }

@@ -6,7 +6,7 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Typography from "@mui/material/Typography";
 import { useTranslation } from "react-i18next";
 import { Country } from "../types/Country";
-import { getAllCountries, getIndependentCountries } from "../data/countries";
+import { getAllCountries, getIndependentCountries, getSubregion } from "../data/countries";
 import { useFlagQuizGame } from "../hooks/useFlagQuizGame";
 import { getCountryName } from "../i18n/countryNames";
 import FeedbackSnackbar from "./feedback/FeedbackSnackbar";
@@ -21,6 +21,7 @@ const FlagQuiz: React.FC<FlagQuizProps> = ({ mode: initialMode }) => {
   const { t, i18n } = useTranslation();
   const [mode, setMode] = useState<"independent" | "all">(initialMode);
   const [practice, setPractice] = useState<boolean>(false);
+  const [hard, setHard] = useState<boolean>(false);
   const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "error" as "error" | "success" });
 
   const countries =
@@ -36,7 +37,7 @@ const FlagQuiz: React.FC<FlagQuizProps> = ({ mode: initialMode }) => {
     handleChoice,
     resetPicks,
     closeGameOver,
-  } = useFlagQuizGame(countries, practice);
+  } = useFlagQuizGame(countries, practice, hard ? getSubregion : undefined);
 
   const onChoice = (choice: Country) => {
     const result = handleChoice(choice);
@@ -99,6 +100,20 @@ const FlagQuiz: React.FC<FlagQuizProps> = ({ mode: initialMode }) => {
         >
           <ToggleButton value="standard">{t("quiz.standardMode")}</ToggleButton>
           <ToggleButton value="practice">{t("quiz.practiceMode")}</ToggleButton>
+        </ToggleButtonGroup>
+
+        <ToggleButtonGroup
+          value={hard ? "hard" : "normal"}
+          exclusive
+          onChange={(_, val) => {
+            if (val) {
+              setHard(val === "hard");
+            }
+          }}
+          size="small"
+        >
+          <ToggleButton value="normal">{t("quiz.normalMode")}</ToggleButton>
+          <ToggleButton value="hard">{t("quiz.hardMode")}</ToggleButton>
         </ToggleButtonGroup>
       </Stack>
 

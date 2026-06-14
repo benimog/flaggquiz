@@ -31,6 +31,7 @@
     "provinces": "Svenska landskap",
     "usStates": "Amerikanska stater",
     "countries": "Länder & regioner",
+    "population": "Befolkning",
     "about": "Om flaggquiz",
     "language": "Språk",
     "swedish": "Svenska",
@@ -53,6 +54,8 @@
     "allCountries": "Alla länder & regioner",
     "standardMode": "Spel",
     "practiceMode": "Testläge",
+    "normalMode": "Normalt",
+    "hardMode": "Svårt",
     "changeContinent": "\u2190 Byt världsdel",
     "flagXofY": "Flagga {{index}} av {{total}}",
     "title": "Flaggquiz - {{continent}}"
@@ -67,9 +70,23 @@
     "quizResult": "Du fick {{correct}} rätt av {{total}}!",
     "dailyResult": "Du fick {{correct}} rätt och {{incorrect}} fel.",
     "comeBackTomorrow": "Kom tillbaka imorgon för nya flaggor!",
+    "shareResult": "Kopiera resultat",
+    "copied": "Kopierat!",
     "mapResult": "Du klarade {{score}}/{{total}} länder!",
     "statesResult": "Du klarade {{score}}/{{total}} stater!",
     "landskapResult": "Du klarade {{score}}/{{total}} landskap!"
+  },
+  "population": {
+    "title": "Fler eller färre?",
+    "intro": "Gissa om varje land har fler eller färre invånare än det föregående. Hur många rätt i rad klarar du?",
+    "question": "Har {{challenger}} fler eller färre invånare än {{anchor}}?",
+    "inhabitants": "{{value}} invånare",
+    "more": "Fler",
+    "fewer": "Färre",
+    "streak": "Rätt i rad",
+    "best": "Rekord",
+    "gameOverTitle": "Fel!",
+    "gameOverMessage": "Du fick {{streak}} rätt i rad. Rekord: {{best}}."
   },
   "pages": {
     "continentSelect": {
@@ -120,7 +137,9 @@
         "usStates": "Amerikanska stater",
         "usStatesDesc": "Klicka på rätt stat",
         "countries": "Länder & regioner",
-        "countriesDesc": "Sökbar lista med alla länder och flaggor"
+        "countriesDesc": "Sökbar lista med alla länder och flaggor",
+        "population": "Befolkning",
+        "populationDesc": "Fler eller färre: gissa vilket land som har flest invånare"
       }
     }
   },

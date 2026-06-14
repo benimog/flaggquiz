@@ -23,11 +23,16 @@ interface UseFlagQuizGameReturn {
 //   exhausted it reshuffles and continues (avoiding an immediate repeat of the
 //   last flag at the wrap boundary).
 //
-// In both modes the three wrong choices are drawn from the full pool and may
-// repeat across questions; only the question (the answer flag) is unique.
+// By default the three wrong choices are drawn from the full pool. When a
+// `getGroupKey` function is supplied (hard mode), the wrong choices are drawn
+// from countries that share the answer's group (e.g. its subregion), falling
+// back to the rest of the pool only if that group has fewer than three others.
+// In all modes the wrong choices may repeat across questions; only the
+// question (the answer flag) is unique.
 export function useFlagQuizGame(
   countries: Country[],
-  practice: boolean = false
+  practice: boolean = false,
+  getGroupKey?: (country: Country) => string | undefined
 ): UseFlagQuizGameReturn {
   const [order, setOrder] = useState<Country[]>([]);
   const [index, setIndex] = useState<number>(0);
@@ -38,12 +43,27 @@ export function useFlagQuizGame(
 
   const buildChoices = useCallback(
     (answer: Country) => {
-      const wrongChoices = shuffle(
-        countries.filter((c) => c !== answer)
-      ).slice(0, 3);
+      const others = countries.filter((c) => c !== answer);
+      let wrongChoices: Country[];
+      if (getGroupKey) {
+        const key = getGroupKey(answer);
+        const sameGroup =
+          key != null ? others.filter((c) => getGroupKey(c) === key) : [];
+        wrongChoices = shuffle(sameGroup).slice(0, 3);
+        if (wrongChoices.length < 3) {
+          const picked = new Set(wrongChoices);
+          const filler = shuffle(others.filter((c) => !picked.has(c))).slice(
+            0,
+            3 - wrongChoices.length
+          );
+          wrongChoices = [...wrongChoices, ...filler];
+        }
+      } else {
+        wrongChoices = shuffle(others).slice(0, 3);
+      }
       return shuffle([...wrongChoices, answer]);
     },
-    [countries]
+    [countries, getGroupKey]
   );
 
   const setup = useCallback(() => {

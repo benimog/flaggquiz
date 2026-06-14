@@ -10,6 +10,7 @@ interface RawCountry {
   subregion: string;
   capital?: string;
   capitalSwe?: string;
+  population?: number;
   flagAlt: string;
 }
 
@@ -44,6 +45,7 @@ function toCountry(raw: RawCountry): Country {
           },
         }
       : {}),
+    ...(raw.population != null ? { population: raw.population } : {}),
   };
 }
 
@@ -68,6 +70,28 @@ export function getAllCountries(): Country[] {
 
 export function getIndependentCountries(): Country[] {
   return independentCountries;
+}
+
+// Independent countries with a known population, sorted by population
+// descending. Used by the population higher/lower game.
+const countriesWithPopulation: Country[] = (rawCountries as RawCountry[])
+  .filter((c) => c.independent && c.population != null)
+  .map(toCountry)
+  .sort((a, b) => (b.population ?? 0) - (a.population ?? 0));
+
+export function getCountriesWithPopulation(): Country[] {
+  return countriesWithPopulation;
+}
+
+// Subregion lookup keyed by English common name (which is unique across the
+// dataset). Used as the grouping key for hard-mode distractors, so the wrong
+// choices come from the same part of the world as the answer.
+const subregionByName = new Map(
+  (rawCountries as RawCountry[]).map((c) => [c.name, c.subregion])
+);
+
+export function getSubregion(country: Country): string | undefined {
+  return subregionByName.get(country.name.common);
 }
 
 export function getCountriesByRegion(region: string): CountryWithRegion[] {

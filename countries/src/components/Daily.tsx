@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import seedrandom from "seedrandom";
 import { Country } from "../types/Country";
 import { getIndependentCountries } from "../data/countries";
-import { getDailySeed } from "../utils/stockholmDate";
+import { getDailySeed, getStockholmDateParts } from "../utils/stockholmDate";
 import { getCountryName } from "../i18n/countryNames";
 import FeedbackSnackbar from "./feedback/FeedbackSnackbar";
 import GameOverDialog from "./feedback/GameOverDialog";
@@ -22,8 +22,9 @@ function Daily() {
   const [incorrectPicks, setIncorrectPicks] = useState<number>(0);
   const [dailyCountries, setDailyCountries] = useState<Country[]>([]);
   const [countryIndex, setCountryIndex] = useState<number>(0);
+  const [results, setResults] = useState<boolean[]>([]);
   const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "error" as "error" | "info" | "success" });
-  const [gameOver, setGameOver] = useState({ open: false, message: "" });
+  const [gameOver, setGameOver] = useState({ open: false, message: "", shareText: "" });
   const autocompleteRef = useRef<HTMLDivElement | null>(null);
   const numberOfCountries = 10;
 
@@ -74,20 +75,39 @@ function Daily() {
 
     setSelectedCountry("");
 
+    // Build the per-question record locally so the share grid reflects this
+    // answer — React state updates aren't visible within the same handler tick.
+    const newResults = [...results, isCorrect];
+
     if (countryIndex === numberOfCountries - 1) {
       const finalCorrect = correctPicks + (isCorrect ? 1 : 0);
       const finalIncorrect = incorrectPicks + (isCorrect ? 0 : 1);
       setGameOver({
         open: true,
         message: `${t("game.dailyResult", { correct: finalCorrect, incorrect: finalIncorrect })} ${t("game.comeBackTomorrow")}`,
+        shareText: buildShareText(newResults, finalCorrect),
       });
       setCountryIndex(0);
       setCorrectPicks(0);
       setIncorrectPicks(0);
+      setResults([]);
       getDailyCountries();
     } else {
+      setResults(newResults);
       setCountryIndex((prevIndex) => prevIndex + 1);
     }
+  };
+
+  // Wordle-style shareable result, e.g.
+  //   Flaggquiz 2026-06-14
+  //   🟩🟩🟥🟩🟩🟩🟥🟩🟩🟩 8/10
+  //   https://flaggquiz.se/daglig
+  const buildShareText = (questionResults: boolean[], correct: number) => {
+    const { year, month, day } = getStockholmDateParts();
+    const pad = (n: number) => String(n).padStart(2, "0");
+    const date = `${year}-${pad(month)}-${pad(day)}`;
+    const grid = questionResults.map((r) => (r ? "🟩" : "🟥")).join("");
+    return `Flaggquiz ${date}\n${grid} ${correct}/${numberOfCountries}\nhttps://flaggquiz.se/daglig`;
   };
 
   useEffect(() => {
@@ -205,7 +225,8 @@ function Daily() {
         open={gameOver.open}
         title={t("game.wellPlayed")}
         message={gameOver.message}
-        onClose={() => setGameOver({ open: false, message: "" })}
+        shareText={gameOver.shareText}
+        onClose={() => setGameOver({ open: false, message: "", shareText: "" })}
       />
     </div>
   );

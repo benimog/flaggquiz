@@ -1,6 +1,7 @@
 import rawCountries from "./countries.json";
 import {
   getAllCountries,
+  getCountriesWithPopulation,
   getIndependentCountries,
   getIndependentCountriesByContinent,
 } from "./countries";
@@ -14,6 +15,7 @@ interface RawCountry {
   subregion: string;
   capital?: string;
   capitalSwe?: string;
+  population?: number;
   flagAlt: string;
 }
 
@@ -46,6 +48,23 @@ test("getAllCountries returns every entry with a local flag path", () => {
   expect(all).toHaveLength(data.length);
   for (const c of all) {
     expect(c.flags.png).toMatch(/^\/flags\/[a-z]{2,3}\.png$/);
+  }
+});
+
+test("every independent country has a positive population", () => {
+  for (const c of getIndependentCountries()) {
+    expect(typeof c.population).toBe("number");
+    expect(c.population).toBeGreaterThan(0);
+  }
+});
+
+test("getCountriesWithPopulation returns the 195 independent countries, sorted descending", () => {
+  const withPop = getCountriesWithPopulation();
+  expect(withPop).toHaveLength(195);
+  for (let i = 1; i < withPop.length; i++) {
+    expect(withPop[i - 1].population!).toBeGreaterThanOrEqual(
+      withPop[i].population!
+    );
   }
 });
 

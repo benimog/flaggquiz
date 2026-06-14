@@ -9,6 +9,8 @@ const controlLabels = new Set([
   "← Byt världsdel",
   "Spel",
   "Testläge",
+  "Normalt",
+  "Svårt",
   "Återställ",
   "Spela igen",
 ]);

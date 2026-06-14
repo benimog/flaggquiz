@@ -6,7 +6,7 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Typography from "@mui/material/Typography";
 import { useTranslation } from "react-i18next";
 import { Country } from "../types/Country";
-import { getIndependentCountries } from "../data/countries";
+import { getIndependentCountries, getSubregion } from "../data/countries";
 import { useFlagQuizGame } from "../hooks/useFlagQuizGame";
 import { getCountryName } from "../i18n/countryNames";
 import { getCapitalName } from "../i18n/capitalNames";
@@ -22,6 +22,7 @@ const CapitalQuiz: React.FC = () => {
   const { t, i18n } = useTranslation();
   const [direction, setDirection] = useState<Direction>("countryToCapital");
   const [practice, setPractice] = useState<boolean>(false);
+  const [hard, setHard] = useState<boolean>(false);
   const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "error" as "error" | "success" });
 
   const {
@@ -34,7 +35,7 @@ const CapitalQuiz: React.FC = () => {
     handleChoice,
     resetPicks,
     closeGameOver,
-  } = useFlagQuizGame(countries, practice);
+  } = useFlagQuizGame(countries, practice, hard ? getSubregion : undefined);
 
   const questionText = (country: Country) =>
     direction === "countryToCapital"
@@ -106,6 +107,20 @@ const CapitalQuiz: React.FC = () => {
         >
           <ToggleButton value="standard">{t("quiz.standardMode")}</ToggleButton>
           <ToggleButton value="practice">{t("quiz.practiceMode")}</ToggleButton>
+        </ToggleButtonGroup>
+
+        <ToggleButtonGroup
+          value={hard ? "hard" : "normal"}
+          exclusive
+          onChange={(_, val) => {
+            if (val) {
+              setHard(val === "hard");
+            }
+          }}
+          size="small"
+        >
+          <ToggleButton value="normal">{t("quiz.normalMode")}</ToggleButton>
+          <ToggleButton value="hard">{t("quiz.hardMode")}</ToggleButton>
         </ToggleButtonGroup>
       </Stack>
 
