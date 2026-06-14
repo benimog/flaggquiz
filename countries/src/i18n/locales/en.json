@@ -62,6 +62,7 @@
     "modeLabel": "Mode",
     "difficultyLabel": "Difficulty",
     "directionLabel": "Direction",
+    "optionsLabel": "Options",
     "changeContinent": "\u2190 Change continent",
     "flagXofY": "Flag {{index}} of {{total}}",
     "title": "Flag quiz - {{continent}}"

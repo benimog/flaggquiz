@@ -7,6 +7,7 @@ import Continents from "./Continents";
 // buttons each round.
 const controlLabels = new Set([
   "← Byt världsdel",
+  "Alternativ",
   "Spel",
   "Testläge",
   "Normalt",
@@ -61,15 +62,19 @@ test("play again starts a fresh game", () => {
   expect(screen.getByAltText("Flagga att gissa")).toBeInTheDocument();
 });
 
+// Heavy interaction test: each click fires a success-snackbar timer + re-render,
+// so the loop is given an explicit, generous timeout for parallel CI runs.
 test("practice mode never reaches the game-over dialog", () => {
   renderOceania();
 
-  // Switch to never-ending practice mode, then play well past one full cycle.
+  // Open the options disclosure, then switch to never-ending practice mode and
+  // play past one full cycle (Oceania has 14 countries).
+  fireEvent.click(screen.getByRole("button", { name: /Alternativ/ }));
   fireEvent.click(screen.getByRole("button", { name: "Testläge" }));
 
-  for (let i = 0; i < 30; i++) {
+  for (let i = 0; i < 20; i++) {
     expect(screen.queryByText("Väl spelat!")).toBeNull();
     clickAChoice();
   }
   expect(screen.queryByText("Väl spelat!")).toBeNull();
-});
+}, 15000);

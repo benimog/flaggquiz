@@ -62,6 +62,7 @@
     "modeLabel": "Läge",
     "difficultyLabel": "Svårighet",
     "directionLabel": "Riktning",
+    "optionsLabel": "Alternativ",
     "changeContinent": "\u2190 Byt världsdel",
     "flagXofY": "Flagga {{index}} av {{total}}",
     "title": "Flaggquiz - {{continent}}"
